@@ -5,6 +5,7 @@ import {InputPasswordMui} from "../../components/regisrationInputComponent/Input
 import {useFormik} from "formik";
 import {useDispatch} from "react-redux";
 import {SingUpTC} from "../../redux/auth-reducer";
+import {AppDispatch} from "../../redux/store";
 
 export type dataFormType = {
     email?: string
@@ -15,7 +16,7 @@ export type dataFormType = {
 
 export const Registration = () => {
 
-    const dispatch = useDispatch()
+    const dispatch = useDispatch<AppDispatch>()
 
     const formik = useFormik({
         initialValues: {

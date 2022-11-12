@@ -1,4 +1,3 @@
-
 import {dataFormType} from "../feature/registration/Registration";
 import {instance} from "./instance";
 

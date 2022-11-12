@@ -1,6 +1,7 @@
-import {Dispatch} from "redux";
 import {authApi} from "../../src/api/api";
 import {RequestStatus, setLoading} from "./app-reducer";
+import {dataFormType} from "../feature/registration/Registration";
+
 
 type setSingUpType = ReturnType<typeof setSingUp>
 
@@ -29,11 +30,10 @@ export const setSingUp = (statusSingUp: boolean) => {
     return {type: 'AUTH/SET-SIGN-UP', statusSingUp} as const
 }
 
-export const SingUpTC = (value: FormData) => async (dispatch: Dispatch) => {
+export const SingUpTC = (value: dataFormType) => async (dispatch: any) => {
     setLoading(RequestStatus.loading)
     try {
-        // @ts-ignore
-        const response = await authApi(value)
+        const response = await authApi.SingUp(value)
         dispatch(setSingUp(true))
         dispatch(setLoading(RequestStatus.succeeded))
     } catch (e) {
