@@ -3,6 +3,8 @@ import Paper from '@mui/material/Paper'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
+import Avatar from '@mui/material/Avatar'
+import avatar from 'assets/cat.jpg'
 
 export const Profile = () => {
     return (
@@ -23,8 +25,9 @@ export const Profile = () => {
                     height: 300,
                 }}
             >
-                <Stack sx={{ m: 3 }}>
+                <Stack sx={{ m: 3, alignItems: 'center' }}>
                     <Typography variant="h5">Personal Information</Typography>
+                    <Avatar sx={{ width: 96, height: 96 }} alt="user avatar" src={avatar} />
                 </Stack>
             </Paper>
         </Container>
