@@ -43,6 +43,6 @@ export const appReducer = (
 export const setLoading = (value: RequestStatus) => {
   return { type: "APP/SET-LOADING", value } as const;
 };
-export const setError = (textError: string) => {
+export const setError = (textError: string | null) => {
   return { type: "APP/SET-ERROR", textError } as const;
 };
