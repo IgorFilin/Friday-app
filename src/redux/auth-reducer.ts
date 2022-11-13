@@ -42,14 +42,21 @@ export const setIsLogin = (isLogin: boolean) => {
   return { type: "AUTH/SET-IS-LOGIN", isLogin } as const;
 };
 
-export const SingUpTC = (value: dataFormType) => async (dispatch: any) => {
-  setLoading(RequestStatus.loading);
+export const SingUpTC = (value: dataFormType) => async (dispatch: Dispatch) => {
   try {
+    dispatch(setLoading(RequestStatus.loading));
     const response = await authApi.SingUp(value);
+    debugger;
     dispatch(setSingUp(true));
     dispatch(setLoading(RequestStatus.succeeded));
   } catch (e) {
-    console.log(e);
+    const err = e as Error | AxiosError<{ error: string }>;
+    if (axios.isAxiosError(err)) {
+      const error = err.response?.data ? err.response.data.error : err.message;
+      dispatch(setError(error));
+    } else {
+      dispatch(setError(`Native error ${err.message}`));
+    }
   }
 };
 
