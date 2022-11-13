@@ -38,14 +38,14 @@ export const PasswordRecovery = () => {
         <div className={s.passRecoveryWrapper}>
             <Paper className={s.passRecovery} elevation={3}>
                 <h2 className={s.h2}>Forgot your password?</h2>
-                <form onSubmit={formik.handleSubmit}>
-                <TextField sx={{ m: 1, width: '35ch' }} id="standard-basic" label="Email" variant="standard"
+                <TextField sx={{ m: 1, width: '40ch' }} id="standard-basic" label="Email" variant="standard"
                     {...formik.getFieldProps("email")} />
                 {formik.touched.email && formik.errors.email ?
                     <div className={s.error}>{formik.errors.email}</div> : null}
                 <p className={s.p}>
                     Enter your email address and we will send you further instructions
                 </p>
+                <form onSubmit={formik.handleSubmit}>
                     <Button className={s.button} type={"submit"} title={"Send Instructions"}>Send Instruction</Button>
                 </form>
                 <p className={s.pSmall}>
