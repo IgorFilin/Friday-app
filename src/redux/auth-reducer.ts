@@ -2,7 +2,6 @@ import { authApi } from "api/api";
 import { RequestStatus, setError, setLoading } from "./app-reducer";
 import { dataFormType } from "feature/registration/Registration";
 import axios, { AxiosError } from "axios";
-import { throws } from "assert";
 import { Dispatch } from "redux";
 
 type setSingUpType = ReturnType<typeof setSingUp>;
