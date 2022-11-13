@@ -46,7 +46,6 @@ export const SingUpTC = (value: dataFormType) => async (dispatch: Dispatch) => {
   try {
     dispatch(setLoading(RequestStatus.loading));
     const response = await authApi.SingUp(value);
-    debugger;
     dispatch(setSingUp(true));
     dispatch(setLoading(RequestStatus.succeeded));
   } catch (e) {
