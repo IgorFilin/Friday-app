@@ -2,17 +2,21 @@ import { authApi, DataFormType, LoginDataType } from "api/api";
 import { RequestStatus, setError, setLoading } from "./app-reducer";
 import { Dispatch } from "redux";
 import axios, { AxiosError } from "axios";
+import {RecoveryEmailType} from "../feature/password_recovery/Password_recovery";
 
 type SetSingUpType = ReturnType<typeof setSingUp>;
 type SetIsLoginType = ReturnType<typeof setIsLogin>;
+type GetEmailForgotPassType = ReturnType<typeof getEmailForgotPass>;
 
-type ActionsType = SetSingUpType | SetIsLoginType;
+type ActionsType = SetSingUpType | SetIsLoginType | GetEmailForgotPassType;
 
 type InitialStateType = typeof initialState;
+
 
 const initialState = {
   isSingUp: false,
   isLogin: false,
+  email: "",
 };
 
 export const authReducer = (
@@ -28,6 +32,9 @@ export const authReducer = (
         ...state,
         isLogin: action.isLogin,
       };
+    case "FORGOT-PASS/GET-EMAIL": {
+      return { ...state, email: action.email };
+    }
     default: {
       return state;
     }
@@ -40,6 +47,9 @@ export const setSingUp = (statusSingUp: boolean) => {
 
 export const setIsLogin = (isLogin: boolean) => {
   return { type: "AUTH/SET-IS-LOGIN", isLogin } as const;
+};
+export const getEmailForgotPass = (email: string) => {
+  return { type: "FORGOT-PASS/GET-EMAIL", email } as const;
 };
 
 export const SingUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
@@ -78,3 +88,13 @@ export const isLoginTC =
       }
     }
   };
+export const ForgotTC = (email: RecoveryEmailType) => async (dispatch: Dispatch) => {
+  try {
+    setLoading(RequestStatus.loading);
+    const response = await authApi.ForgotPass(email);
+    dispatch(getEmailForgotPass(email.email));
+    dispatch(setLoading(RequestStatus.succeeded));
+  } catch (e) {
+    console.log(e);
+  }
+};
