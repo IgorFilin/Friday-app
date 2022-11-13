@@ -109,10 +109,12 @@ export const Registration = () => {
                 <Button type="submit" className={s.button}>
                   Sing Up
                 </Button>
-                <h3 className={s.textInfo}>Already have an account?</h3>
-                <Link to="/login" className={s.singIn}>
-                  Sing In
-                </Link>
+                <div className={s.toLogIn}>
+                  <h3 className={s.textInfo}>Already have an account?</h3>
+                  <Link to="/login" className={s.singIn}>
+                    Sing In
+                  </Link>
+                </div>
               </div>
             </Paper>
           </div>
