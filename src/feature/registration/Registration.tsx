@@ -26,6 +26,7 @@ export const Registration = () => {
         },
         onSubmit: values => {
             dispatch(SingUpTC(values))
+            formik.resetForm()
         },
         validate(values) {
 
