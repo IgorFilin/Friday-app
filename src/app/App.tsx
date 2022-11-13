@@ -2,9 +2,8 @@ import React from 'react';
 // import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
-
-import { Error } from '../app/error/Error';
-import { Header } from '../app/header/Header';
+import { Error } from './error/Error';
+import { Header } from './header/Header';
 import { Test } from '../components/test/Test';
 import { Login } from '../feature/login/Login';
 import { NewPassword } from '../feature/password_recovery/NewPassword';
