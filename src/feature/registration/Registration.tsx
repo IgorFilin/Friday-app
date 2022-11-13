@@ -8,7 +8,7 @@ import { SingUpTC } from "redux/auth-reducer";
 import { AppDispatch, AppRootReducerType } from "redux/store";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 import { RequestStatus } from "../../redux/app-reducer";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 
 export type dataFormType = {
   email?: string;
@@ -20,6 +20,9 @@ export const Registration = () => {
   const dispatch = useDispatch<AppDispatch>();
   const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
     (state) => state.app.request.status
+  );
+  const isSingUpStatus = useSelector<AppRootReducerType, boolean>(
+    (state) => state.auth.isSingUp
   );
 
   const formik = useFormik({
@@ -55,6 +58,10 @@ export const Registration = () => {
       return errors;
     },
   });
+
+  if (isSingUpStatus) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
