@@ -8,6 +8,7 @@ import { SingUpTC } from "redux/auth-reducer";
 import { AppDispatch, AppRootReducerType } from "redux/store";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 import { RequestStatus } from "../../redux/app-reducer";
+import { Link } from "react-router-dom";
 
 export type dataFormType = {
   email?: string;
@@ -109,9 +110,9 @@ export const Registration = () => {
                   Sing Up
                 </Button>
                 <h3 className={s.textInfo}>Already have an account?</h3>
-                <a href="#" className={s.singIn}>
+                <Link to="/login" className={s.singIn}>
                   Sing In
-                </a>
+                </Link>
               </div>
             </Paper>
           </div>
