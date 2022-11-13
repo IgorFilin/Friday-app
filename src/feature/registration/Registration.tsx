@@ -1,5 +1,5 @@
 import React from "react";
-import s from "Registration.module.css";
+import s from "./Registration.module.css";
 import { Button, Paper, TextField } from "@mui/material";
 import { InputPassword } from "components/InputPassword/InputPassword";
 import { useFormik } from "formik";
