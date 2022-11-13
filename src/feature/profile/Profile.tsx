@@ -12,9 +12,11 @@ import Link from '@mui/material/Link'
 import Box from '@mui/material/Box'
 import LogoutIcon from '@mui/icons-material/Logout'
 import Fab from '@mui/material/Fab'
+import { ErrorSnackbar } from 'components/ErrorSnackbar'
 
 export const Profile = () => {
     const { name, email } = { email: 'j&johnson@gmail.com', name: 'Ivan' }
+    const { error } = { error: 'Error Test' }
     return (
         <Container
             maxWidth="sm"
@@ -24,6 +26,7 @@ export const Profile = () => {
                 justifyContent: 'center',
             }}
         >
+            <ErrorSnackbar error={error} onClose={() => console.log('ErrorSnackbar:OnClose')} />
             <Paper
                 sx={{
                     display: 'flex',
