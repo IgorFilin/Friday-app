@@ -19,7 +19,8 @@ import { InputPassword } from "../../components/InputPassword/InputPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { isLoginTC } from "../../redux/auth-reducer";
 import { AppRootReducerType } from "../../redux/store";
-import { Navigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 
 export type FormikErrorType = {
   email?: string;
@@ -32,12 +33,15 @@ export const Login = () => {
   const isLogin = useSelector<AppRootReducerType, boolean>(
     (state) => state.auth.isLogin
   );
+  const error = useSelector<AppRootReducerType, string | null>(
+    (state) => state.app.request.error
+  );
 
   useEffect(() => {
     if (!isLogin) {
       return;
     }
-  }, []);
+  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {
@@ -70,6 +74,7 @@ export const Login = () => {
   }
   return (
     <Box>
+      {error && <ErrorSnackbar />}
       <AppBar color={"inherit"} position="static">
         <Toolbar>
           <img
@@ -170,9 +175,9 @@ export const Login = () => {
                   fontWeight={"bold"}
                   variant="inherit"
                 >
-                  <a style={{ textDecoration: "none" }} href={"/password"}>
+                  <Link style={{ textDecoration: "none" }} to={"/password"}>
                     Forgot Password?
-                  </a>
+                  </Link>
                 </Typography>
                 <Button
                   type={"submit"}
@@ -207,7 +212,7 @@ export const Login = () => {
               fontWeight={"bold"}
               variant="inherit"
             >
-              <a href={"/registration"}>Sign Up</a>
+              <Link to={"/registration"}>Sign Up</Link>
             </Typography>
           </Stack>
         </Paper>

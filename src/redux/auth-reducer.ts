@@ -69,7 +69,7 @@ export const isLoginTC =
         dispatch(setError(error));
         dispatch(setLoading(RequestStatus.error));
       } else {
-        dispatch(setError("Native error ${err.message}"));
+        dispatch(setError("hello"));
         dispatch(setLoading(RequestStatus.error));
       }
     }
