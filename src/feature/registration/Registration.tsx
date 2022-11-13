@@ -3,21 +3,16 @@ import s from "./Registration.module.css";
 import { Button, Paper, TextField } from "@mui/material";
 import { InputPassword } from "components/InputPassword/InputPassword";
 import { useFormik } from "formik";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { SingUpTC } from "redux/auth-reducer";
-import { AppDispatch, AppRootReducerType, useAppDispatch } from "redux/store";
+import { AppRootReducerType, useAppDispatch } from "redux/store";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 import { RequestStatus } from "../../redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-
-export type dataFormType = {
-  email?: string;
-  password?: string;
-  currPassword?: string;
-};
+import { dataFormType } from "../../api/api";
 
 export const Registration = () => {
   const dispatch = useAppDispatch();

@@ -1,10 +1,14 @@
-import { dataFormType } from "../feature/registration/Registration";
 import { instance } from "./instance";
-import { FormikErrorType } from "../feature/login/Login";
 
 export type singInType = {
   addedUser: any;
   error: { email: string; error: string; in: string } | null;
+};
+
+export type dataFormType = {
+  email?: string;
+  password?: string;
+  currPassword?: string;
 };
 
 export const authApi = {
