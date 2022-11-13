@@ -27,6 +27,11 @@ export const Header = () => {
             </div>
             <div>
                 <NavLink
+                    to={'/check'}
+                    style={isActiveLink}>check_email</NavLink>
+            </div>
+            <div>
+                <NavLink
                     to={'/entered'}
                     style={isActiveLink}>entering a new passwordy</NavLink>
             </div>

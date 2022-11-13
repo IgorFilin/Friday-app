@@ -14,6 +14,7 @@ import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import { AppRootReducerType } from "../redux/store";
 import { RequestStatus } from "../redux/app-reducer";
+import {CheckEmail} from "../feature/password_recovery/CheckEmail";
 
 export const App = (): any => {
   const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
@@ -38,6 +39,7 @@ export const App = (): any => {
         <Route path="/profile" element={<Profile />} />
         <Route path={"/*"} element={<Error />} />
         <Route path="/password" element={<PasswordRecovery />} />
+        <Route path="/check" element={<CheckEmail />} />
         <Route path="/entered" element={<NewPassword />} />
         <Route path="/test" element={<Test />} />
       </Routes>

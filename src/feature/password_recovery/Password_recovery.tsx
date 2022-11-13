@@ -4,6 +4,7 @@ import React from 'react';
 import s from './PasswordRecovery.module.css';
 import {ForgotTC} from "../../redux/auth-reducer";
 import {useAppDispatch} from "../../redux/store";
+import {useNavigate} from "react-router-dom";
 
 type FormikErrorType = {
     email: string
@@ -14,6 +15,11 @@ export type RecoveryEmailType = {
 export const PasswordRecovery = () => {
 
     const dispatch = useAppDispatch()
+    const navigate = useNavigate();
+
+    const handleClickToLogin = () => {
+        navigate("/login");
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -30,7 +36,6 @@ export const PasswordRecovery = () => {
         },
         onSubmit: (email) => {
             dispatch(ForgotTC(email));
-            console.log(email)
         }
     })
 
@@ -51,7 +56,7 @@ export const PasswordRecovery = () => {
                 <p className={s.pSmall}>
                     Did you remember your password?
                 </p>
-                <p className={s.pToLogin}> Try logging in</p>
+                <a className={s.pToLogin} onClick={handleClickToLogin}> Try logging in</a>
             </Paper>
         </div>
     );
