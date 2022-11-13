@@ -10,9 +10,15 @@ import { LogOutButton } from "./LogOutButton";
 import { UserAvatar } from "./UserAvatar";
 import { UserEmail } from "./UserEmail";
 import { EditableUserName } from "./EditableUserName";
+import { useAppSelector } from "redux/store";
+import { Navigate } from "react-router-dom";
 
 export const Profile = () => {
   const { name, email } = { email: "j&johnson@gmail.com", name: "Ivan" };
+
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  if (!isLogin) return <Navigate to="/login" />;
+
   return (
     <Container
       maxWidth="sm"
