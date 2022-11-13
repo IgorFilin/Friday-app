@@ -3,7 +3,7 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import avatar from "assets/cat.jpg";
+import catAvatar from "assets/cat.jpg";
 import Box from "@mui/material/Box";
 import { ErrorSnackbar } from "components/ErrorSnackbar";
 import { LogOutButton } from "./LogOutButton";
@@ -14,9 +14,11 @@ import { useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
 
 export const Profile = () => {
-  const { name, email } = { email: "j&johnson@gmail.com", name: "Ivan" };
-
   const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const { name, email, avatar } = useAppSelector(
+    (state) => state.auth.profileData
+  );
+
   if (!isLogin) return <Navigate to="/login" />;
 
   return (
@@ -43,7 +45,7 @@ export const Profile = () => {
             Personal Information
           </Typography>
           <Box margin={2}>
-            <UserAvatar src={avatar} />
+            <UserAvatar src={avatar ?? catAvatar} />
           </Box>
           <EditableUserName value={name} onConfirm={console.log} />
           <UserEmail email={email} />

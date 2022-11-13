@@ -1,6 +1,6 @@
 import React from "react";
 import s from "./Registration.module.css";
-import { Button, CircularProgress, Paper, TextField } from "@mui/material";
+import { Button, Paper, TextField } from "@mui/material";
 import { InputPassword } from "components/InputPassword/InputPassword";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,12 +9,7 @@ import { AppDispatch, AppRootReducerType } from "redux/store";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 import { RequestStatus } from "../../redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
-
-export type dataFormType = {
-  email?: string;
-  password?: string;
-  currPassword?: string;
-};
+import { DataFormType } from "../../api/api";
 
 export const Registration = () => {
   const dispatch = useDispatch<AppDispatch>();
@@ -36,7 +31,7 @@ export const Registration = () => {
       formik.resetForm();
     },
     validate(values) {
-      const errors: dataFormType = {};
+      const errors: DataFormType = {};
 
       if (values.password !== values.currPassword) {
         errors.currPassword = "Confirmed password should match the password";

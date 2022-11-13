@@ -1,23 +1,57 @@
-import { dataFormType } from "../feature/registration/Registration";
 import { instance } from "./instance";
-import { FormikErrorType } from "../feature/login/Login";
-
-export type singInType = {
-  addedUser: any;
-  error: { email: string; error: string; in: string } | null;
-};
+import {
+  parseAxiosError,
+  getDataFromAxiosResponse,
+  parseLoginResponse,
+} from "./responseParsers";
 
 export const authApi = {
-  SingUp(dataForm: dataFormType) {
-    return instance.post<singInType>("/auth/register", dataForm);
+  singUp(dataForm: DataFormType) {
+    return instance.post<SingUpResponseType>("/auth/register", dataForm);
   },
-  Login(data: LoginDataType) {
-    return instance.post("/auth/login", data);
+  login(data: LoginDataType) {
+    return instance
+      .post<LoginResponseType>("/auth/login", data)
+      .then(getDataFromAxiosResponse)
+      .catch(parseAxiosError)
+      .then(parseLoginResponse);
   },
+};
+
+//==TYPES=========================================================================================
+
+export type DataFormType = {
+  email?: string;
+  password?: string;
+  currPassword?: string;
 };
 
 export type LoginDataType = {
   email: string;
   password: string;
   rememberMe: boolean;
+};
+
+export type SingUpResponseType = {
+  addedUser: any;
+  error: { email: string; error: string; in: string } | null;
+};
+
+export type LoginResponseType = ProfileDataType & {
+  _id: string;
+  isAdmin: boolean;
+  verified: boolean; // подтвердил ли почту
+  rememberMe: boolean;
+  token: string;
+  tokenDeathTime: number;
+  created: Date;
+  updated: Date;
+  publicCardPacksCount: number; // количество колод
+  error?: string;
+};
+
+export type ProfileDataType = {
+  email: string;
+  name: string;
+  avatar?: string;
 };

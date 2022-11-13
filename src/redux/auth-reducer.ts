@@ -1,19 +1,18 @@
-import { authApi, LoginDataType } from "api/api";
+import { authApi, DataFormType, LoginDataType, ProfileDataType } from "api/api";
 import { RequestStatus, setError, setLoading } from "./app-reducer";
-import { dataFormType } from "feature/registration/Registration";
 import { Dispatch } from "redux";
-import axios, { AxiosError } from "axios";
 
-type SetSingUpType = ReturnType<typeof setSingUp>;
-type SetIsLoginType = ReturnType<typeof setIsLogin>;
-
-type ActionsType = SetSingUpType | SetIsLoginType;
+type ActionsType =
+  | ReturnType<typeof setSingUp>
+  | ReturnType<typeof setIsLogin>
+  | ReturnType<typeof setProfileData>;
 
 type InitialStateType = typeof initialState;
 
 const initialState = {
   isSingUp: false,
   isLogin: false,
+  profileData: { email: "", name: "" } as ProfileDataType, // avatar: undefined
 };
 
 export const authReducer = (
@@ -29,6 +28,11 @@ export const authReducer = (
         ...state,
         isLogin: action.isLogin,
       };
+    case "AUTH/SET-PROFILE-DATA":
+      return {
+        ...state,
+        profileData: action.profileData,
+      };
     default: {
       return state;
     }
@@ -43,10 +47,14 @@ export const setIsLogin = (isLogin: boolean) => {
   return { type: "AUTH/SET-IS-LOGIN", isLogin } as const;
 };
 
-export const SingUpTC = (value: dataFormType) => async (dispatch: any) => {
+export const setProfileData = (profileData: ProfileDataType) => {
+  return { type: "AUTH/SET-PROFILE-DATA", profileData } as const;
+};
+
+export const SingUpTC = (value: DataFormType) => async (dispatch: any) => {
   setLoading(RequestStatus.loading);
   try {
-    const response = await authApi.SingUp(value);
+    const response = await authApi.singUp(value);
     dispatch(setSingUp(true));
     dispatch(setLoading(RequestStatus.succeeded));
   } catch (e) {
@@ -54,23 +62,16 @@ export const SingUpTC = (value: dataFormType) => async (dispatch: any) => {
   }
 };
 
-export const isLoginTC =
-  (data: LoginDataType) => async (dispatch: Dispatch) => {
-    // debugger;
-    try {
-      const res = await authApi.Login(data);
-      dispatch(setIsLogin(true));
-    } catch (e: any) {
-      const err = e as Error | AxiosError<{ error: string }>;
-      if (axios.isAxiosError(err)) {
-        const error = err.response?.data
-          ? err.response.data.error
-          : err.message;
-        dispatch(setError(error));
-        dispatch(setLoading(RequestStatus.error));
-      } else {
-        dispatch(setError("hello"));
-        dispatch(setLoading(RequestStatus.error));
-      }
-    }
-  };
+export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
+  try {
+    dispatch(setLoading(RequestStatus.loading));
+    const res = await authApi.login(data);
+    dispatch(setProfileData(res));
+    dispatch(setIsLogin(true));
+  } catch (error) {
+    dispatch(setError(error as string));
+    dispatch(setLoading(RequestStatus.error));
+  } finally {
+    dispatch(setLoading(RequestStatus.idle));
+  }
+};
