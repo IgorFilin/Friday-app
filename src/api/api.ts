@@ -1,6 +1,6 @@
 import { instance } from "./instance";
 
-export type singInType = {
+export type SingInType = {
   addedUser: any;
   error: { email: string; error: string; in: string } | null;
 };
@@ -13,7 +13,7 @@ export type DataFormType = {
 
 export const authApi = {
   SingUp(dataForm: DataFormType) {
-    return instance.post<singInType>("/auth/register", dataForm);
+    return instance.post<SingInType>("/auth/register", dataForm);
   },
   Login(data: LoginDataType) {
     return instance.post("/auth/login", data);
