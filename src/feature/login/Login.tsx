@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -10,25 +10,35 @@ import {
   FormControl,
   FormControlLabel,
   FormGroup,
-  IconButton,
-  Input,
-  InputAdornment,
   TextField,
 } from "@mui/material";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
-import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { useFormik } from "formik";
 import { InputPassword } from "../../components/InputPassword/InputPassword";
+import { useDispatch, useSelector } from "react-redux";
+import { isLoginTC } from "../../redux/auth-reducer";
+import { AppRootReducerType } from "../../redux/store";
 import { Navigate } from "react-router-dom";
 
-type FormikErrorType = {
+export type FormikErrorType = {
   email?: string;
   password?: string;
   rememberMe?: boolean;
 };
 
 export const Login = () => {
+  const dispatch = useDispatch();
+  const isLogin = useSelector<AppRootReducerType, boolean>(
+    (state) => state.auth.isLogin
+  );
+
+  useEffect(() => {
+    if (!isLogin) {
+      return;
+    }
+  }, []);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -50,11 +60,14 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values) => {
-      alert(JSON.stringify(values));
+      // @ts-ignore
+      dispatch(isLoginTC(values));
       formik.resetForm();
     },
   });
-
+  if (isLogin) {
+    return <Navigate to={"/profile"} />;
+  }
   return (
     <Box>
       <AppBar color={"inherit"} position="static">
