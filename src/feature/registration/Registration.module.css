@@ -55,6 +55,11 @@
     color: #FFFFFF !important;
     width: 100%;
     text-transform: none !important;
+    transition: 0.8ms;
+}
+.button:hover {
+    transition: 0.8ms;
+    background: #0949cf !important;
 }
 
 .textInfo {
