@@ -75,3 +75,41 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     dispatch(setLoading(RequestStatus.idle));
   }
 };
+
+function getBase64(file: File) {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => {
+      if (reader.result) resolve(reader.result as string);
+      else reject("getBase64: Unexpected error");
+    };
+    reader.onerror = (error) => reject(error);
+  });
+}
+
+export const changeProfileData =
+  ({ avatarFile, name }: { avatarFile?: File; name?: string }) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch(setLoading(RequestStatus.loading));
+
+      let newProfileData = {};
+      if (avatarFile) {
+        const avatar = await getBase64(avatarFile);
+        newProfileData = { ...newProfileData, avatar };
+      }
+      if (name) {
+        newProfileData = { ...newProfileData, name };
+      }
+
+      const res = await authApi.changeUserNameOrAvatar(newProfileData);
+      dispatch(setProfileData(res));
+      dispatch(setIsLogin(true));
+    } catch (error) {
+      dispatch(setError(error as string));
+      dispatch(setLoading(RequestStatus.error));
+    } finally {
+      dispatch(setLoading(RequestStatus.idle));
+    }
+  };

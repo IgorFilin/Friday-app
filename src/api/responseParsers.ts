@@ -15,10 +15,22 @@ export const parseLoginResponse = ({
   email,
   name,
   avatar,
-  publicCardPacksCount,
-  _id,
   error,
 }: LoginResponseType): Promise<ProfileDataType> =>
-  error
+  error ? Promise.reject(error) : Promise.resolve({ email, name, avatar });
+
+export const parseUpdatedUserResponse = ({
+  updatedUser,
+  error,
+}: {
+  error?: string;
+  updatedUser: LoginResponseType;
+}): Promise<ProfileDataType> => {
+  return error
     ? Promise.reject(error)
-    : Promise.resolve({ email, name, avatar, publicCardPacksCount, _id });
+    : Promise.resolve({
+        email: updatedUser.email,
+        name: updatedUser.name,
+        avatar: updatedUser.avatar,
+      });
+};

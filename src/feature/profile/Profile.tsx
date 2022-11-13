@@ -10,8 +10,9 @@ import { LogOutButton } from "./LogOutButton";
 import { UserAvatar } from "./UserAvatar";
 import { UserEmail } from "./UserEmail";
 import { EditableUserName } from "./EditableUserName";
-import { useAppSelector } from "redux/store";
+import { useAppDispatch, useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
+import { changeProfileData } from "redux/auth-reducer";
 
 export const Profile = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);
@@ -19,7 +20,17 @@ export const Profile = () => {
     (state) => state.auth.profileData
   );
 
+  const dispatch = useAppDispatch();
+
   if (!isLogin) return <Navigate to="/login" />;
+
+  const onChangeUserNameHandler = (name: string) => {
+    dispatch(changeProfileData({ name }));
+  };
+
+  const onChangeAvatarHandler = (avatarFile: File) => {
+    dispatch(changeProfileData({ avatarFile }));
+  };
 
   return (
     <Container
@@ -45,9 +56,12 @@ export const Profile = () => {
             Personal Information
           </Typography>
           <Box margin={2}>
-            <UserAvatar src={avatar ?? catAvatar} />
+            <UserAvatar
+              src={avatar ?? catAvatar}
+              onConfirm={onChangeAvatarHandler}
+            />
           </Box>
-          <EditableUserName value={name} onConfirm={console.log} />
+          <EditableUserName value={name} onConfirm={onChangeUserNameHandler} />
           <UserEmail email={email} />
           <LogOutButton />
         </Stack>

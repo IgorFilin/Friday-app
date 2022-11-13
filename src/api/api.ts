@@ -3,6 +3,7 @@ import {
   parseAxiosError,
   getDataFromAxiosResponse,
   parseLoginResponse,
+  parseUpdatedUserResponse,
 } from "./responseParsers";
 
 export const authApi = {
@@ -15,6 +16,13 @@ export const authApi = {
       .then(getDataFromAxiosResponse)
       .catch(parseAxiosError)
       .then(parseLoginResponse);
+  },
+  changeUserNameOrAvatar(data: { name?: string; avatar?: string }) {
+    return instance
+      .put("/auth/me", data)
+      .then(getDataFromAxiosResponse)
+      .catch(parseAxiosError)
+      .then(parseUpdatedUserResponse);
   },
 };
 
