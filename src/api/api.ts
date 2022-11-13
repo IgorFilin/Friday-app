@@ -5,14 +5,14 @@ export type singInType = {
   error: { email: string; error: string; in: string } | null;
 };
 
-export type dataFormType = {
+export type DataFormType = {
   email?: string;
   password?: string;
   currPassword?: string;
 };
 
 export const authApi = {
-  SingUp(dataForm: dataFormType) {
+  SingUp(dataForm: DataFormType) {
     return instance.post<singInType>("/auth/register", dataForm);
   },
   Login(data: LoginDataType) {

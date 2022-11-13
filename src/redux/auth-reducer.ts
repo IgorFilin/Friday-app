@@ -1,4 +1,4 @@
-import { authApi, dataFormType, LoginDataType } from "api/api";
+import { authApi, DataFormType, LoginDataType } from "api/api";
 import { RequestStatus, setError, setLoading } from "./app-reducer";
 import { Dispatch } from "redux";
 import axios, { AxiosError } from "axios";
@@ -42,7 +42,7 @@ export const setIsLogin = (isLogin: boolean) => {
   return { type: "AUTH/SET-IS-LOGIN", isLogin } as const;
 };
 
-export const SingUpTC = (value: dataFormType) => async (dispatch: Dispatch) => {
+export const SingUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
   try {
     dispatch(setLoading(RequestStatus.loading));
     const response = await authApi.SingUp(value);

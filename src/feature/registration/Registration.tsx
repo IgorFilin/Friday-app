@@ -12,7 +12,7 @@ import { Link, Navigate } from "react-router-dom";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { dataFormType } from "../../api/api";
+import { DataFormType } from "../../api/api";
 
 export const Registration = () => {
   const dispatch = useAppDispatch();
@@ -35,7 +35,7 @@ export const Registration = () => {
       formik.resetForm();
     },
     validate(values) {
-      const errors: dataFormType = {};
+      const errors: DataFormType = {};
 
       if (values.password !== values.currPassword) {
         errors.currPassword = "Confirmed password should match the password";
