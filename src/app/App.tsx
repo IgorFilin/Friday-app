@@ -3,14 +3,14 @@ import React from 'react';
 
 import { Route, Routes } from 'react-router-dom';
 
-import { Error } from './app/error/Error';
-import { Header } from './app/header/Header';
-import { Test } from './components/test/Test';
-import { Login } from './feature/login/Login';
-import { NewPassword } from './feature/password_recovery/NewPassword';
-import { PasswordRecovery } from './feature/password_recovery/Password_recovery';
-import { Profile } from './feature/profile/Profile';
-import { Registration } from './feature/registration/Registration';
+import { Error } from '../app/error/Error';
+import { Header } from '../app/header/Header';
+import { Test } from '../components/test/Test';
+import { Login } from '../feature/login/Login';
+import { NewPassword } from '../feature/password_recovery/NewPassword';
+import { PasswordRecovery } from '../feature/password_recovery/Password_recovery';
+import { Profile } from '../feature/profile/Profile';
+import { Registration } from '../feature/registration/Registration';
 
 export const App = (): any => {
   return (
