@@ -29,7 +29,6 @@ export const appReducer = (
       return { ...state, request: { ...state.request, status: action.value } };
     }
     case "APP/SET-ERROR": {
-      debugger;
       return {
         ...state,
         request: { ...state.request, error: action.textError },
