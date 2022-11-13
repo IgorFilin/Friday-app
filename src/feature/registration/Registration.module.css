@@ -79,6 +79,12 @@
     text-decoration-line: underline;
     color: #366EFF;
 }
+.toLogIn {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
 
 .errorText {
     display: flex;
