@@ -8,6 +8,7 @@ import { SingUpTC } from "redux/auth-reducer";
 import { AppDispatch, AppRootReducerType } from "redux/store";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 import { RequestStatus } from "../../redux/app-reducer";
+import { Link, Navigate } from "react-router-dom";
 
 export type dataFormType = {
   email?: string;
@@ -19,6 +20,9 @@ export const Registration = () => {
   const dispatch = useDispatch<AppDispatch>();
   const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
     (state) => state.app.request.status
+  );
+  const isSingUpStatus = useSelector<AppRootReducerType, boolean>(
+    (state) => state.auth.isSingUp
   );
 
   const formik = useFormik({
@@ -54,6 +58,10 @@ export const Registration = () => {
       return errors;
     },
   });
+
+  if (isSingUpStatus) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
@@ -108,10 +116,12 @@ export const Registration = () => {
                 <Button type="submit" className={s.button}>
                   Sing Up
                 </Button>
-                <h3 className={s.textInfo}>Already have an account?</h3>
-                <a href="#" className={s.singIn}>
-                  Sing In
-                </a>
+                <div className={s.toLogIn}>
+                  <h3 className={s.textInfo}>Already have an account?</h3>
+                  <Link to="/login" className={s.singIn}>
+                    Sing In
+                  </Link>
+                </div>
               </div>
             </Paper>
           </div>
