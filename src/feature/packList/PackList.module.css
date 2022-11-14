@@ -15,7 +15,6 @@ h1, h2, h3, h4, h5 {
   justify-content: space-between;
   width: 1000px;
   height: 600px;
-  border: 1px solid black;
 }
 .addNewPackContainer{
   width: 100%;
@@ -70,4 +69,17 @@ h1, h2, h3, h4, h5 {
 .iconFilter{
   align-self: self-end;
   margin-bottom: 2px;
+}
+.tableCards{
+  width: 100%;
+}
+.paginationContainer{
+  display: flex;
+  align-items: center;
+  align-self: flex-start;
+}
+.itemsChildrenContainer{
+  display: flex;
+  flex-direction: column;
+  gap:5px;
 }
