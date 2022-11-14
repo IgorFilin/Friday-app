@@ -6,11 +6,16 @@ import {
     parseLoginResponse,
     parseUpdatedUserResponse,
     parseLogoutResponse,
+    parseSingUpResponse,
 } from './responseParsers'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {
-        return instance.post<SingUpResponseType>('/auth/register', dataForm)
+        return instance
+            .post<SingUpResponseType>('/auth/register', dataForm)
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+            .then(parseSingUpResponse)
     },
     login(data: LoginDataType) {
         return instance
@@ -69,8 +74,8 @@ export type LoginDataType = {
 }
 
 export type SingUpResponseType = {
-    addedUser: any
-    error: { email: string; error: string; in: string } | null
+    addedUser: {}
+    error?: string //{ email: string; error: string; in: string } | null
 }
 
 export type LoginResponseType = ProfileDataType & {

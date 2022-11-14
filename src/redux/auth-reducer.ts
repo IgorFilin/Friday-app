@@ -1,7 +1,6 @@
 import { authApi, DataFormType, LoginDataType, ProfileDataType } from 'api/api'
 import { RequestStatus, setError, setInfo, setLoading } from './app-reducer'
 import { Dispatch } from 'redux'
-import axios, { AxiosError } from 'axios'
 import { RecoveryEmailType } from 'feature/password_recovery/Password_recovery'
 
 type AuthActionsType =
@@ -60,22 +59,17 @@ export const setProfileData = (profileData: ProfileDataType) => {
     return { type: 'AUTH/SET-PROFILE-DATA', profileData } as const
 }
 
-export const SingUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
+export const singUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(RequestStatus.loading))
-        const response = await authApi.singUp(value)
+        const res = await authApi.singUp(value)
         dispatch(setSingUp(true))
-        console.log(response)
-        dispatch(setInfo('Are you registered as ' + response.data.addedUser.name))
-        dispatch(setLoading(RequestStatus.succeeded))
+        dispatch(setInfo('Are you registered'))
     } catch (e) {
-        const err = e as Error | AxiosError<{ error: string }>
-        if (axios.isAxiosError(err)) {
-            const error = err.response?.data ? err.response.data.error : err.message
-            dispatch(setError(error))
-        } else {
-            dispatch(setError(`Native error ${err.message}`))
-        }
+        dispatch(setError(e as string))
+        dispatch(setLoading(RequestStatus.error))
+    } finally {
+        dispatch(setLoading(RequestStatus.succeeded))
     }
 }
 
@@ -83,7 +77,6 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(RequestStatus.loading))
         const res = await authApi.login(data)
-
         dispatch(setProfileData(res))
         dispatch(setInfo('logIn success'))
         dispatch(setIsLogin(true))
