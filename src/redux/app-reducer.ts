@@ -9,10 +9,10 @@ export enum RequestStatus {
   "error",
 }
 
-type actionsType =
+type AppActionsType =
   | ReturnType<typeof setLoading>
   | ReturnType<typeof setError>
-  | ReturnType<typeof setAppInitialized>;
+  | ReturnType<typeof setIsInitialized>;
 
 type initialStateType = typeof initialState;
 
@@ -26,7 +26,7 @@ const initialState = {
 
 export const appReducer = (
   state: initialStateType = initialState,
-  action: actionsType
+  action: AppActionsType
 ): initialStateType => {
   switch (action.type) {
     case "APP/SET-LOADING": {
@@ -53,20 +53,20 @@ export const setError = (textError: string | null) => {
   return { type: "APP/SET-ERROR", textError } as const;
 };
 
-export const setAppInitialized = (isInitialized: boolean) => {
+export const setIsInitialized = (isInitialized: boolean) => {
   return { type: "APP/SET-IS-INITIALIZED", isInitialized } as const;
 };
 
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
   try {
-    dispatch(setLoading(RequestStatus.loading));
+    dispatch(setIsInitialized(false));
     const res = await authApi.me();
     dispatch(setProfileData(res));
     dispatch(setIsLogin(true));
   } catch (error) {
     dispatch(setError(error as string));
-    dispatch(setLoading(RequestStatus.error));
+    dispatch(setIsLogin(false));
   } finally {
-    dispatch(setLoading(RequestStatus.idle));
+    dispatch(setIsInitialized(true));
   }
 };

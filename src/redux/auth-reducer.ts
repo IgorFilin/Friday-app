@@ -2,7 +2,7 @@ import { authApi, DataFormType, LoginDataType, ProfileDataType } from "api/api";
 import { RequestStatus, setError, setLoading } from "./app-reducer";
 import { Dispatch } from "redux";
 
-type ActionsType =
+type AuthActionsType =
   | ReturnType<typeof setSingUp>
   | ReturnType<typeof setIsLogin>
   | ReturnType<typeof setProfileData>;
@@ -17,7 +17,7 @@ const initialState = {
 
 export const authReducer = (
   state: InitialStateType = initialState,
-  action: ActionsType
+  action: AuthActionsType
 ): InitialStateType => {
   switch (action.type) {
     case "AUTH/SET-SIGN-UP": {
@@ -88,7 +88,7 @@ function getBase64(file: File) {
   });
 }
 
-export const changeProfileData =
+export const changeProfileDataTC =
   ({ avatarFile, name }: { avatarFile?: File; name?: string }) =>
   async (dispatch: Dispatch) => {
     try {

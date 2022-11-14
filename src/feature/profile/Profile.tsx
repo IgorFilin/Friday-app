@@ -12,7 +12,7 @@ import { UserEmail } from "./UserEmail";
 import { EditableUserName } from "./EditableUserName";
 import { useAppDispatch, useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
-import { changeProfileData } from "redux/auth-reducer";
+import { changeProfileDataTC } from "redux/auth-reducer";
 
 export const Profile = () => {
   const isLogin = useAppSelector((state) => state.auth.isLogin);
@@ -25,11 +25,11 @@ export const Profile = () => {
   if (!isLogin) return <Navigate to="/login" />;
 
   const onChangeUserNameHandler = (name: string) => {
-    dispatch(changeProfileData({ name }));
+    dispatch(changeProfileDataTC({ name }));
   };
 
   const onChangeAvatarHandler = (avatarFile: File) => {
-    dispatch(changeProfileData({ avatarFile }));
+    dispatch(changeProfileDataTC({ avatarFile }));
   };
 
   return (

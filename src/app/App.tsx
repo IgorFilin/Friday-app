@@ -2,19 +2,20 @@ import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Error } from "./error/Error";
 import { Header } from "./header/Header";
-import { Test } from "../components/test/Test";
-import { Login } from "../feature/login/Login";
-import { NewPassword } from "../feature/password_recovery/NewPassword";
-import { PasswordRecovery } from "../feature/password_recovery/Password_recovery";
-import { Profile } from "../feature/profile/Profile";
-import { Registration } from "../feature/registration/Registration";
+import { Test } from "components/test/Test";
+import { Login } from "feature/login/Login";
+import { NewPassword } from "feature/password_recovery/NewPassword";
+import { PasswordRecovery } from "feature/password_recovery/Password_recovery";
+import { Profile } from "feature/profile/Profile";
+import { Registration } from "feature/registration/Registration";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
 import {
   AppRootReducerType,
   useAppDispatch,
   useAppSelector,
-} from "../redux/store";
+} from "redux/store";
+
 import { initializeAppTC, RequestStatus } from "../redux/app-reducer";
 import Box from "@mui/material/Box";
 
@@ -24,7 +25,11 @@ export const App = (): any => {
   );
 
   const isInitialized = useAppSelector((state) => state.app.isInitialized);
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
   const dispatch = useAppDispatch();
+
+  console.log("isInitialized", isInitialized);
+  console.log("isLogin", isLogin);
 
   useEffect(() => {
     dispatch(initializeAppTC());
