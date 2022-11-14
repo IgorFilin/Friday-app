@@ -1,7 +1,7 @@
 .mainContainer {
     display: flex;
     justify-content: center;
-    align-items: center;
+    margin-top: 80px;
     width: 100%;
     height: 100vh;
 }
@@ -17,7 +17,6 @@
     height: 528px;
     background: #FFFFFF;
     border-radius: 2px;
-    font-family: 'Montserrat';
 }
 
 .title {
@@ -57,6 +56,7 @@
     text-transform: none !important;
     transition: 0.8ms;
 }
+
 .button:hover {
     transition: 0.8ms;
     background: #0949cf !important;
@@ -79,6 +79,7 @@
     text-decoration-line: underline;
     color: #366EFF;
 }
+
 .toLogIn {
     display: flex;
     align-items: center;
@@ -93,4 +94,11 @@
     margin: 0;
     padding: 0;
     font-weight: bold;
+}
+
+@media screen and (max-width: 500px) {
+    .content {
+        align-items: center;
+        width: 260px;
+    }
 }
