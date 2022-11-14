@@ -17,7 +17,7 @@ import Toolbar from "@mui/material/Toolbar";
 import { useFormik } from "formik";
 import { InputPassword } from "../../components/InputPassword/InputPassword";
 import { useDispatch, useSelector } from "react-redux";
-import { isLoginTC } from "../../redux/auth-reducer";
+import { loginTC } from "../../redux/auth-reducer";
 import { AppRootReducerType } from "../../redux/store";
 import { Link, Navigate } from "react-router-dom";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
@@ -65,7 +65,7 @@ export const Login = () => {
     },
     onSubmit: (values) => {
       // @ts-ignore
-      dispatch(isLoginTC(values));
+      dispatch(loginTC(values));
       formik.resetForm();
     },
   });

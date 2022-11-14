@@ -1,3 +1,7 @@
+import { Dispatch } from "redux";
+import { authApi } from "../api/api";
+import { setIsLogin, setProfileData } from "./auth-reducer";
+
 export enum RequestStatus {
   "idle",
   "loading",
@@ -5,10 +9,10 @@ export enum RequestStatus {
   "error",
 }
 
-type setLoadingType = ReturnType<typeof setLoading>;
-type setErrorType = ReturnType<typeof setError>;
-
-type actionsType = setLoadingType | setErrorType;
+type AppActionsType =
+  | ReturnType<typeof setLoading>
+  | ReturnType<typeof setError>
+  | ReturnType<typeof setIsInitialized>;
 
 type initialStateType = typeof initialState;
 
@@ -22,7 +26,7 @@ const initialState = {
 
 export const appReducer = (
   state: initialStateType = initialState,
-  action: actionsType
+  action: AppActionsType
 ): initialStateType => {
   switch (action.type) {
     case "APP/SET-LOADING": {
@@ -34,6 +38,8 @@ export const appReducer = (
         request: { ...state.request, error: action.textError },
       };
     }
+    case "APP/SET-IS-INITIALIZED":
+      return { ...state, isInitialized: action.isInitialized };
     default: {
       return state;
     }
@@ -45,4 +51,22 @@ export const setLoading = (value: RequestStatus) => {
 };
 export const setError = (textError: string | null) => {
   return { type: "APP/SET-ERROR", textError } as const;
+};
+
+export const setIsInitialized = (isInitialized: boolean) => {
+  return { type: "APP/SET-IS-INITIALIZED", isInitialized } as const;
+};
+
+export const initializeAppTC = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch(setIsInitialized(false));
+    const res = await authApi.me();
+    dispatch(setProfileData(res));
+    dispatch(setIsLogin(true));
+  } catch (error) {
+    dispatch(setError(error as string));
+    dispatch(setIsLogin(false));
+  } finally {
+    dispatch(setIsInitialized(true));
+  }
 };

@@ -6,13 +6,13 @@ import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { SingUpTC } from "redux/auth-reducer";
 import { AppRootReducerType, useAppDispatch } from "redux/store";
-import { ErrorSnackbar } from "../../components/ErrorSnackbar";
-import { RequestStatus } from "../../redux/app-reducer";
+import { ErrorSnackbar } from "components/ErrorSnackbar";
+import { RequestStatus } from "redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
+import { DataFormType } from "api/api";
 import AppBar from "@mui/material/AppBar";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
-import { DataFormType } from "../../api/api";
 
 export const Registration = () => {
   const dispatch = useAppDispatch();

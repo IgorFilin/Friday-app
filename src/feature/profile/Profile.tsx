@@ -3,21 +3,34 @@ import Paper from "@mui/material/Paper";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
-import avatar from "assets/cat.jpg";
+import catAvatar from "assets/cat.jpg";
 import Box from "@mui/material/Box";
 import { ErrorSnackbar } from "components/ErrorSnackbar";
 import { LogOutButton } from "./LogOutButton";
 import { UserAvatar } from "./UserAvatar";
 import { UserEmail } from "./UserEmail";
 import { EditableUserName } from "./EditableUserName";
-import { useAppSelector } from "redux/store";
+import { useAppDispatch, useAppSelector } from "redux/store";
 import { Navigate } from "react-router-dom";
+import { changeProfileDataTC } from "redux/auth-reducer";
 
 export const Profile = () => {
-  const { name, email } = { email: "j&johnson@gmail.com", name: "Ivan" };
-
   const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const { name, email, avatar } = useAppSelector(
+    (state) => state.auth.profileData
+  );
+
+  const dispatch = useAppDispatch();
+
   if (!isLogin) return <Navigate to="/login" />;
+
+  const onChangeUserNameHandler = (name: string) => {
+    dispatch(changeProfileDataTC({ name }));
+  };
+
+  const onChangeAvatarHandler = (avatarFile: File) => {
+    dispatch(changeProfileDataTC({ avatarFile }));
+  };
 
   return (
     <Container
@@ -43,9 +56,12 @@ export const Profile = () => {
             Personal Information
           </Typography>
           <Box margin={2}>
-            <UserAvatar src={avatar} />
+            <UserAvatar
+              src={avatar ?? catAvatar}
+              onConfirm={onChangeAvatarHandler}
+            />
           </Box>
-          <EditableUserName value={name} onConfirm={console.log} />
+          <EditableUserName value={name} onConfirm={onChangeUserNameHandler} />
           <UserEmail email={email} />
           <LogOutButton />
         </Stack>
