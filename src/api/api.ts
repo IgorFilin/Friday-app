@@ -5,6 +5,7 @@ import {
     getDataFromAxiosResponse,
     parseLoginResponse,
     parseUpdatedUserResponse,
+    parseLogoutResponse,
 } from './responseParsers'
 
 export const authApi = {
@@ -44,6 +45,13 @@ export const authApi = {
             .catch(parseAxiosError)
             .then(parseLoginResponse)
     },
+    logout() {
+        return instance
+            .delete<LogoutResponseType>('auth/me')
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+            .then(parseLogoutResponse)
+    },
 }
 
 //==TYPES=========================================================================================
@@ -82,4 +90,9 @@ export type ProfileDataType = {
     email: string
     name: string
     avatar?: string
+}
+
+export type LogoutResponseType = {
+    info: string
+    error: string
 }

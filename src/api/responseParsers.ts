@@ -1,36 +1,38 @@
-import { AxiosError, AxiosResponse } from "axios";
-import { LoginResponseType, ProfileDataType } from "./api";
+import { AxiosError, AxiosResponse } from 'axios'
+import { LoginResponseType, LogoutResponseType, ProfileDataType } from './api'
 
 type ErrorResponseType = {
-  error: string;
-};
+    error: string
+}
 
-export const getDataFromAxiosResponse = <T>(res: AxiosResponse<T>): T =>
-  res.data;
+export const getDataFromAxiosResponse = <T>(res: AxiosResponse<T>): T => res.data
 
 export const parseAxiosError = (res: AxiosError<ErrorResponseType>) =>
-  Promise.reject(res.response?.data?.error ?? res.message);
+    Promise.reject(res.response?.data?.error ?? res.message)
 
 export const parseLoginResponse = ({
-  email,
-  name,
-  avatar,
-  error,
+    email,
+    name,
+    avatar,
+    error,
 }: LoginResponseType): Promise<ProfileDataType> =>
-  error ? Promise.reject(error) : Promise.resolve({ email, name, avatar });
+    error ? Promise.reject(error) : Promise.resolve({ email, name, avatar })
 
 export const parseUpdatedUserResponse = ({
-  updatedUser,
-  error,
+    updatedUser,
+    error,
 }: {
-  error?: string;
-  updatedUser: LoginResponseType;
+    error?: string
+    updatedUser: LoginResponseType
 }): Promise<ProfileDataType> => {
-  return error
-    ? Promise.reject(error)
-    : Promise.resolve({
-        email: updatedUser.email,
-        name: updatedUser.name,
-        avatar: updatedUser.avatar,
-      });
-};
+    return error
+        ? Promise.reject(error)
+        : Promise.resolve({
+              email: updatedUser.email,
+              name: updatedUser.name,
+              avatar: updatedUser.avatar,
+          })
+}
+
+export const parseLogoutResponse = ({ info, error }: LogoutResponseType) =>
+    error ? Promise.reject(error) : Promise.resolve({ info })
