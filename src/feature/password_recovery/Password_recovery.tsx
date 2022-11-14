@@ -2,14 +2,24 @@ import { Button, Paper, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 import s from './PasswordRecovery.module.css';
+import {ForgotTC} from "../../redux/auth-reducer";
+import {useAppDispatch} from "../../redux/store";
+import {useNavigate} from "react-router-dom";
 
 type FormikErrorType = {
     email: string
 }
 export type RecoveryEmailType = {
-    email: string
+    email: string;
 }
 export const PasswordRecovery = () => {
+
+    const dispatch = useAppDispatch()
+    const navigate = useNavigate();
+
+    const handleClickToLogin = () => {
+        navigate("/login");
+    }
 
     const formik = useFormik({
         initialValues: {
@@ -24,8 +34,8 @@ export const PasswordRecovery = () => {
             }
             return errors;
         },
-        onSubmit: (email: RecoveryEmailType) => {
-            console.log(email);
+        onSubmit: (email) => {
+            dispatch(ForgotTC(email));
         }
     })
 
@@ -33,7 +43,7 @@ export const PasswordRecovery = () => {
         <div className={s.passRecoveryWrapper}>
             <Paper className={s.passRecovery} elevation={3}>
                 <h2 className={s.h2}>Forgot your password?</h2>
-                <TextField sx={{ m: 1, width: '35ch' }} id="standard-basic" label="Email" variant="standard"
+                <TextField sx={{ m: 1, width: '40ch' }} id="standard-basic" label="Email" variant="standard"
                     {...formik.getFieldProps("email")} />
                 {formik.touched.email && formik.errors.email ?
                     <div className={s.error}>{formik.errors.email}</div> : null}
@@ -46,7 +56,7 @@ export const PasswordRecovery = () => {
                 <p className={s.pSmall}>
                     Did you remember your password?
                 </p>
-                <p className={s.pToLogin}> Try logging in</p>
+                <a className={s.pToLogin} onClick={handleClickToLogin}> Try logging in</a>
             </Paper>
         </div>
     );
