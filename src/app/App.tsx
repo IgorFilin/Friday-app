@@ -1,29 +1,58 @@
-import React from "react";
-// import './App.css';
-
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Error } from "./error/Error";
 import { Header } from "./header/Header";
-import { Test } from "../components/test/Test";
-import { Login } from "../feature/login/Login";
-import { NewPassword } from "../feature/password_recovery/NewPassword";
-import { PasswordRecovery } from "../feature/password_recovery/Password_recovery";
-import { Profile } from "../feature/profile/Profile";
-import { Registration } from "../feature/registration/Registration";
+import { Test } from "components/test/Test";
+import { Login } from "feature/login/Login";
+import { NewPassword } from "feature/password_recovery/NewPassword";
+import { PasswordRecovery } from "feature/password_recovery/Password_recovery";
+import { Profile } from "feature/profile/Profile";
+import { Registration } from "feature/registration/Registration";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
-import { AppRootReducerType } from "../redux/store";
-import { RequestStatus } from "../redux/app-reducer";
+import {
+  AppRootReducerType,
+  useAppDispatch,
+  useAppSelector,
+} from "redux/store";
+
+import { initializeAppTC, RequestStatus } from "../redux/app-reducer";
+import Box from "@mui/material/Box";
 
 export const App = (): any => {
-  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
+  const requestStatus = useSelector<AppRootReducerType, RequestStatus>(
     (state) => state.app.request.status
   );
 
+  const isInitialized = useAppSelector((state) => state.app.isInitialized);
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const dispatch = useAppDispatch();
+
+  console.log("isInitialized", isInitialized);
+  console.log("isLogin", isLogin);
+
+  useEffect(() => {
+    dispatch(initializeAppTC());
+  }, []);
+
+  if (!isInitialized)
+    return (
+      <Box
+        component={"div"}
+        sx={{
+          display: "flex",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress size={100} />
+      </Box>
+    );
   return (
     <div className="App">
       <Header />
-      {statusLoading === RequestStatus.loading && (
+      {requestStatus === RequestStatus.loading && (
         <CircularProgress
           sx={{
             position: "absolute",
