@@ -1,45 +1,41 @@
-import React from 'react';
-import {NavLink} from "react-router-dom";
-import style from './Header.module.css'
+import React from "react";
+import Toolbar from "@mui/material/Toolbar";
+import Typography from "@mui/material/Typography";
+import { Button } from "@mui/material";
+import AppBar from "@mui/material/AppBar";
+import { Navigate, useNavigate } from "react-router-dom";
 
 export const Header = () => {
+  let navigate = useNavigate();
 
-    const isActiveLink = (param: any) => {
-        return {color: param.isActive ? 'red' : 'black'}}
+  const onClickSingInHandler = () => {
+    navigate("/login");
+  };
 
-    return (
-        <div className={style.wrapper}>
-            <div>
-                <NavLink to={'/login'}
-                          style={isActiveLink}>login</NavLink></div>
-            <div>
-                <NavLink
-                to={'/registration'}
-                style={isActiveLink}>registration</NavLink></div>
-            <div>
-                <NavLink
-                    to={'/profile'}
-                    style={isActiveLink}>profile</NavLink></div>
-            <div>
-                <NavLink
-                    to={'/password'}
-                    style={isActiveLink}>password_recovery</NavLink>
-            </div>
-            <div>
-                <NavLink
-                    to={'/check'}
-                    style={isActiveLink}>check_email</NavLink>
-            </div>
-            <div>
-                <NavLink
-                    to={'/entered'}
-                    style={isActiveLink}>entering a new passwordy</NavLink>
-            </div>
-            <div>
-                <NavLink
-                    to={'/test'}
-                    style={isActiveLink}>test</NavLink>
-            </div>
-        </div>
-    );
+  return (
+    <AppBar color={"inherit"} position="static">
+      <Toolbar>
+        <img
+          style={{ marginLeft: "10%" }}
+          src={
+            "https://it-incubator.io/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.8a063c2a.svg&w=256&q=75"
+          }
+        />
+        <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
+          {/*News*/}
+        </Typography>
+        <Button
+          sx={{
+            mr: "10%",
+            width: "113px",
+            borderRadius: 5,
+          }}
+          variant="contained"
+          onClick={onClickSingInHandler}
+        >
+          Sign in
+        </Button>
+      </Toolbar>
+    </AppBar>
+  );
 };
