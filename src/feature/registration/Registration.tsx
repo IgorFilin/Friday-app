@@ -65,63 +65,61 @@ export const Registration = () => {
           <Container>
             <form onSubmit={formik.handleSubmit}>
               <div className={s.mainContainer}>
-                <Paper elevation={2}>
-                  <div className={s.content}>
-                    <h1 className={s.title}>Sing Up</h1>
-                    <div className={s.groupInputs}>
-                      <TextField
-                        className={s.input}
-                        label="Email"
-                        {...formik.getFieldProps("email")}
-                        variant="standard"
-                        value={formik.values.email}
-                      />
-                      {formik.errors.email && formik.touched.email ? (
-                        <div className={s.errorText}>{formik.errors.email}</div>
-                      ) : (
-                        <br />
-                      )}
+                <Paper elevation={2} className={s.content}>
+                  <h1 className={s.title}>Sing Up</h1>
+                  <div className={s.groupInputs}>
+                    <TextField
+                      className={s.input}
+                      label="Email"
+                      {...formik.getFieldProps("email")}
+                      variant="standard"
+                      value={formik.values.email}
+                    />
+                    {formik.errors.email && formik.touched.email ? (
+                      <div className={s.errorText}>{formik.errors.email}</div>
+                    ) : (
+                      <br />
+                    )}
 
-                      <InputPassword
-                        name={"password"}
-                        title={"Password"}
-                        valuePassword={formik.values.password}
-                        onChange={formik.handleChange}
-                        restFormikProps={formik.getFieldProps("password")}
-                      />
-                      {formik.errors.password && formik.touched.password ? (
-                        <div className={s.errorText}>
-                          {formik.errors.password}
-                        </div>
-                      ) : (
-                        <br />
-                      )}
+                    <InputPassword
+                      name={"password"}
+                      title={"Password"}
+                      valuePassword={formik.values.password}
+                      onChange={formik.handleChange}
+                      restFormikProps={formik.getFieldProps("password")}
+                    />
+                    {formik.errors.password && formik.touched.password ? (
+                      <div className={s.errorText}>
+                        {formik.errors.password}
+                      </div>
+                    ) : (
+                      <br />
+                    )}
 
-                      <InputPassword
-                        name={"currPassword"}
-                        title={"Confirm password"}
-                        valuePassword={formik.values.currPassword}
-                        onChange={formik.handleChange}
-                        restFormikProps={formik.getFieldProps("currPassword")}
-                      />
-                      {formik.errors.currPassword &&
-                      formik.touched.currPassword ? (
-                        <div className={s.errorText}>
-                          {formik.errors.currPassword}
-                        </div>
-                      ) : (
-                        <br />
-                      )}
-                    </div>
-                    <Button type="submit" className={s.button}>
-                      Sing Up
-                    </Button>
-                    <div className={s.toLogIn}>
-                      <h3 className={s.textInfo}>Already have an account?</h3>
-                      <Link to="/login" className={s.singIn}>
-                        Sing In
-                      </Link>
-                    </div>
+                    <InputPassword
+                      name={"currPassword"}
+                      title={"Confirm password"}
+                      valuePassword={formik.values.currPassword}
+                      onChange={formik.handleChange}
+                      restFormikProps={formik.getFieldProps("currPassword")}
+                    />
+                    {formik.errors.currPassword &&
+                    formik.touched.currPassword ? (
+                      <div className={s.errorText}>
+                        {formik.errors.currPassword}
+                      </div>
+                    ) : (
+                      <br />
+                    )}
+                  </div>
+                  <Button type="submit" className={s.button}>
+                    Sing Up
+                  </Button>
+                  <div className={s.toLogIn}>
+                    <h3 className={s.textInfo}>Already have an account?</h3>
+                    <Link to="/login" className={s.singIn}>
+                      Sing In
+                    </Link>
                   </div>
                 </Paper>
               </div>
