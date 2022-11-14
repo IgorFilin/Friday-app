@@ -1,6 +1,4 @@
-import React from "react";
-// import './App.css';
-
+import React, { useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import { Error } from "./error/Error";
 import { Header } from "./header/Header";
@@ -12,18 +10,44 @@ import { Profile } from "../feature/profile/Profile";
 import { Registration } from "../feature/registration/Registration";
 import { CircularProgress } from "@mui/material";
 import { useSelector } from "react-redux";
-import { AppRootReducerType } from "../redux/store";
-import { RequestStatus } from "../redux/app-reducer";
+import {
+  AppRootReducerType,
+  useAppDispatch,
+  useAppSelector,
+} from "../redux/store";
+import { initializeAppTC, RequestStatus } from "../redux/app-reducer";
+import Box from "@mui/material/Box";
 
 export const App = (): any => {
-  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
+  const requestStatus = useSelector<AppRootReducerType, RequestStatus>(
     (state) => state.app.request.status
   );
 
+  const isInitialized = useAppSelector((state) => state.app.isInitialized);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(initializeAppTC());
+  }, []);
+
+  if (!isInitialized)
+    return (
+      <Box
+        component={"div"}
+        sx={{
+          display: "flex",
+          height: "100%",
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <CircularProgress size={100} />
+      </Box>
+    );
   return (
     <div className="App">
       <Header />
-      {statusLoading === RequestStatus.loading && (
+      {requestStatus === RequestStatus.loading && (
         <CircularProgress
           sx={{
             position: "absolute",

@@ -24,6 +24,13 @@ export const authApi = {
       .catch(parseAxiosError)
       .then(parseUpdatedUserResponse);
   },
+  async me() {
+    return instance
+      .post<LoginResponseType>("auth/me")
+      .then(getDataFromAxiosResponse)
+      .catch(parseAxiosError)
+      .then(parseLoginResponse);
+  },
 };
 
 //==TYPES=========================================================================================
