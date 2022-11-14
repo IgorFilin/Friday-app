@@ -1,5 +1,5 @@
 import { authApi, DataFormType, LoginDataType, ProfileDataType } from 'api/api'
-import { RequestStatus, setError, setLoading } from './app-reducer'
+import { RequestStatus, setError, setInfo, setLoading } from './app-reducer'
 import { Dispatch } from 'redux'
 import axios, { AxiosError } from 'axios'
 import { RecoveryEmailType } from 'feature/password_recovery/Password_recovery'
@@ -65,6 +65,8 @@ export const SingUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
         dispatch(setLoading(RequestStatus.loading))
         const response = await authApi.singUp(value)
         dispatch(setSingUp(true))
+        console.log(response)
+        dispatch(setInfo('Are you registered as ' + response.data.addedUser.name))
         dispatch(setLoading(RequestStatus.succeeded))
     } catch (e) {
         const err = e as Error | AxiosError<{ error: string }>
@@ -81,7 +83,9 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(RequestStatus.loading))
         const res = await authApi.login(data)
+
         dispatch(setProfileData(res))
+        dispatch(setInfo('logIn success'))
         dispatch(setIsLogin(true))
     } catch (error) {
         dispatch(setError(error as string))
@@ -144,6 +148,7 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoading(RequestStatus.loading))
         const res = await authApi.logout()
+        dispatch(setInfo(res.info))
         dispatch(setIsLogin(false))
     } catch (error) {
         dispatch(setError(error as string))
