@@ -10,9 +10,6 @@ import { ErrorSnackbar } from "components/ErrorSnackbar";
 import { RequestStatus } from "redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
 import { DataFormType } from "api/api";
-import AppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
 
 export const Registration = () => {
   const dispatch = useAppDispatch();
@@ -66,29 +63,6 @@ export const Registration = () => {
     <>
       {!(statusLoading === RequestStatus.loading) && (
         <>
-          <AppBar color={"inherit"} position="static">
-            <Toolbar>
-              <img
-                style={{ marginLeft: "10%" }}
-                src={
-                  "https://it-incubator.io/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.8a063c2a.svg&w=256&q=75"
-                }
-              />
-              <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                {/*News*/}
-              </Typography>
-              <Button
-                sx={{
-                  mr: "10%",
-                  width: "113px",
-                  borderRadius: 5,
-                }}
-                variant="contained"
-              >
-                Sign in
-              </Button>
-            </Toolbar>
-          </AppBar>
           <form onSubmit={formik.handleSubmit}>
             <div className={s.mainContainer}>
               <Paper elevation={2}>
