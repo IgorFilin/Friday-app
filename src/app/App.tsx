@@ -19,6 +19,7 @@ import {
 
 import { initializeAppTC, RequestStatus } from "../redux/app-reducer";
 import Box from "@mui/material/Box";
+import { PackList } from "../feature/packList/PackList";
 
 export const App = (): any => {
   const requestStatus = useSelector<AppRootReducerType, RequestStatus>(
@@ -72,6 +73,7 @@ export const App = (): any => {
         <Route path="/entered" element={<NewPassword />} />
         <Route path="/check" element={<CheckEmail />} />
         <Route path="/test" element={<Test />} />
+        <Route path="/pack" element={<PackList />} />
       </Routes>
     </div>
   );
