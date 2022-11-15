@@ -24,6 +24,9 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 export const PackList = () => {
   const [value, setValue] = React.useState<number[]>([0, 100]);
   const [orderBy, setOrderBy] = React.useState("calories");
+  const [showPacksCards, setShowPacksCards] = React.useState<"All" | "My">(
+    "All"
+  );
 
   const handleChange = (event: Event, value: number | number[]) => {
     setValue(value as number[]);
@@ -78,10 +81,20 @@ export const PackList = () => {
               variant="contained"
               aria-label="Disabled elevation buttons"
             >
-              <Button className={s.buttonGroup} variant={"outlined"}>
+              <Button
+                onClick={() => setShowPacksCards("My")}
+                className={s.buttonGroup}
+                variant={showPacksCards === "My" ? "contained" : "outlined"}
+              >
                 My
               </Button>
-              <Button className={s.buttonGroup}>All</Button>
+              <Button
+                onClick={() => setShowPacksCards("All")}
+                className={s.buttonGroup}
+                variant={showPacksCards === "All" ? "contained" : "outlined"}
+              >
+                All
+              </Button>
             </ButtonGroup>
           </div>
           <div className={s.itemsChildrenContainer}>
