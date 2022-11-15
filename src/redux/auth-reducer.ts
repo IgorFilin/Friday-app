@@ -1,4 +1,4 @@
-import { authApi, DataFormType, LoginDataType, ProfileDataType } from "api/api";
+import { authApi, DataFormType, LoginDataType, ProfileDataType, SetNewPasswordType } from "api/api";
 import { RequestStatus, setError, setLoading } from "./app-reducer";
 import { Dispatch } from "redux";
 import axios, { AxiosError } from "axios";
@@ -8,6 +8,8 @@ type AuthActionsType =
     | ReturnType<typeof setSingUp>
     | ReturnType<typeof setIsLogin>
     | ReturnType<typeof getEmailForgotPass>
+    | ReturnType<typeof getVerificationEmail>
+    | ReturnType<typeof setNewPassword>
     | ReturnType<typeof setProfileData>;
 
 type InitialStateType = typeof initialState;
@@ -16,6 +18,8 @@ const initialState = {
   isSingUp: false,
   isLogin: false,
   email: "",
+  verificationEmail: false,
+  password: "",
   profileData: { email: "", name: "" } as ProfileDataType, // avatar: undefined
 };
 
@@ -35,6 +39,12 @@ export const authReducer = (
     case "FORGOT-PASS/GET-EMAIL": {
       return { ...state, email: action.email };
     }
+    case "FORGOT-PASS/VERIFICATION-EMAIL": {
+      return { ...state, verificationEmail: action.verificationEmail };
+    }
+    case "FORGOT-PASS/SET-NEW-PASSWORD": {
+      return { ...state, password: action.password };
+    }
     case "AUTH/SET-PROFILE-DATA":
       return {
         ...state,
@@ -49,13 +59,18 @@ export const authReducer = (
 export const setSingUp = (statusSingUp: boolean) => {
   return { type: "AUTH/SET-SIGN-UP", statusSingUp } as const;
 };
-
 export const setIsLogin = (isLogin: boolean) => {
   return { type: "AUTH/SET-IS-LOGIN", isLogin } as const;
 };
 export const getEmailForgotPass = (email: string) => {
   return { type: "FORGOT-PASS/GET-EMAIL", email } as const;
 };
+export const getVerificationEmail = (verificationEmail: boolean) => {
+  return { type: "FORGOT-PASS/VERIFICATION-EMAIL", verificationEmail } as const;
+};
+export const setNewPassword = (password: string) => {
+  return { type: "FORGOT-PASS/SET-NEW-PASSWORD", password } as const;
+}
 export const setProfileData = (profileData: ProfileDataType) => {
   return { type: "AUTH/SET-PROFILE-DATA", profileData } as const;
 };
@@ -91,11 +106,22 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
   }
 };
 
-export const ForgotTC = (email: RecoveryEmailType) => async (dispatch: Dispatch) => {
+export const forgotTC = (email: RecoveryEmailType) => async (dispatch: Dispatch) => {
   try {
     setLoading(RequestStatus.loading);
-    const response = await authApi.ForgotPass(email);
+    const response = await authApi.forgotPass(email);
     dispatch(getEmailForgotPass(email.email));
+    dispatch(getVerificationEmail(response.data.success))
+    dispatch(setLoading(RequestStatus.succeeded));
+  } catch (e) {
+    console.log(e);
+  }
+};
+export const setNewPassTC = ({password, resetPasswordToken}: SetNewPasswordType) => async (dispatch: Dispatch) => {
+  try {
+    setLoading(RequestStatus.loading);
+    const response = await authApi.setNewPassword({password, resetPasswordToken});
+    dispatch(setNewPassword(password));
     dispatch(setLoading(RequestStatus.succeeded));
   } catch (e) {
     console.log(e);

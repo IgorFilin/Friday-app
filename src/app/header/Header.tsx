@@ -32,8 +32,8 @@ export const Header = () => {
             </div>
             <div>
                 <NavLink
-                    to={'/entered'}
-                    style={isActiveLink}>entering a new passwordy</NavLink>
+                    to={'/set-new-password:token'}
+                    style={isActiveLink}>set-new-password</NavLink>
             </div>
             <div>
                 <NavLink

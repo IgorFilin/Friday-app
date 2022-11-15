@@ -18,19 +18,20 @@ export const authApi = {
         .catch(parseAxiosError)
         .then(parseLoginResponse);
   },
-  ForgotPass(email: RecoveryEmailType) {
-    return instance.post("/auth/forgot",             {
+  forgotPass(email: RecoveryEmailType) {
+    return instance.post<ResponseForgotPasswordType>("/auth/forgot",             {
           email:email.email,
-          // кому восстанавливать пароль
           message: `<div style="background-color: #f7f7f7; padding: 15px">
                         Follow 
-                        <a href='http://localhost:3000/#/set-new-password/$token$'
+                        <a href='http://localhost:3000/set-new-password/$token$'
                         style="font-weight: bold; color: #1a73e8;">
                         this link</a> to recover your password
                         </div>` // хтмп-письмо, вместо $token$ бэк вставит токен
-
         }
     );
+  },
+  setNewPassword({password, resetPasswordToken}: SetNewPasswordType) {
+    return instance.post<ResponseSetNewPasswordType>("/auth/set-new-password", {password, resetPasswordToken});
   },
   changeUserNameOrAvatar(data: { name?: string; avatar?: string }) {
     return instance
@@ -65,6 +66,20 @@ export type LoginDataType = {
 export type SingUpResponseType = {
   addedUser: any;
   error: { email: string; error: string; in: string } | null;
+};
+
+export type SetNewPasswordType = {
+  password: string,
+  resetPasswordToken: string
+}
+
+export type ResponseForgotPasswordType = {
+  info: string,
+  success: boolean,
+}
+export type ResponseSetNewPasswordType = {
+    info: string
+    error: string;
 };
 
 export type LoginResponseType = ProfileDataType & {
