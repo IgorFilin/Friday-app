@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes } from "react-router-dom";
 import { Error } from "./error/Error";
 import { Header } from "./header/Header";
 import { Test } from "components/test/Test";
@@ -66,6 +66,7 @@ export const App = (): any => {
         />
       )}
       <Routes>
+        <Route path="/" element={<Navigate to={"/login"} />} />
         <Route path="/login" element={<Login />} />
         <Route path="/registration" element={<Registration />} />
         <Route path="/profile" element={<Profile />} />
