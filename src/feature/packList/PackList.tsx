@@ -24,6 +24,7 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 export const PackList = () => {
   const [value, setValue] = React.useState<number[]>([0, 100]);
   const [orderBy, setOrderBy] = React.useState("calories");
+  const [inputValue, setInputValue] = React.useState("");
   const [showPacksCards, setShowPacksCards] = React.useState<"All" | "My">(
     "All"
   );
@@ -64,6 +65,8 @@ export const PackList = () => {
               size={"small"}
               className={s.inputSearch}
               placeholder={"Provide your text"}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.currentTarget.value)}
               InputProps={{
                 startAdornment: (
                   <InputAdornment position="start">
