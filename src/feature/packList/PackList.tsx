@@ -22,11 +22,11 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
 export const PackList = () => {
-  const [value, setValue] = React.useState<number[]>([20, 37]);
+  const [value, setValue] = React.useState<number[]>([0, 100]);
   const [orderBy, setOrderBy] = React.useState("calories");
 
-  const handleChange = (event: Event, newValue: number | number[]) => {
-    setValue(newValue as number[]);
+  const handleChange = (event: Event, value: number | number[]) => {
+    setValue(value as number[]);
   };
   function createData(
     Name: string,
@@ -88,17 +88,17 @@ export const PackList = () => {
             <h4>Number of cards</h4>
             <div className={s.sliderGroup}>
               <div className={s.countSlider}>
-                <h4>1</h4>
+                <h4>{value[0]}</h4>
               </div>
               <Slider
                 className={s.slider}
                 getAriaLabel={() => "range"}
                 value={value}
                 onChange={handleChange}
-                valueLabelDisplay="auto"
+                valueLabelDisplay="off"
               />
               <div className={s.countSlider}>
-                <h4>22</h4>
+                <h4>{value[1]}</h4>
               </div>
             </div>
           </div>
