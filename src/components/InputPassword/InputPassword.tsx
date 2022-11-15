@@ -53,10 +53,9 @@ export const InputPassword: React.FC<InputPasswordMuiPropsType> = ({
 
   return (
     <FormControl className={s.input} variant="standard">
-      <InputLabel htmlFor="standard-adornment-password">{title}</InputLabel>
+      <InputLabel>{title}</InputLabel>
       <Input
         name={name}
-        id="standard-adornment-password"
         type={values.showPassword ? "text" : "password"}
         value={valuePassword}
         onChange={onChange ? onChange : handleChange}

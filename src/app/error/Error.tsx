@@ -1,10 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export const Error = () => {
-    return (
-        <div>
-            404 ^_^
-        </div>
-    );
+  return <div>404 ^_^</div>;
 };
-
