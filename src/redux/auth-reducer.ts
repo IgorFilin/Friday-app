@@ -1,14 +1,21 @@
-import { authApi, DataFormType, LoginDataType, ProfileDataType } from "api/api";
-import { RequestStatus, setError, setLoading } from "./app-reducer";
+import {
+  authApi,
+  DataFormType,
+  LoginDataType,
+  ProfileDataType,
+  SetNewPasswordType,
+} from "api/api";
+import { RequestStatus, setError, setInfo, setLoading } from "./app-reducer";
 import { Dispatch } from "redux";
-import axios, { AxiosError } from "axios";
-import {RecoveryEmailType} from "feature/password_recovery/Password_recovery";
+import { RecoveryEmailType } from "feature/password_recovery/Password_recovery";
 
 type AuthActionsType =
-    | ReturnType<typeof setSingUp>
-    | ReturnType<typeof setIsLogin>
-    | ReturnType<typeof getEmailForgotPass>
-    | ReturnType<typeof setProfileData>;
+  | ReturnType<typeof setSingUp>
+  | ReturnType<typeof setIsLogin>
+  | ReturnType<typeof getEmailForgotPass>
+  | ReturnType<typeof setProfileData>
+  | ReturnType<typeof getVerificationEmail>
+  | ReturnType<typeof setNewPassword>;
 
 type InitialStateType = typeof initialState;
 
@@ -16,12 +23,14 @@ const initialState = {
   isSingUp: false,
   isLogin: false,
   email: "",
+  verificationEmail: false,
+  password: "",
   profileData: { email: "", name: "" } as ProfileDataType, // avatar: undefined
 };
 
 export const authReducer = (
-    state: InitialStateType = initialState,
-    action: AuthActionsType
+  state: InitialStateType = initialState,
+  action: AuthActionsType
 ): InitialStateType => {
   switch (action.type) {
     case "AUTH/SET-SIGN-UP": {
@@ -40,6 +49,12 @@ export const authReducer = (
         ...state,
         profileData: action.profileData,
       };
+    case "FORGOT-PASS/VERIFICATION-EMAIL": {
+      return { ...state, verificationEmail: action.verificationEmail };
+    }
+    case "FORGOT-PASS/SET-NEW-PASSWORD": {
+      return { ...state, password: action.password };
+    }
     default: {
       return state;
     }
@@ -59,21 +74,24 @@ export const getEmailForgotPass = (email: string) => {
 export const setProfileData = (profileData: ProfileDataType) => {
   return { type: "AUTH/SET-PROFILE-DATA", profileData } as const;
 };
+export const getVerificationEmail = (verificationEmail: boolean) => {
+  return { type: "FORGOT-PASS/VERIFICATION-EMAIL", verificationEmail } as const;
+};
+export const setNewPassword = (password: string) => {
+  return { type: "FORGOT-PASS/SET-NEW-PASSWORD", password } as const;
+};
 
-export const SingUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
+export const singUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
   try {
     dispatch(setLoading(RequestStatus.loading));
-    const response = await authApi.singUp(value);
+    const res = await authApi.singUp(value);
     dispatch(setSingUp(true));
-    dispatch(setLoading(RequestStatus.succeeded));
+    dispatch(setInfo("Are you registered"));
   } catch (e) {
-    const err = e as Error | AxiosError<{ error: string }>;
-    if (axios.isAxiosError(err)) {
-      const error = err.response?.data ? err.response.data.error : err.message;
-      dispatch(setError(error));
-    } else {
-      dispatch(setError(`Native error ${err.message}`));
-    }
+    dispatch(setError(e as string));
+    dispatch(setLoading(RequestStatus.error));
+  } finally {
+    dispatch(setLoading(RequestStatus.succeeded));
   }
 };
 
@@ -82,6 +100,7 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     dispatch(setLoading(RequestStatus.loading));
     const res = await authApi.login(data);
     dispatch(setProfileData(res));
+    dispatch(setInfo("logIn success"));
     dispatch(setIsLogin(true));
   } catch (error) {
     dispatch(setError(error as string));
@@ -91,16 +110,35 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
   }
 };
 
-export const ForgotTC = (email: RecoveryEmailType) => async (dispatch: Dispatch) => {
-  try {
-    setLoading(RequestStatus.loading);
-    const response = await authApi.ForgotPass(email);
-    dispatch(getEmailForgotPass(email.email));
-    dispatch(setLoading(RequestStatus.succeeded));
-  } catch (e) {
-    console.log(e);
-  }
-};
+export const forgotTC =
+  (email: RecoveryEmailType) => async (dispatch: Dispatch) => {
+    try {
+      setLoading(RequestStatus.loading);
+      const response = await authApi.forgotPass(email);
+      dispatch(getEmailForgotPass(email.email));
+      dispatch(getVerificationEmail(response.data.success));
+      dispatch(setLoading(RequestStatus.succeeded));
+    } catch (error) {
+      dispatch(setError(error as string));
+      dispatch(setLoading(RequestStatus.error));
+    }
+  };
+export const setNewPassTC =
+  ({ password, resetPasswordToken }: SetNewPasswordType) =>
+  async (dispatch: Dispatch) => {
+    try {
+      setLoading(RequestStatus.loading);
+      const response = await authApi.setNewPassword({
+        password,
+        resetPasswordToken,
+      });
+      dispatch(setNewPassword(password));
+      dispatch(setLoading(RequestStatus.succeeded));
+    } catch (error) {
+      dispatch(setError(error as string));
+      dispatch(setLoading(RequestStatus.error));
+    }
+  };
 
 function getBase64(file: File) {
   return new Promise<string>((resolve, reject) => {
@@ -115,27 +153,41 @@ function getBase64(file: File) {
 }
 
 export const changeProfileDataTC =
-    ({ avatarFile, name }: { avatarFile?: File; name?: string }) =>
-        async (dispatch: Dispatch) => {
-          try {
-            dispatch(setLoading(RequestStatus.loading));
+  ({ avatarFile, name }: { avatarFile?: File; name?: string }) =>
+  async (dispatch: Dispatch) => {
+    try {
+      dispatch(setLoading(RequestStatus.loading));
 
-            let newProfileData = {};
-            if (avatarFile) {
-              const avatar = await getBase64(avatarFile);
-              newProfileData = { ...newProfileData, avatar };
-            }
-            if (name) {
-              newProfileData = { ...newProfileData, name };
-            }
+      let newProfileData = {};
+      if (avatarFile) {
+        const avatar = await getBase64(avatarFile);
+        newProfileData = { ...newProfileData, avatar };
+      }
+      if (name) {
+        newProfileData = { ...newProfileData, name };
+      }
 
-            const res = await authApi.changeUserNameOrAvatar(newProfileData);
-            dispatch(setProfileData(res));
-            dispatch(setIsLogin(true));
-          } catch (error) {
-            dispatch(setError(error as string));
-            dispatch(setLoading(RequestStatus.error));
-          } finally {
-            dispatch(setLoading(RequestStatus.idle));
-          }
-        };
+      const res = await authApi.changeUserNameOrAvatar(newProfileData);
+      dispatch(setProfileData(res));
+      dispatch(setIsLogin(true));
+    } catch (error) {
+      dispatch(setError(error as string));
+      dispatch(setLoading(RequestStatus.error));
+    } finally {
+      dispatch(setLoading(RequestStatus.idle));
+    }
+  };
+
+export const logoutTC = () => async (dispatch: Dispatch) => {
+  try {
+    dispatch(setLoading(RequestStatus.loading));
+    const res = await authApi.logout();
+    dispatch(setInfo(res.info));
+    dispatch(setIsLogin(false));
+  } catch (error) {
+    dispatch(setError(error as string));
+    dispatch(setLoading(RequestStatus.error));
+  } finally {
+    dispatch(setLoading(RequestStatus.idle));
+  }
+};

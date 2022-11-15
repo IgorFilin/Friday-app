@@ -1,12 +1,11 @@
 import React from "react";
 import s from "./Registration.module.css";
-import { Button, Paper, TextField } from "@mui/material";
+import { Button, Container, Paper, TextField } from "@mui/material";
 import { InputPassword } from "components/InputPassword/InputPassword";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
-import { SingUpTC } from "redux/auth-reducer";
+import { singUpTC } from "redux/auth-reducer";
 import { AppRootReducerType, useAppDispatch } from "redux/store";
-import { ErrorSnackbar } from "components/ErrorSnackbar";
 import { RequestStatus } from "redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
 import { DataFormType } from "api/api";
@@ -28,7 +27,7 @@ export const Registration = () => {
       currPassword: "",
     },
     onSubmit: (values) => {
-      dispatch(SingUpTC(values));
+      dispatch(singUpTC(values));
       formik.resetForm();
     },
     validate(values) {
@@ -63,10 +62,10 @@ export const Registration = () => {
     <>
       {!(statusLoading === RequestStatus.loading) && (
         <>
-          <form onSubmit={formik.handleSubmit}>
-            <div className={s.mainContainer}>
-              <Paper elevation={2}>
-                <div className={s.content}>
+          <Container>
+            <form onSubmit={formik.handleSubmit}>
+              <div className={s.mainContainer}>
+                <Paper elevation={2} className={s.content}>
                   <h1 className={s.title}>Sing Up</h1>
                   <div className={s.groupInputs}>
                     <TextField
@@ -122,13 +121,12 @@ export const Registration = () => {
                       Sing In
                     </Link>
                   </div>
-                </div>
-              </Paper>
-            </div>
-          </form>
+                </Paper>
+              </div>
+            </form>
+          </Container>
         </>
       )}
-      <ErrorSnackbar />
     </>
   );
 };

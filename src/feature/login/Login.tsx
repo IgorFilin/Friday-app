@@ -16,9 +16,8 @@ import { useFormik } from "formik";
 import { InputPassword } from "../../components/InputPassword/InputPassword";
 import { useDispatch, useSelector } from "react-redux";
 import { loginTC } from "../../redux/auth-reducer";
-import { AppRootReducerType } from "../../redux/store";
+import { AppRootReducerType, useAppDispatch } from "../../redux/store";
 import { Link, Navigate } from "react-router-dom";
-import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 
 export type FormikErrorType = {
   email?: string;
@@ -27,7 +26,7 @@ export type FormikErrorType = {
 };
 
 export const Login = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const isLogin = useSelector<AppRootReducerType, boolean>(
     (state) => state.auth.isLogin
   );
@@ -62,7 +61,6 @@ export const Login = () => {
       return errors;
     },
     onSubmit: (values) => {
-      // @ts-ignore
       dispatch(loginTC(values));
       formik.resetForm();
     },
@@ -72,7 +70,6 @@ export const Login = () => {
   }
   return (
     <Box>
-      {error && <ErrorSnackbar />}
       <Container
         maxWidth="sm"
         sx={{
