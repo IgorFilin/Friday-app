@@ -32,7 +32,7 @@ export const Header = () => {
             </div>
             <div>
                 <NavLink
-                    to={'/set-new-password:token'}
+                    to={'/set-new-password/:token'}
                     style={isActiveLink}>set-new-password</NavLink>
             </div>
             <div>

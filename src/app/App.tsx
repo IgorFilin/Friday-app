@@ -68,7 +68,7 @@ export const App = (): any => {
                 <Route path="/profile" element={<Profile />} />
                 <Route path={"/*"} element={<Error />} />
                 <Route path="/password" element={<PasswordRecovery />} />
-                <Route path="/set-new-password:token" element={<NewPassword />} />
+                <Route path="/set-new-password/:token" element={<NewPassword />} />
                 <Route path="/check" element={<CheckEmail />} />
                 <Route path="/test" element={<Test />} />
             </Routes>

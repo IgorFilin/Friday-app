@@ -26,7 +26,7 @@ export const authApi = {
                         <a href='http://localhost:3000/set-new-password/$token$'
                         style="font-weight: bold; color: #1a73e8;">
                         this link</a> to recover your password
-                        </div>` // хтмп-письмо, вместо $token$ бэк вставит токен
+                        </div>` // html-письмо, вместо $token$ бэк вставит токен
         }
     );
   },
