@@ -13,8 +13,11 @@ export const HeaderAvatar: React.FC = () => {
 
     return (
         <Box display={'flex'} alignItems={'center'}>
-            <Button onClick={onClickHandler}>
-                <u>{name}</u>
+            <Button
+                sx={{ textTransform: 'none', textDecorationLine: 'underline' }}
+                onClick={onClickHandler}
+            >
+                {name}
             </Button>
             <Avatar
                 sx={{ ml: 1, width: 36, height: 36 }}
