@@ -60,7 +60,9 @@ export const NewPassword = () => {
                     Create new password and we will send you<br />
                     further instructions to email
                 </p>
+                <form onSubmit={formik.handleSubmit}>
                 <Button type={"submit"} className={s.button} title={"Create new password"}>Create new password</Button>
+                </form>
             </Paper>
         </div>
     );
