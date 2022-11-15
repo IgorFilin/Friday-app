@@ -21,6 +21,7 @@ import { loginTC } from "../../redux/auth-reducer";
 import { AppRootReducerType } from "../../redux/store";
 import { Link, Navigate } from "react-router-dom";
 import { ErrorSnackbar } from "../../components/ErrorSnackbar";
+import { RequestStatus } from "../../redux/app-reducer";
 
 export type FormikErrorType = {
   email?: string;
@@ -35,6 +36,9 @@ export const Login = () => {
   );
   const error = useSelector<AppRootReducerType, string | null>(
     (state) => state.app.request.error
+  );
+  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
+    (state) => state.app.request.status
   );
 
   useEffect(() => {
@@ -58,8 +62,8 @@ export const Login = () => {
       ) {
         errors.email = "Invalid email address";
       }
-      if (values.password.length <= 3) {
-        errors.password = "Password has at least 3 characters";
+      if (values.password.length <= 7) {
+        errors.password = "Password has at least 8 characters";
       }
       return errors;
     },
@@ -73,127 +77,133 @@ export const Login = () => {
     return <Navigate to={"/profile"} />;
   }
   return (
-    <Box>
-      {error && <ErrorSnackbar />}
-      <Container
-        maxWidth="sm"
-        sx={{
-          display: "flex",
-          height: "100vh",
-          justifyContent: "center",
-        }}
-      >
-        <Paper
-          sx={{
-            display: "flex",
-            justifyContent: "center",
-            mt: 7,
-            width: 413,
-            height: 600,
-            backgroundColor: "#eaeaea",
-          }}
-        >
-          <Stack sx={{ m: 3, alignItems: "center" }}>
-            <Typography
+    <>
+      {!(statusLoading === RequestStatus.loading) && (
+        <Box>
+          {error && <ErrorSnackbar />}
+          <Container
+            maxWidth="sm"
+            sx={{
+              display: "flex",
+              height: "100vh",
+              justifyContent: "center",
+            }}
+          >
+            <Paper
               sx={{
-                mt: "35px",
+                display: "flex",
+                justifyContent: "center",
+                mt: 7,
+                width: 413,
+                height: 600,
+                backgroundColor: "#eaeaea",
               }}
-              fontWeight={"bold"}
-              variant="h5"
             >
-              Sign in
-            </Typography>
-            <Box margin={2}>
-              <form onSubmit={formik.handleSubmit}>
-                <FormControl>
-                  <FormGroup>
-                    <TextField
-                      sx={{
-                        width: "100%",
-                        mr: "110px",
-                      }}
-                      label="Email"
-                      margin="normal"
-                      variant={"standard"}
-                      {...formik.getFieldProps("email")}
-                    />
-                    {formik.errors.email && (
-                      <div style={{ color: "red" }}>{formik.errors.email}</div>
-                    )}
-                    <InputPassword
-                      title={"Password"}
-                      name={"password"}
-                      valuePassword={formik.values.password}
-                      restFormikProps={formik.getFieldProps("password")}
-                    />
-                    {formik.errors.password && (
-                      <div style={{ color: "red" }}>
-                        {formik.errors.password}
-                      </div>
-                    )}
-                    <FormControlLabel
-                      sx={{
-                        mt: "24px",
-                      }}
-                      label={"Remember me"}
-                      control={
-                        <Checkbox
-                          checked={formik.values.rememberMe}
-                          {...formik.getFieldProps("rememberMe")}
-                        />
-                      }
-                    />
-                  </FormGroup>
-                </FormControl>
+              <Stack sx={{ m: 3, alignItems: "center" }}>
                 <Typography
                   sx={{
-                    ml: "60%",
+                    mt: "35px",
+                  }}
+                  fontWeight={"bold"}
+                  variant="h5"
+                >
+                  Sign in
+                </Typography>
+                <Box margin={2}>
+                  <form onSubmit={formik.handleSubmit}>
+                    <FormControl>
+                      <FormGroup>
+                        <TextField
+                          sx={{
+                            width: "100%",
+                            mr: "110px",
+                          }}
+                          label="Email"
+                          margin="normal"
+                          variant={"standard"}
+                          {...formik.getFieldProps("email")}
+                        />
+                        {formik.errors.email && (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.email}
+                          </div>
+                        )}
+                        <InputPassword
+                          title={"Password"}
+                          name={"password"}
+                          valuePassword={formik.values.password}
+                          restFormikProps={formik.getFieldProps("password")}
+                        />
+                        {formik.errors.password && (
+                          <div style={{ color: "red" }}>
+                            {formik.errors.password}
+                          </div>
+                        )}
+                        <FormControlLabel
+                          sx={{
+                            mt: "24px",
+                          }}
+                          label={"Remember me"}
+                          control={
+                            <Checkbox
+                              checked={formik.values.rememberMe}
+                              {...formik.getFieldProps("rememberMe")}
+                            />
+                          }
+                        />
+                      </FormGroup>
+                    </FormControl>
+                    <Typography
+                      sx={{
+                        ml: "60%",
+                      }}
+                      fontWeight={"bold"}
+                      variant="inherit"
+                    >
+                      <Link style={{ textDecoration: "none" }} to={"/password"}>
+                        Forgot Password?
+                      </Link>
+                    </Typography>
+                    <Button
+                      type={"submit"}
+                      variant={"contained"}
+                      sx={{
+                        mt: "80px",
+                        width: "95%",
+                        borderRadius: 5,
+                        backgroundColor: "black",
+                        color: "white",
+                      }}
+                    >
+                      Sign in
+                    </Button>
+                  </form>
+                </Box>
+                <Typography
+                  sx={{
+                    mt: "31px",
+                    color: "grey",
                   }}
                   fontWeight={"bold"}
                   variant="inherit"
                 >
-                  <Link style={{ textDecoration: "none" }} to={"/password"}>
-                    Forgot Password?
-                  </Link>
+                  Already have an account?
                 </Typography>
-                <Button
-                  type={"submit"}
-                  variant={"contained"}
+                <Typography
                   sx={{
-                    mt: "80px",
-                    width: "95%",
-                    borderRadius: 5,
-                    backgroundColor: "black",
-                    color: "white",
+                    mt: "11px",
+                    color: "#366EFF",
                   }}
+                  fontWeight={"bold"}
+                  variant="inherit"
                 >
-                  Sign in
-                </Button>
-              </form>
-            </Box>
-            <Typography
-              sx={{
-                mt: "31px",
-                color: "grey",
-              }}
-              fontWeight={"bold"}
-              variant="inherit"
-            >
-              Already have an account?
-            </Typography>
-            <Typography
-              sx={{
-                mt: "11px",
-                color: "#366EFF",
-              }}
-              fontWeight={"bold"}
-              variant="inherit"
-            >
-              <Link to={"/registration"}>Sign Up</Link>
-            </Typography>
-          </Stack>
-        </Paper>
-      </Container>
-    </Box>
+                  <Link to={"/registration"}>Sign Up</Link>
+                </Typography>
+              </Stack>
+            </Paper>
+          </Container>
+        </Box>
+      )}
+    </>
   );
 };
