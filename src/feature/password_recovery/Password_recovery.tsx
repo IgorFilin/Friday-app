@@ -2,9 +2,10 @@ import { Button, Paper, TextField } from '@mui/material';
 import { useFormik } from 'formik';
 import React from 'react';
 import s from './PasswordRecovery.module.css';
-import {ForgotTC} from "../../redux/auth-reducer";
-import {useAppDispatch} from "../../redux/store";
-import {useNavigate} from "react-router-dom";
+import {forgotTC} from "../../redux/auth-reducer";
+import {useAppDispatch, useAppSelector} from "../../redux/store";
+import {Navigate, useNavigate} from "react-router-dom";
+
 
 type FormikErrorType = {
     email: string
@@ -14,12 +15,9 @@ export type RecoveryEmailType = {
 }
 export const PasswordRecovery = () => {
 
+    const success = useAppSelector((state) => state.auth.verificationEmail)
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
-
-    const handleClickToLogin = () => {
-        navigate("/login");
-    }
 
     const formik = useFormik({
         initialValues: {
@@ -35,9 +33,17 @@ export const PasswordRecovery = () => {
             return errors;
         },
         onSubmit: (email) => {
-            dispatch(ForgotTC(email));
+            dispatch(forgotTC(email));
+            formik.resetForm();
         }
     })
+    
+    if (success) return <Navigate to="/check" />;
+
+    const handleClickToLogin = () => {
+        navigate("/login");
+    }
+
 
     return (
         <div className={s.passRecoveryWrapper}>
