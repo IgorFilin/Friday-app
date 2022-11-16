@@ -1,7 +1,6 @@
 import React from "react";
 import KeyboardReturnRoundedIcon from "@mui/icons-material/KeyboardReturnRounded";
 import Box from "@mui/material/Box";
-import { AppBarComponent } from "./AppBar";
 import { Link } from "react-router-dom";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button/Button";
@@ -13,7 +12,6 @@ import { TablePaginationComponent } from "./TablePaginationComponent";
 export const FriendSPack = () => {
   return (
     <Box>
-      <AppBarComponent />
       <Box style={{ width: "1008px", margin: "0 auto" }}>
         <Link to={"/login"} style={{ textDecoration: "none", color: "black" }}>
           <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
