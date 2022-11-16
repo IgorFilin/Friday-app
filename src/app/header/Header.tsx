@@ -19,10 +19,12 @@ export const Header = () => {
         <AppBar color={'inherit'} position="static" sx={{ pl: '10%', pr: '10%' }}>
             <Toolbar>
                 <img
+                    style={{ cursor: 'pointer' }}
                     src={
                         'https://it-incubator.io/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.8a063c2a.svg&w=256&q=75'
                     }
                     alt={'logo'}
+                    onClick={() => navigate('/')}
                 />
                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
                     {/*News*/}
