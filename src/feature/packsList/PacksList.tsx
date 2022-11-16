@@ -1,5 +1,4 @@
 import React from "react";
-import s from "./PacksList.module.css";
 import {
   Button,
   ButtonGroup,
@@ -20,6 +19,8 @@ import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export const PacksList = () => {
   const [value, setValue] = React.useState<number[]>([0, 100]);
@@ -50,20 +51,76 @@ export const PacksList = () => {
   ];
 
   return (
-    <div className={s.mainContainer}>
-      <div className={s.content}>
-        <div className={s.addNewPackContainer}>
-          <h2>Packs list</h2>
-          <Button className={s.buttonNewPack} variant="contained">
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        marginTop: "50px",
+        width: "100%",
+        height: "100vh",
+      }}
+    >
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          justifyContent: "space-between",
+          width: "1000px",
+          height: "600px",
+        }}
+      >
+        <Box
+          sx={{
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: "bold",
+            }}
+          >
+            Packs list
+          </Typography>
+          <Button
+            sx={{
+              alignSelf: "center",
+              width: "175px",
+              height: "36px",
+              background: "#366EFF",
+              boxShadow:
+                "0px 4px 18px rgba(54, 110, 255, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)",
+              borderRadius: "30px",
+            }}
+            variant="contained"
+          >
             Add new pack
           </Button>
-        </div>
-        <div className={s.searchContainer}>
-          <div className={s.itemsChildrenContainer}>
-            <h4>Search</h4>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "row",
+            justifyContent: "space-between",
+            width: "100%",
+          }}
+        >
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+            }}
+          >
+            <Typography variant="h6">Search</Typography>
             <TextField
               size={"small"}
-              className={s.inputSearch}
+              sx={{
+                width: "413px",
+              }}
               placeholder={"Provide your text"}
               value={inputValue}
               onChange={(e) => setInputValue(e.currentTarget.value)}
@@ -75,56 +132,130 @@ export const PacksList = () => {
                 ),
               }}
             />
-          </div>
-          <div className={s.itemsChildrenContainer}>
-            <h4>Show packs cards</h4>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+            }}
+          >
+            <Typography variant="h6">Show packs cards</Typography>
             <ButtonGroup
-              className={s.buttonGroup}
+              sx={{
+                width: "196px",
+                height: "39px",
+              }}
               disableElevation
               variant="contained"
               aria-label="Disabled elevation buttons"
             >
               <Button
                 onClick={() => setShowPacksCards("My")}
-                className={s.buttonGroup}
+                sx={{
+                  width: "196px",
+                  height: "39px",
+                }}
                 variant={showPacksCards === "My" ? "contained" : "outlined"}
               >
                 My
               </Button>
               <Button
                 onClick={() => setShowPacksCards("All")}
-                className={s.buttonGroup}
+                sx={{
+                  width: "196px",
+                  height: "39px",
+                }}
                 variant={showPacksCards === "All" ? "contained" : "outlined"}
               >
                 All
               </Button>
             </ButtonGroup>
-          </div>
-          <div className={s.itemsChildrenContainer}>
-            <h4>Number of cards</h4>
-            <div className={s.sliderGroup}>
-              <div className={s.countSlider}>
-                <h4>{value[0]}</h4>
-              </div>
+          </Box>
+          <Box
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              gap: "5px",
+            }}
+          >
+            <Typography variant="h6">Number of cards</Typography>
+            <Box
+              sx={{
+                display: "flex",
+                gap: "10px",
+                flexDirection: "row",
+                alignItems: "center",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "36px",
+                  height: "36px",
+                  background: "#FFFFFF",
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "2px",
+                  margin: "0 15px 0 0",
+                }}
+              >
+                <Typography>{value[0]}</Typography>
+              </Box>
               <Slider
-                className={s.slider}
+                sx={{
+                  width: "155px",
+                }}
                 getAriaLabel={() => "range"}
                 value={value}
                 onChange={handleChange}
                 valueLabelDisplay="off"
               />
-              <div className={s.countSlider}>
-                <h4>{value[1]}</h4>
-              </div>
-            </div>
-          </div>
-          <div className={s.iconFilter}>
-            <div className={s.countSlider}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "36px",
+                  height: "36px",
+                  background: "#FFFFFF",
+                  border: "1px solid #D9D9D9",
+                  borderRadius: "2px",
+                  margin: "0 0 0 15px",
+                }}
+              >
+                <Typography>{value[1]}</Typography>
+              </Box>
+            </Box>
+          </Box>
+          <Box
+            sx={{
+              alignSelf: "self-end",
+              marginBottom: "2px",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "36px",
+                height: "36px",
+                background: "#FFFFFF",
+                border: "1px solid #D9D9D9",
+                borderRadius: "2px",
+              }}
+            >
               <FilterAltSharpIcon />
-            </div>
-          </div>
-        </div>
-        <div className={s.tableCards}>
+            </Box>
+          </Box>
+        </Box>
+        <Box
+          sx={{
+            width: "100%",
+          }}
+        >
           <TableContainer component={Paper}>
             <Table
               sx={{ minWidth: 650 }}
@@ -163,8 +294,14 @@ export const PacksList = () => {
               </TableBody>
             </Table>
           </TableContainer>
-        </div>
-        <div className={s.paginationContainer}>
+        </Box>
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            alignSelf: "flex-start",
+          }}
+        >
           <div>
             <Pagination count={10} variant="outlined" shape="rounded" />
           </div>
@@ -178,8 +315,8 @@ export const PacksList = () => {
               onRowsPerPageChange={() => {}}
             />
           </div>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
