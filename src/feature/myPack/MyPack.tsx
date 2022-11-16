@@ -3,7 +3,7 @@ import { useAppSelector } from 'redux/store'
 import { Navigate } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
-import { BackToPacksListButton } from './BackToPacksListButton'
+import { BackToPacksListButton } from 'components/BackToPacksListButton'
 
 export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
