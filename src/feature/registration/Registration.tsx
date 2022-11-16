@@ -9,6 +9,8 @@ import { AppRootReducerType, useAppDispatch } from "redux/store";
 import { RequestStatus } from "redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
 import { DataFormType } from "api/api";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
 
 export const Registration = () => {
   const dispatch = useAppDispatch();
@@ -64,12 +66,50 @@ export const Registration = () => {
         <>
           <Container>
             <form onSubmit={formik.handleSubmit}>
-              <div className={s.mainContainer}>
-                <Paper elevation={3} className={s.content}>
-                  <h1 className={s.title}>Sing Up</h1>
-                  <div className={s.groupInputs}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  marginTop: "60px",
+                  width: "100%",
+                  height: "100vh",
+                }}
+              >
+                <Paper
+                  elevation={3}
+                  sx={{
+                    padding: "35px",
+                    display: "flex",
+                    flexDirection: "column",
+                    alignItems: "center",
+                    gap: "38px",
+                    width: "413px",
+                    height: "528px",
+                  }}
+                >
+                  <Typography
+                    sx={{
+                      mt: "35px",
+                    }}
+                    fontWeight={"bold"}
+                    variant="h5"
+                  >
+                    Sing Up
+                  </Typography>
+                  <Box
+                    sx={{
+                      display: "flex",
+                      width: "100%",
+                      height: "100%",
+                      flexDirection: "column",
+                      gap: "5px",
+                    }}
+                  >
                     <TextField
-                      className={s.input}
+                      sx={{
+                        width: "100%",
+                        mr: "110px",
+                      }}
                       label="Email"
                       {...formik.getFieldProps("email")}
                       variant="standard"
@@ -111,7 +151,7 @@ export const Registration = () => {
                     ) : (
                       <br />
                     )}
-                  </div>
+                  </Box>
                   <Button type="submit" className={s.button}>
                     Sing Up
                   </Button>
@@ -122,7 +162,7 @@ export const Registration = () => {
                     </Link>
                   </div>
                 </Paper>
-              </div>
+              </Box>
             </form>
           </Container>
         </>
