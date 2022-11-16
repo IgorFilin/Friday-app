@@ -24,27 +24,12 @@ import Typography from "@mui/material/Typography";
 import { ShowPacksCards } from "./ShowPacksCards";
 import { NumberOfCards } from "./NumberOfCards";
 import { AddNewPack } from "./AddNewPack";
+import { InputSearch } from "./InputSearch";
+import { TableCards } from "./TableCards";
+import { PaginationCards } from "./PaginationCards";
 
 export const PacksList = () => {
   const [orderBy, setOrderBy] = React.useState("calories");
-  const [inputValue, setInputValue] = React.useState("");
-
-  function createData(
-    Name: string,
-    Cards: number,
-    LastUpdated: string,
-    CreatedBy: string,
-    Actions: any
-  ) {
-    return { Name, Cards, LastUpdated, CreatedBy, Actions };
-  }
-  const rows = [
-    createData("Pack Name", 159, "18.03.2021", "Ivan Ivanov", 111),
-    createData("Pack Name", 159, "18.03.2021", "Ivan Ivanov", 111),
-    createData("Pack Name", 159, "18.03.2021", "Ivan Ivanov", 111),
-    createData("Pack Name", 159, "18.03.2021", "Ivan Ivanov", 111),
-    createData("Pack Name", 159, "18.03.2021", "Ivan Ivanov", 111),
-  ];
 
   return (
     <Box
@@ -74,31 +59,7 @@ export const PacksList = () => {
             width: "100%",
           }}
         >
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-            }}
-          >
-            <Typography variant="h6">Search</Typography>
-            <TextField
-              size={"small"}
-              sx={{
-                width: "413px",
-              }}
-              placeholder={"Provide your text"}
-              value={inputValue}
-              onChange={(e) => setInputValue(e.currentTarget.value)}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <SearchSharpIcon />
-                  </InputAdornment>
-                ),
-              }}
-            />
-          </Box>
+          <InputSearch />
           <ShowPacksCards />
           <NumberOfCards />
           <Box
@@ -123,71 +84,8 @@ export const PacksList = () => {
             </Box>
           </Box>
         </Box>
-        <Box
-          sx={{
-            width: "100%",
-          }}
-        >
-          <TableContainer component={Paper}>
-            <Table
-              sx={{ minWidth: 650 }}
-              size="small"
-              aria-label="a dense table"
-            >
-              <TableHead>
-                <TableRow style={{ backgroundColor: "#EFEFEF" }}>
-                  <TableCell align="left">Name</TableCell>
-                  <TableCell align="center">Cards</TableCell>
-                  <TableCell align="center">
-                    Last Updated
-                    <TableSortLabel
-                      active={true}
-                      IconComponent={ArrowDropDownIcon}
-                      direction={"desc"}
-                    ></TableSortLabel>
-                  </TableCell>
-                  <TableCell align="right">Created by</TableCell>
-                  <TableCell align="center">Actions</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {rows.map((row) => (
-                  <TableRow
-                    key={row.Name}
-                    sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
-                  >
-                    <TableCell align="left">{row.Name}</TableCell>
-                    <TableCell align="center">{row.Cards}</TableCell>
-                    <TableCell align="center">{row.LastUpdated}</TableCell>
-                    <TableCell align="right">{row.CreatedBy}</TableCell>
-                    <TableCell align="center">{row.Actions}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        </Box>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            alignSelf: "flex-start",
-          }}
-        >
-          <div>
-            <Pagination count={10} variant="outlined" shape="rounded" />
-          </div>
-          <div>
-            <TablePagination
-              component="div"
-              count={100}
-              page={1}
-              onPageChange={() => {}}
-              rowsPerPage={100}
-              onRowsPerPageChange={() => {}}
-            />
-          </div>
-        </Box>
+        <TableCards />
+        <PaginationCards count={10} />
       </Box>
     </Box>
   );
