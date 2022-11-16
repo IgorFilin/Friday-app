@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from "./CheckEmail.module.css";
 import { Button, Paper } from "@mui/material";
 import { InputPassword } from 'components/InputPassword/InputPassword';
 import { useFormik } from 'formik';
 import { setNewPassTC } from 'redux/auth-reducer';
-import { useAppDispatch } from 'redux/store';
+import { useAppDispatch, useAppSelector } from 'redux/store';
 import { useNavigate, useParams } from 'react-router-dom';
 import { SetNewPasswordType } from 'api/api';
 
@@ -14,14 +14,18 @@ export type FormikErrorType = {
 
 export const NewPassword = () => {
 
+    const passChanged = useAppSelector((state) => state.auth.passChanged)
     const dispatch = useAppDispatch()
     const navigate = useNavigate();
     const params = useParams<"token">();
     let token = params.token;
 
-    const handleClickToLogin = () => {
-        navigate("/login");
-    }
+    useEffect(() => {
+        if (passChanged) {
+            navigate("/login"); 
+        }
+    }, [passChanged, navigate]);
+    
 
     const formik = useFormik({
         initialValues: {
