@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./PackList.module.css";
+import s from "./PacksList.module.css";
 import {
   Button,
   ButtonGroup,
@@ -21,7 +21,7 @@ import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
 import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 
-export const PackList = () => {
+export const PacksList = () => {
   const [value, setValue] = React.useState<number[]>([0, 100]);
   const [orderBy, setOrderBy] = React.useState("calories");
   const [inputValue, setInputValue] = React.useState("");
