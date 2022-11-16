@@ -1,9 +1,9 @@
 import React from 'react'
-import Paper from '@mui/material/Paper'
-import Container from '@mui/material/Container'
-import Stack from '@mui/material/Stack'
 import { useAppSelector } from 'redux/store'
 import { Navigate } from 'react-router-dom'
+import Container from '@mui/material/Container'
+import Stack from '@mui/material/Stack'
+import { BackToPacksListButton } from './BackToPacksListButton'
 
 export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
@@ -19,16 +19,9 @@ export const MyPack: React.FC = () => {
                 // bgcolor: '#cfe8fc',
             }}
         >
-            <Paper
-                sx={{
-                    display: 'flex',
-                    justifyContent: 'center',
-                    mt: 7,
-                    width: '100%',
-                }}
-            >
-                <Stack sx={{ m: 3, alignItems: 'center' }}></Stack>
-            </Paper>
+            <Stack sx={{ m: 3, alignItems: 'center' }}>
+                <BackToPacksListButton />
+            </Stack>
         </Container>
     )
 }
