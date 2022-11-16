@@ -22,15 +22,13 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 import { ShowPacksCards } from "./ShowPacksCards";
+import { NumberOfCards } from "./NumberOfCards";
+import { AddNewPack } from "./AddNewPack";
 
 export const PacksList = () => {
-  const [value, setValue] = React.useState<number[]>([0, 100]);
   const [orderBy, setOrderBy] = React.useState("calories");
   const [inputValue, setInputValue] = React.useState("");
 
-  const handleChange = (event: Event, value: number | number[]) => {
-    setValue(value as number[]);
-  };
   function createData(
     Name: string,
     Cards: number,
@@ -67,37 +65,7 @@ export const PacksList = () => {
           height: "600px",
         }}
       >
-        <Box
-          sx={{
-            width: "100%",
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "space-between",
-          }}
-        >
-          <Typography
-            variant="h5"
-            sx={{
-              fontWeight: "bold",
-            }}
-          >
-            Packs list
-          </Typography>
-          <Button
-            sx={{
-              alignSelf: "center",
-              width: "175px",
-              height: "36px",
-              background: "#366EFF",
-              boxShadow:
-                "0px 4px 18px rgba(54, 110, 255, 0.35), inset 0px 1px 0px rgba(255, 255, 255, 0.3)",
-              borderRadius: "30px",
-            }}
-            variant="contained"
-          >
-            Add new pack
-          </Button>
-        </Box>
+        <AddNewPack />
         <Box
           sx={{
             display: "flex",
@@ -132,63 +100,7 @@ export const PacksList = () => {
             />
           </Box>
           <ShowPacksCards />
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: "5px",
-            }}
-          >
-            <Typography variant="h6">Number of cards</Typography>
-            <Box
-              sx={{
-                display: "flex",
-                gap: "10px",
-                flexDirection: "row",
-                alignItems: "center",
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "36px",
-                  height: "36px",
-                  background: "#FFFFFF",
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "2px",
-                  margin: "0 15px 0 0",
-                }}
-              >
-                <Typography>{value[0]}</Typography>
-              </Box>
-              <Slider
-                sx={{
-                  width: "155px",
-                }}
-                getAriaLabel={() => "range"}
-                value={value}
-                onChange={handleChange}
-                valueLabelDisplay="off"
-              />
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  width: "36px",
-                  height: "36px",
-                  background: "#FFFFFF",
-                  border: "1px solid #D9D9D9",
-                  borderRadius: "2px",
-                  margin: "0 0 0 15px",
-                }}
-              >
-                <Typography>{value[1]}</Typography>
-              </Box>
-            </Box>
-          </Box>
+          <NumberOfCards />
           <Box
             sx={{
               alignSelf: "self-end",
