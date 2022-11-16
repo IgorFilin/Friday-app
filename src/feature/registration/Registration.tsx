@@ -65,7 +65,7 @@ export const Registration = () => {
           <Container>
             <form onSubmit={formik.handleSubmit}>
               <div className={s.mainContainer}>
-                <Paper elevation={2} className={s.content}>
+                <Paper elevation={3} className={s.content}>
                   <h1 className={s.title}>Sing Up</h1>
                   <div className={s.groupInputs}>
                     <TextField
