@@ -4,9 +4,7 @@ import "./index.css";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
 import { store } from "./redux/store";
-import { FriendSPack } from "./components/Friend’s Pack/Friend’s Pack";
 import { App } from "./app/App";
-import { Login } from "./feature/login/Login";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
@@ -15,7 +13,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter>
     <Provider store={store}>
-      <Login />
+      <App />
     </Provider>
   </BrowserRouter>
 );
