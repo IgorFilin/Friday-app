@@ -5,7 +5,7 @@ import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import catAvatar from 'assets/cat.jpg'
 import Box from '@mui/material/Box'
-import { LogOutButton } from './LogOutButton'
+import { LogoutButton } from './LogoutButton'
 import { UserAvatar } from './UserAvatar'
 import { UserEmail } from './UserEmail'
 import { EditableUserName } from './EditableUserName'
@@ -56,7 +56,7 @@ export const Profile = () => {
                     </Box>
                     <EditableUserName value={name} onConfirm={onChangeUserNameHandler} />
                     <UserEmail email={email} />
-                    <LogOutButton />
+                    <LogoutButton />
                 </Stack>
             </Paper>
         </Container>
