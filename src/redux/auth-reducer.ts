@@ -15,7 +15,8 @@ type AuthActionsType =
   | ReturnType<typeof getEmailForgotPass>
   | ReturnType<typeof setProfileData>
   | ReturnType<typeof getVerificationEmail>
-  | ReturnType<typeof setNewPassword>;
+  | ReturnType<typeof setNewPassword>
+  | ReturnType<typeof changePassword>
 
 type InitialStateType = typeof initialState;
 
@@ -25,6 +26,7 @@ const initialState = {
   email: "",
   verificationEmail: false,
   password: "",
+  passChanged: "",
   profileData: { email: "", name: "" } as ProfileDataType, // avatar: undefined
 };
 
@@ -55,6 +57,9 @@ export const authReducer = (
     case "FORGOT-PASS/SET-NEW-PASSWORD": {
       return { ...state, password: action.password };
     }
+     case "FORGOT-PASS/CHANGE-PASSWORD": {
+      return { ...state, passChanged: action.passChanged };
+    }
     default: {
       return state;
     }
@@ -64,7 +69,6 @@ export const authReducer = (
 export const setSingUp = (statusSingUp: boolean) => {
   return { type: "AUTH/SET-SIGN-UP", statusSingUp } as const;
 };
-
 export const setIsLogin = (isLogin: boolean) => {
   return { type: "AUTH/SET-IS-LOGIN", isLogin } as const;
 };
@@ -79,6 +83,9 @@ export const getVerificationEmail = (verificationEmail: boolean) => {
 };
 export const setNewPassword = (password: string) => {
   return { type: "FORGOT-PASS/SET-NEW-PASSWORD", password } as const;
+};
+export const changePassword = (passChanged: string) => {
+  return { type: "FORGOT-PASS/CHANGE-PASSWORD", passChanged } as const;
 };
 
 export const singUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
@@ -132,7 +139,10 @@ export const setNewPassTC =
         password,
         resetPasswordToken,
       });
+      const passChanged = response.data.info
       dispatch(setNewPassword(password));
+      dispatch(changePassword(passChanged));
+      dispatch(setInfo(passChanged));
       dispatch(setLoading(RequestStatus.succeeded));
     } catch (error) {
       dispatch(setError(error as string));
