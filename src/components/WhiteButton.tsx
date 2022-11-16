@@ -6,12 +6,14 @@ type PropsType = {
     children: ReactNode
 }
 
-export const CardsButton: React.FC<PropsType> = ({ onClick, children }) => {
+export const WhiteButton: React.FC<PropsType> = ({ onClick, children }) => {
     return (
         <Button
             variant={'contained'}
+            color={'inherit'}
             sx={{
                 borderRadius: 5,
+                backgroundColor: 'white',
                 pl: 3,
                 pr: 3,
                 textTransform: 'none',
