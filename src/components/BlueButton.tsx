@@ -6,7 +6,7 @@ type PropsType = {
     children: ReactNode
 }
 
-export const CardsButton: React.FC<PropsType> = ({ onClick, children }) => {
+export const BlueButton: React.FC<PropsType> = ({ onClick, children }) => {
     return (
         <Button
             variant={'contained'}
