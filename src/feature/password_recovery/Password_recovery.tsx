@@ -1,10 +1,10 @@
 import { Button, Paper, TextField } from '@mui/material';
 import { useFormik } from 'formik';
-import React from 'react';
+import React, { useEffect } from 'react';
 import s from './PasswordRecovery.module.css';
 import {forgotTC} from "../../redux/auth-reducer";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {Navigate, useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 
 type FormikErrorType = {
@@ -38,7 +38,11 @@ export const PasswordRecovery = () => {
         }
     })
     
-    if (success) return <Navigate to="/check" />;
+    useEffect(() => {
+        if (success) {
+            navigate("/check"); 
+        }
+    }, [success, navigate]);
 
     const handleClickToLogin = () => {
         navigate("/login");
