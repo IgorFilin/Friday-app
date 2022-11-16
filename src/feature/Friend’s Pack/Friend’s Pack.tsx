@@ -7,17 +7,29 @@ import Button from "@mui/material/Button/Button";
 import { SearchInput } from "./SearchInput";
 import { TableComponent } from "./TableComponent";
 import Stack from "@mui/material/Stack";
-import { TablePaginationComponent } from "./TablePaginationComponent";
+import { TablePaginationComponent } from "../../components/TablePaginationComponent";
+import { InputSearch } from "../../components/InputSearch";
+import Container from "@mui/material/Container";
+import { BlueButton } from "../../components/BlueButton";
 
 export const FriendSPack = () => {
   return (
-    <Box>
-      <Box style={{ width: "1008px", margin: "0 auto" }}>
+    <Container
+      sx={{
+        maxWidth: "1008px",
+      }}
+    >
+      <Box style={{ width: "100%", margin: "0 auto" }}>
         <Link to={"/login"} style={{ textDecoration: "none", color: "black" }}>
           <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
         </Link>
       </Box>
-      <Box style={{ width: "1008px", margin: "20px auto" }}>
+      <Box
+        style={{
+          width: "100%",
+          // margin: "20px auto"
+        }}
+      >
         <Typography
           variant={"h6"}
           style={{
@@ -27,18 +39,13 @@ export const FriendSPack = () => {
           }}
         >
           Friend’s Pack
-          <Button sx={{ borderRadius: 10, fontSize: 12 }} variant={"contained"}>
-            Learn to pack
-          </Button>
-        </Typography>
-        <Typography style={{ width: "1008px", margin: "10px auto" }}>
-          Search
+          <BlueButton>Learn to pack</BlueButton>
         </Typography>
       </Box>
-      <SearchInput />
+      <InputSearch />
       <TableComponent />
-      <Stack sx={{ width: "1008px", margin: "0 auto" }} spacing={2}></Stack>
+      <Stack sx={{ width: "100%", margin: "0 auto" }} spacing={2}></Stack>
       <TablePaginationComponent />
-    </Box>
+    </Container>
   );
 };

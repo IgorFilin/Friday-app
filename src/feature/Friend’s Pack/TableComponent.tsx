@@ -105,7 +105,7 @@ export const TableComponent = () => {
     <TableContainer component={Paper}>
       <Table
         sx={{
-          width: "1008px",
+          width: "100%",
           margin: "20px auto",
           backgroundColor: "#f6f6f6",
         }}

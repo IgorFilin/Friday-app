@@ -1,32 +1,12 @@
 import React from "react";
-import {
-  Button,
-  ButtonGroup,
-  InputAdornment,
-  Pagination,
-  Paper,
-  Slider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TablePagination,
-  TableRow,
-} from "@mui/material";
-import TextField from "@mui/material/TextField";
-import SearchSharpIcon from "@mui/icons-material/SearchSharp";
 import FilterAltSharpIcon from "@mui/icons-material/FilterAltSharp";
-import TableSortLabel from "@mui/material/TableSortLabel";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
 import { ShowPacksCards } from "./ShowPacksCards";
 import { NumberOfCards } from "./NumberOfCards";
 import { AddNewPack } from "./AddNewPack";
-import { InputSearch } from "./InputSearch";
+import { InputSearch } from "../../components/InputSearch";
 import { TableCards } from "./TableCards";
-import { PaginationCards } from "./PaginationCards";
+import { TablePaginationComponent } from "../../components/TablePaginationComponent";
 
 export const PacksList = () => {
   const [orderBy, setOrderBy] = React.useState("calories");
@@ -85,7 +65,7 @@ export const PacksList = () => {
           </Box>
         </Box>
         <TableCards />
-        <PaginationCards count={10} />
+        <TablePaginationComponent />
       </Box>
     </Box>
   );

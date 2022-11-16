@@ -21,17 +21,7 @@ export const TablePaginationComponent = () => {
   };
 
   return (
-    <div style={{ display: "flex", width: "1008px", margin: "10px auto" }}>
-      {/*<Pagination*/}
-      {/*  count={10}*/}
-      {/*  color="primary"*/}
-      {/*  renderItem={(item) => (*/}
-      {/*    <PaginationItem*/}
-      {/*      slots={{ previous: ArrowBackIcon, next: ArrowForwardIcon }}*/}
-      {/*      {...item}*/}
-      {/*    />*/}
-      {/*  )}*/}
-      {/*/>*/}
+    <div style={{ display: "flex", width: "100%", margin: "10px auto" }}>
       <Pagination
         color={"primary"}
         count={10}
