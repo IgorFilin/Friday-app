@@ -12,8 +12,8 @@ export const LogoutButton: React.FC = () => {
     }
 
     return (
-        <WhiteButton>
-            <LogoutIcon fontSize={'small'} sx={{ mr: 1 }} onClick={onClickHandler} />
+        <WhiteButton onClick={onClickHandler}>
+            <LogoutIcon fontSize={'small'} sx={{ mr: 1 }} />
             <span>Log out</span>
         </WhiteButton>
     )
