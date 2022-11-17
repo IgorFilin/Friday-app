@@ -11,6 +11,7 @@ import { CheckEmail } from 'feature/password_recovery/CheckEmail'
 import { MyPack } from 'feature/myPack/MyPack'
 import { FriendSPack } from 'feature/Friend’s Pack/Friend’s Pack'
 import { PacksList } from 'feature/packsList/PacksList'
+import { NamePack } from 'feature/namePack/NamePack'
 
 export const AppRoutes: React.FC = () => (
     <Routes>
@@ -26,5 +27,6 @@ export const AppRoutes: React.FC = () => (
         <Route path="/mypack" element={<MyPack />} />
         <Route path="/friendspack" element={<FriendSPack />} />
         <Route path="/packslist" element={<PacksList />} />
+        <Route path="/name-pack" element={<NamePack />} />
     </Routes>
 )
