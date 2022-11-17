@@ -22,6 +22,7 @@ import Box from '@mui/material/Box'
 import { ErrorSnackbar } from 'components/ErrorSnackbar'
 import { InfoSnackbar } from 'components/InfoSnackbar'
 import { MyPack } from '../feature/myPack/MyPack'
+import { NamePack } from "feature/namePack/NamePack";
 
 export const App = (): any => {
     const requestStatus = useSelector<AppRootReducerType, RequestStatus>(
@@ -77,6 +78,7 @@ export const App = (): any => {
                 <Route path="/check" element={<CheckEmail />} />
                 <Route path="/test" element={<Test />} />
                 <Route path="/mypack" element={<MyPack />} />
+                <Route path="/name-pack" element={<NamePack />} />
             </Routes>
             <ErrorSnackbar />
             <InfoSnackbar />
