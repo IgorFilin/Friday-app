@@ -1,89 +1,31 @@
-import React, { useEffect } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
-import { Error } from "./error/Error";
-import { Header } from "./header/Header";
-import { Test } from "components/test/Test";
-import { Login } from "feature/login/Login";
-import { CheckEmail } from "../feature/password_recovery/CheckEmail";
-import { NewPassword } from "feature/password_recovery/NewPassword";
-import { PasswordRecovery } from "feature/password_recovery/Password_recovery";
-import { Profile } from "feature/profile/Profile";
-import { Registration } from "feature/registration/Registration";
-import { CircularProgress } from "@mui/material";
-import { useSelector } from "react-redux";
-import {
-  AppRootReducerType,
-  useAppDispatch,
-  useAppSelector,
-} from "redux/store";
+import React, { useEffect } from 'react'
+import { useAppDispatch, useAppSelector } from 'redux/store'
+import { initializeAppTC, RequestStatus } from 'redux/app-reducer'
+import { Header } from './header/Header'
+import { ErrorSnackbar } from 'components/ErrorSnackbar'
+import { InfoSnackbar } from 'components/InfoSnackbar'
+import { AppCircularProgress } from './AppCircularProgress'
+import { AppRoutes } from './AppRoutes'
+import Box from '@mui/material/Box'
 
-import { initializeAppTC, RequestStatus } from "redux/app-reducer";
-import Box from "@mui/material/Box";
-import { ErrorSnackbar } from "components/ErrorSnackbar";
-import { InfoSnackbar } from "components/InfoSnackbar";
-import { MyPack } from "../feature/myPack/MyPack";
-import { FriendSPack } from "../feature/Friend’s Pack/Friend’s Pack";
-import { PacksList } from "../feature/packsList/PacksList";
+export const App: React.FC = () => {
+    const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isInitialized = useAppSelector((state) => state.app.isInitialized)
+    const dispatch = useAppDispatch()
 
-export const App = (): any => {
-  const requestStatus = useSelector<AppRootReducerType, RequestStatus>(
-    (state) => state.app.request.status
-  );
+    useEffect(() => {
+        dispatch(initializeAppTC())
+    }, [])
 
-  const isInitialized = useAppSelector((state) => state.app.isInitialized);
-  const isLogin = useAppSelector((state) => state.auth.isLogin);
-  const dispatch = useAppDispatch();
+    if (!isInitialized) return <AppCircularProgress />
 
-  console.log("isInitialized", isInitialized);
-  console.log("isLogin", isLogin);
-
-  useEffect(() => {
-    dispatch(initializeAppTC());
-  }, []);
-
-  if (!isInitialized)
     return (
-      <Box
-        component={"div"}
-        sx={{
-          display: "flex",
-          height: "100vh",
-          justifyContent: "center",
-          alignItems: "center",
-        }}
-      >
-        <CircularProgress size={100} />
-      </Box>
-    );
-
-  return (
-    <div className="App">
-      <Header />
-      {requestStatus === RequestStatus.loading && (
-        <CircularProgress
-          sx={{
-            position: "absolute",
-            top: "50%",
-            left: "50%",
-          }}
-        />
-      )}
-      <Routes>
-        <Route path="/" element={<Navigate to={"/login"} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path={"/*"} element={<Error />} />
-        <Route path="/password" element={<PasswordRecovery />} />
-        <Route path="/set-new-password/:token" element={<NewPassword />} />
-        <Route path="/check" element={<CheckEmail />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/mypack" element={<MyPack />} />
-        <Route path="/friendspack" element={<FriendSPack />} />
-        <Route path="/packslist" element={<PacksList />} />
-      </Routes>
-      <ErrorSnackbar />
-      <InfoSnackbar />
-    </div>
-  );
-};
+        <Box>
+            <Header />
+            {requestStatus === RequestStatus.loading && <AppCircularProgress />}
+            <AppRoutes />
+            <ErrorSnackbar />
+            <InfoSnackbar />
+        </Box>
+    )
+}
