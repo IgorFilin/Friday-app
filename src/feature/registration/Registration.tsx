@@ -39,7 +39,6 @@ export const Registration = () => {
     },
     onSubmit: (values) => {
       dispatch(singUpTC(values));
-      formik.resetForm();
     },
     validate(values) {
       const errors: DataFormType = {};
