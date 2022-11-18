@@ -29,7 +29,7 @@ export const authApi = {
             email: email.email,
             message: `<div style="background-color: #f7f7f7; padding: 15px">
                         Follow 
-                        <a href=${instance.getUri()}set-new-password/$token$
+                        <a href='http://localhost:3000/set-new-password/$token$'
                         style="font-weight: bold; color: #1a73e8;">
                         this link</a> to recover your password
                         </div>`, // html-письмо, вместо $token$ бэк вставит токен
