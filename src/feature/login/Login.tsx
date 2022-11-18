@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import Paper from "@mui/material/Paper";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
@@ -19,7 +19,6 @@ import { loginTC } from "../../redux/auth-reducer";
 import { AppRootReducerType, useAppDispatch } from "../../redux/store";
 import { Link, Navigate } from "react-router-dom";
 import { RequestStatus } from "../../redux/app-reducer";
-import { ErrorSnackbar } from "../../components/ErrorSnackbar";
 
 export type FormikErrorType = {
   email?: string;
@@ -32,19 +31,10 @@ export const Login = () => {
   const isLogin = useSelector<AppRootReducerType, boolean>(
     (state) => state.auth.isLogin
   );
-  const error = useSelector<AppRootReducerType, string | null>(
-    (state) => state.app.request.error
-  );
 
   const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
     (state) => state.app.request.status
   );
-
-  useEffect(() => {
-    if (!isLogin) {
-      return;
-    }
-  }, [dispatch]);
 
   const formik = useFormik({
     initialValues: {

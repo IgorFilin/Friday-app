@@ -6,7 +6,6 @@ import {
   InputAdornment,
   InputLabel,
 } from "@mui/material";
-import s from "../../feature/registration/Registration.module.css";
 import VisibilityOff from "@mui/icons-material/VisibilityOff";
 import Visibility from "@mui/icons-material/Visibility";
 
@@ -52,7 +51,12 @@ export const InputPassword: React.FC<InputPasswordMuiPropsType> = ({
   };
 
   return (
-    <FormControl className={s.input} variant="standard">
+    <FormControl
+      sx={{
+        width: "100%",
+      }}
+      variant="standard"
+    >
       <InputLabel>{title}</InputLabel>
       <Input
         name={name}
