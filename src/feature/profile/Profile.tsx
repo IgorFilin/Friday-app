@@ -25,9 +25,7 @@ export const Profile = () => {
     (state) => state.auth.profileData
   );
 
-  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
-    (state) => state.app.request.status
-  );
+  const statusLoading = useAppSelector((state) => state.app.request.status);
 
   const dispatch = useAppDispatch();
 

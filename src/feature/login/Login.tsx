@@ -14,9 +14,8 @@ import {
 } from "@mui/material";
 import { useFormik } from "formik";
 import { InputPassword } from "../../components/InputPassword/InputPassword";
-import { useSelector } from "react-redux";
 import { loginTC } from "../../redux/auth-reducer";
-import { AppRootReducerType, useAppDispatch } from "../../redux/store";
+import { useAppDispatch, useAppSelector } from "../../redux/store";
 import { Link, Navigate } from "react-router-dom";
 import { RequestStatus } from "../../redux/app-reducer";
 
@@ -28,13 +27,8 @@ export type FormikErrorType = {
 
 export const Login = () => {
   const dispatch = useAppDispatch();
-  const isLogin = useSelector<AppRootReducerType, boolean>(
-    (state) => state.auth.isLogin
-  );
-
-  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
-    (state) => state.app.request.status
-  );
+  const isLogin = useAppSelector((state) => state.auth.isLogin);
+  const statusLoading = useAppSelector((state) => state.app.request.status);
 
   const formik = useFormik({
     initialValues: {

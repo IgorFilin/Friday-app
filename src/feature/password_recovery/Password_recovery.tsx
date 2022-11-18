@@ -19,9 +19,7 @@ export type RecoveryEmailType = {
   email: string;
 };
 export const PasswordRecovery = () => {
-  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
-    (state) => state.app.request.status
-  );
+  const statusLoading = useAppSelector((state) => state.app.request.status);
   const success = useAppSelector((state) => state.auth.verificationEmail);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

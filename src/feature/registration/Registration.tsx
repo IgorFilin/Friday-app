@@ -13,7 +13,11 @@ import { InputPassword } from "components/InputPassword/InputPassword";
 import { useFormik } from "formik";
 import { useSelector } from "react-redux";
 import { singUpTC } from "redux/auth-reducer";
-import { AppRootReducerType, useAppDispatch } from "redux/store";
+import {
+  AppRootReducerType,
+  useAppDispatch,
+  useAppSelector,
+} from "redux/store";
 import { RequestStatus } from "redux/app-reducer";
 import { Link, Navigate } from "react-router-dom";
 import { DataFormType } from "api/api";
@@ -24,12 +28,8 @@ import Stack from "@mui/material/Stack";
 export const Registration = () => {
   const dispatch = useAppDispatch();
 
-  const statusLoading = useSelector<AppRootReducerType, RequestStatus>(
-    (state) => state.app.request.status
-  );
-  const isSingUpStatus = useSelector<AppRootReducerType, boolean>(
-    (state) => state.auth.isSingUp
-  );
+  const statusLoading = useAppSelector((state) => state.app.request.status);
+  const isSingUpStatus = useAppSelector((state) => state.auth.isSingUp);
 
   const formik = useFormik({
     initialValues: {
