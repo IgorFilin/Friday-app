@@ -27,7 +27,7 @@ export const PackTable: React.FC<TablePropsType<PackType>> = ({ rows }) => {
             <Table size="small" aria-label="pack table">
                 <TableHead>
                     <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
-                        <TableCell align="center">Question</TableCell>
+                        <TableCell>Question</TableCell>
                         <TableCell align="center">Answer</TableCell>
                         <TableCell align="center">Last Updated</TableCell>
                         <TableCell align="right">Grade</TableCell>

@@ -10,6 +10,7 @@ import { BlueButton } from 'components/BlueButton'
 import { InputSearch } from 'components/InputSearch'
 import { TablePaginationComponent } from 'components/TablePaginationComponent'
 import { PackTable, PackType } from './PackTable'
+import Fab from '@mui/material/Fab'
 
 const packs: PackType[] = [
     { question: 'question1', answer: 'answer1', grade: 2, lastUpdated: 'lastUpdated' },
@@ -40,8 +41,16 @@ export const MyPack: React.FC = () => {
                     justifyContent={'space-between'}
                     alignItems={'center'}
                     width={'100%'}
+                    marginBottom={2}
                 >
-                    <Typography variant={'h5'}>My Pack</Typography>
+                    <Box display={'flex'} alignItems={'center'}>
+                        <Typography component="span" variant={'h5'}>
+                            My Pack
+                        </Typography>
+                        <Fab size={'small'} component="span" aria-label="menu">
+                            ...
+                        </Fab>
+                    </Box>
                     <BlueButton
                         onClick={() => {
                             setRows((rs) => [
@@ -59,6 +68,7 @@ export const MyPack: React.FC = () => {
                     </BlueButton>
                 </Box>
                 <InputSearch width={'100%'} />
+                <br />
                 <PackTable rows={rows} />
 
                 <TablePaginationComponent />
