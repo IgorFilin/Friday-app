@@ -12,7 +12,7 @@ import TableSortLabel from "@mui/material/TableSortLabel";
 import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import Box from "@mui/material/Box";
 
-export const TableCards = () => {
+export const TablePacks = () => {
   function createData(
     Name: string,
     Cards: number,
