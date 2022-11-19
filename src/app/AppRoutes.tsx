@@ -9,7 +9,7 @@ import { PasswordRecovery } from 'feature/password_recovery/Password_recovery'
 import { NewPassword } from 'feature/password_recovery/NewPassword'
 import { CheckEmail } from 'feature/password_recovery/CheckEmail'
 import { MyPack } from 'feature/myPack/MyPack'
-import { FriendSPack } from 'feature/Friend’s Pack/Friend’s Pack'
+import { FriendSPack } from 'feature/friends_pack/Friend’s Pack'
 import { PacksList } from 'feature/packsList/PacksList'
 import { NamePack } from 'feature/namePack/NamePack'
 
