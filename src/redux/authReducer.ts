@@ -1,7 +1,13 @@
 import { Dispatch } from 'redux'
-import { authApi, DataFormType, LoginDataType, ProfileDataType, SetNewPasswordType } from 'api/api'
+import {
+    authApi,
+    DataFormType,
+    LoginDataType,
+    ProfileDataType,
+    RecoveryEmailType,
+    SetNewPasswordType,
+} from 'api/api'
 import { RequestStatus, setErrorAC, setInfoAC, setLoadingAC } from './appReducer'
-import { RecoveryEmailType } from 'feature/password_recovery/Password_recovery'
 import { getBase64 } from './utils'
 
 //===TYPES======================================================================
