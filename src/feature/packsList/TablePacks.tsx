@@ -18,11 +18,11 @@ import { getPacksCardTC } from '../../redux/packs-reducer'
 export const TablePacks = () => {
     const dispatch = useAppDispatch()
 
-    useEffect(() => {
-        dispatch(getPacksCardTC({ pageCount: 10 }))
-    }, [])
-
     const packsCard = useAppSelector<Array<CardType>>((state) => state.packsCard.cardPacks)
+
+    useEffect(() => {
+        dispatch(getPacksCardTC())
+    }, [])
 
     const rows = packsCard.map((pack) => {
         return {

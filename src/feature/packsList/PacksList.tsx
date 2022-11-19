@@ -6,7 +6,7 @@ import { NumberOfCards } from './NumberOfCards'
 import { AddNewPack } from './AddNewPack'
 import { InputSearch } from '../../components/InputSearch'
 import { TablePacks } from './TablePacks'
-import { TablePaginationComponent } from '../../components/TablePaginationComponent'
+import { PaginationPacksList } from './PaginationPacksList'
 
 export const PacksList = () => {
     return (
@@ -63,7 +63,7 @@ export const PacksList = () => {
                     </Box>
                 </Box>
                 <TablePacks />
-                <TablePaginationComponent />
+                <PaginationPacksList />
             </Box>
         </Box>
     )
