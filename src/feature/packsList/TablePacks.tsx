@@ -39,6 +39,7 @@ export const TablePacks = () => {
         <>
             <Box
                 sx={{
+                    marginTop: '35px',
                     width: '100%',
                 }}
             >
