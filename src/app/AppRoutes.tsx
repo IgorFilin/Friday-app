@@ -12,19 +12,34 @@ import { FriendSPack } from 'feature/Friend’s Pack/Friend’s Pack'
 import { PacksList } from 'feature/packsList/PacksList'
 import { NamePack } from 'feature/namePack/NamePack'
 
+export enum Path {
+    root = '/',
+    other = '/*',
+    registration = '/registration',
+    login = '/login',
+    profile = '/profile',
+    passwordRecovery = '/password',
+    newPassword = '/set-new-password',
+    checkEmail = '/check',
+    myPack = '/mypack',
+    friendsPack = '/friendspack',
+    packsList = '/packslist',
+    namePack = '/name-pack',
+}
+
 export const AppRoutes: React.FC = () => (
     <Routes>
-        <Route path="/" element={<Navigate to={'/login'} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path={'/*'} element={<Error />} />
-        <Route path="/password" element={<PasswordRecovery />} />
-        <Route path="/set-new-password/:token" element={<NewPassword />} />
-        <Route path="/check" element={<CheckEmail />} />
-        <Route path="/mypack" element={<MyPack />} />
-        <Route path="/friendspack" element={<FriendSPack />} />
-        <Route path="/packslist" element={<PacksList />} />
-        <Route path="/name-pack" element={<NamePack />} />
+        <Route path={Path.root} element={<Navigate to={Path.login} />} />
+        <Route path={Path.login} element={<Login />} />
+        <Route path={Path.registration} element={<Registration />} />
+        <Route path={Path.profile} element={<Profile />} />
+        <Route path={Path.other} element={<Error />} />
+        <Route path={Path.passwordRecovery} element={<PasswordRecovery />} />
+        <Route path={Path.newPassword + '/:token'} element={<NewPassword />} />
+        <Route path={Path.checkEmail} element={<CheckEmail />} />
+        <Route path={Path.myPack} element={<MyPack />} />
+        <Route path={Path.friendsPack} element={<FriendSPack />} />
+        <Route path={Path.packsList} element={<PacksList />} />
+        <Route path={Path.namePack} element={<NamePack />} />
     </Routes>
 )
