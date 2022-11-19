@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import { RequestStatus, setError, setLoading } from './app-reducer'
-import { CardType, packsCardApi } from '../api/api'
+import { CardType, packsCardApi, PacksCardType } from '../api/api'
 import { AppRootReducerType } from './store'
 
 type PacksActionsType =
@@ -36,7 +36,7 @@ export const packsCardReducer = (
 ): initialStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS-CARD': {
-            return { ...state, cardPacks: action.packsCard }
+            return { ...state, ...action.packsCard }
         }
         case 'PACKS/SET-PAGE-COUNT': {
             return { ...state, pageCount: action.pageCount }
@@ -50,7 +50,7 @@ export const packsCardReducer = (
     }
 }
 
-export const setPacksCardAC = (packsCard: Array<CardType>) => {
+export const setPacksCardAC = (packsCard: PacksCardType) => {
     return { type: 'PACKS/SET-PACKS-CARD', packsCard } as const
 }
 export const setPageCountAC = (pageCount: number) => {
@@ -72,7 +72,7 @@ export const getPacksCardTC =
         try {
             dispatch(setLoading(RequestStatus.loading))
             const result = await packsCardApi.getPacksCard(params)
-            dispatch(setPacksCardAC(result.cardPacks))
+            dispatch(setPacksCardAC(result))
         } catch (e) {
             dispatch(setError(e as string))
             dispatch(setLoading(RequestStatus.error))

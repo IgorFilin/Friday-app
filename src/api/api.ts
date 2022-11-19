@@ -68,7 +68,7 @@ export const authApi = {
 export const packsCardApi = {
     getPacksCard(params: PacksCardParamsType) {
         return instance
-            .get<GetPacksCardType>('/cards/pack', { params })
+            .get<PacksCardType>('/cards/pack', { params })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -85,7 +85,7 @@ export type CardType = {
     updated: string
     user_name: string
 }
-export type GetPacksCardType = {
+export type PacksCardType = {
     cardPacks: Array<CardType>
     cardPacksTotalCount: number
     maxCardsCount: number

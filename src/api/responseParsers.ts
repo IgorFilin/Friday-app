@@ -1,6 +1,6 @@
 import { AxiosError, AxiosResponse } from 'axios'
 import {
-    GetPacksCardType,
+    PacksCardType,
     LoginResponseType,
     LogoutResponseType,
     ProfileDataType,

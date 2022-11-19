@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import {
     Paper,
     Table,
@@ -11,20 +11,12 @@ import {
 import TableSortLabel from '@mui/material/TableSortLabel'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import Box from '@mui/material/Box'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { CardType } from '../../api/api'
-import { getPacksCardTC } from '../../redux/packs-reducer'
+import { useAppSelector } from '../../redux/store'
 
-export const TablePacks = () => {
-    const dispatch = useAppDispatch()
+export const TablePacks = React.memo(() => {
+    const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
 
-    const packsCard = useAppSelector<Array<CardType>>((state) => state.packsCard.cardPacks)
-
-    useEffect(() => {
-        dispatch(getPacksCardTC())
-    }, [])
-
-    const rows = packsCard.map((pack) => {
+    const rows = cardPacks.map((pack) => {
         return {
             key: pack._id,
             Name: pack.name,
@@ -80,4 +72,4 @@ export const TablePacks = () => {
             </Box>
         </>
     )
-}
+})

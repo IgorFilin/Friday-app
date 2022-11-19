@@ -7,39 +7,55 @@ import { getPacksCardTC, setPageAC, setPageCountAC } from '../../redux/packs-red
 export const PaginationPacksList = () => {
     const dispatch = useAppDispatch()
 
-    // const page = useAppSelector((state) => state.packsCard.page)
     const pageCount = useAppSelector((state) => state.packsCard.pageCount)
     const page = useAppSelector((state) => state.packsCard.page)
+    const cardPacksTotalCount = useAppSelector((state) => state.packsCard.cardPacksTotalCount)
+
+    const TotalCountPages = Math.round(cardPacksTotalCount / pageCount)
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number
     ) => {
         debugger
-        dispatch(setPageAC(newPage))
+        dispatch(setPageAC(newPage + pageCount))
         dispatch(getPacksCardTC())
     }
 
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        dispatch(setPageCountAC(+event.target.value))
+        dispatch(setPageCountAC(parseInt(event.target.value, 10)))
+        dispatch(getPacksCardTC())
+    }
+
+    const currentPageHandler = (event: React.ChangeEvent<unknown>, page: number) => {
+        dispatch(setPageAC(page))
         dispatch(getPacksCardTC())
     }
 
     return (
         <div style={{ display: 'flex', width: '100%', margin: '10px auto' }}>
-            <Pagination color={'primary'} count={5} variant="outlined" shape="rounded" />
+            <Pagination
+                color={'primary'}
+                count={TotalCountPages}
+                variant="outlined"
+                shape="rounded"
+                page={page}
+                defaultPage={1}
+                onChange={currentPageHandler}
+            />
             <TablePagination
                 sx={{
                     mt: -1,
                 }}
                 component="div"
-                count={100}
-                page={page}
+                count={cardPacksTotalCount}
+                page={page - 1}
                 onPageChange={handleChangePage}
                 rowsPerPage={pageCount}
                 onRowsPerPageChange={handleChangeRowsPerPage}
+                rowsPerPageOptions={[5, 10, 25]}
             />
         </div>
     )
