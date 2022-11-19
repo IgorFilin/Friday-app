@@ -1,7 +1,6 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error } from './error/Error'
-import { Test } from 'components/test/Test'
 import { Login } from 'feature/login/Login'
 import { Registration } from 'feature/registration/Registration'
 import { Profile } from 'feature/profile/Profile'
@@ -23,7 +22,6 @@ export const AppRoutes: React.FC = () => (
         <Route path="/password" element={<PasswordRecovery />} />
         <Route path="/set-new-password/:token" element={<NewPassword />} />
         <Route path="/check" element={<CheckEmail />} />
-        <Route path="/test" element={<Test />} />
         <Route path="/mypack" element={<MyPack />} />
         <Route path="/friendspack" element={<FriendSPack />} />
         <Route path="/packslist" element={<PacksList />} />
