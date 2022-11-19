@@ -1,6 +1,8 @@
 import { Dispatch } from 'redux'
 import { authApi } from 'api/api'
-import { setIsLogin, setProfileData } from './auth-reducer'
+import { setIsLoginAC, setProfileDataAC } from './authReducer'
+
+//===TYPES======================================================================
 
 export enum RequestStatus {
     'idle',
@@ -10,12 +12,14 @@ export enum RequestStatus {
 }
 
 type AppActionsType =
-    | ReturnType<typeof setLoading>
-    | ReturnType<typeof setError>
-    | ReturnType<typeof setInfo>
-    | ReturnType<typeof setIsInitialized>
+    | ReturnType<typeof setLoadingAC>
+    | ReturnType<typeof setErrorAC>
+    | ReturnType<typeof setInfoAC>
+    | ReturnType<typeof setIsInitializedAC>
 
 type initialStateType = typeof initialState
+
+//===REDUCER====================================================================
 
 const initialState = {
     request: {
@@ -31,55 +35,54 @@ export const appReducer = (
     action: AppActionsType
 ): initialStateType => {
     switch (action.type) {
-        case 'APP/SET-LOADING': {
+        case 'APP/SET-LOADING':
             return { ...state, request: { ...state.request, status: action.value } }
-        }
-        case 'APP/SET-ERROR': {
+        case 'APP/SET-ERROR':
             return {
                 ...state,
                 request: { ...state.request, error: action.textError },
             }
-        }
-        case 'APP/SET-INFO': {
+        case 'APP/SET-INFO':
             return {
                 ...state,
                 request: { ...state.request, info: action.textInfo },
             }
-        }
         case 'APP/SET-IS-INITIALIZED':
             return { ...state, isInitialized: action.isInitialized }
-        default: {
+        default:
             return state
-        }
     }
 }
 
-export const setLoading = (value: RequestStatus) => {
+//===ACTIONS====================================================================
+
+export const setLoadingAC = (value: RequestStatus) => {
     return { type: 'APP/SET-LOADING', value } as const
 }
 
-export const setError = (textError: string | null) => {
+export const setErrorAC = (textError: string | null) => {
     return { type: 'APP/SET-ERROR', textError } as const
 }
 
-export const setInfo = (textInfo: string | null) => {
+export const setInfoAC = (textInfo: string | null) => {
     return { type: 'APP/SET-INFO', textInfo } as const
 }
 
-export const setIsInitialized = (isInitialized: boolean) => {
+export const setIsInitializedAC = (isInitialized: boolean) => {
     return { type: 'APP/SET-IS-INITIALIZED', isInitialized } as const
 }
 
+//===THUNKS=====================================================================
+
 export const initializeAppTC = () => async (dispatch: Dispatch) => {
     try {
-        dispatch(setIsInitialized(false))
+        dispatch(setIsInitializedAC(false))
         const res = await authApi.me()
-        dispatch(setProfileData(res))
-        dispatch(setIsLogin(true))
+        dispatch(setProfileDataAC(res))
+        dispatch(setIsLoginAC(true))
     } catch (error) {
-        dispatch(setError(error as string))
-        dispatch(setIsLogin(false))
+        dispatch(setIsLoginAC(false))
     } finally {
-        dispatch(setIsInitialized(true))
+        dispatch(setIsInitializedAC(true))
     }
 }
