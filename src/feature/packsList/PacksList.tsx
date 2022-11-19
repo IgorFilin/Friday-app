@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp'
 import Box from '@mui/material/Box'
 import { ShowPacksCards } from './ShowPacksCards'
@@ -8,8 +8,8 @@ import { InputSearch } from '../../components/InputSearch'
 import { TablePacks } from './TablePacks'
 import { PaginationPacksList } from './PaginationPacksList'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { RequestStatus } from '../../redux/app-reducer'
 import { getPacksCardTC } from '../../redux/packs-reducer'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const PacksList = () => {
     const statusLoading = useAppSelector((state) => state.app.request.status)

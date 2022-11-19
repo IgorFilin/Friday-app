@@ -10,6 +10,7 @@ import { CheckEmail } from 'feature/passwordRecovery/CheckEmail'
 import { MyPack } from 'feature/myPack/MyPack'
 import { PacksList } from 'feature/packsList/PacksList'
 import { NamePack } from 'feature/namePack/NamePack'
+import { FriendsPack } from 'feature/friendsPack/FriendsPack'
 
 export enum Path {
     root = '/',
@@ -37,7 +38,7 @@ export const AppRoutes: React.FC = () => (
         <Route path={Path.newPassword + '/:token'} element={<NewPassword />} />
         <Route path={Path.checkEmail} element={<CheckEmail />} />
         <Route path={Path.myPack} element={<MyPack />} />
-        <Route path={Path.friendsPack} element={<FriendSPack />} />
+        <Route path={Path.friendsPack} element={<FriendsPack />} />
         <Route path={Path.packsList} element={<PacksList />} />
         <Route path={Path.namePack} element={<NamePack />} />
     </Routes>
