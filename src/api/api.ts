@@ -72,6 +72,9 @@ export const packsCardApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
+    createPackCard(payload: createPackCardType) {
+        return instance.post('/cards/pack', { cardsPack: payload })
+    },
 }
 
 //==TYPES=========================================================================================
@@ -93,7 +96,11 @@ export type PacksCardType = {
     page: number
     pageCount: number
 }
-
+export type createPackCardType = {
+    name: string
+    deckCover: string
+    private: boolean
+}
 export type DataFormType = {
     email?: string
     password?: string
