@@ -10,6 +10,7 @@ import { BlueButton } from 'components/BlueButton'
 import { InputSearch } from 'components/InputSearch'
 import { TablePaginationComponent } from 'components/TablePaginationComponent'
 import { PackTable, PackType } from './PackTable'
+import {Path} from "app/AppRoutes";
 
 const packs: PackType[] = [
     { question: 'question1', answer: 'answer1', grade: 2, lastUpdated: 'lastUpdated' },
@@ -20,7 +21,7 @@ export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
     const [rows, setRows] = useState<PackType[]>(packs)
 
-    if (!isLogin) return <Navigate to="/login" />
+    if (!isLogin) return <Navigate to={Path.login} />
 
     return (
         <Container

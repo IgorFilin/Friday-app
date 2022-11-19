@@ -13,6 +13,7 @@ import { LogoutButton } from './LogoutButton'
 import { UserAvatar } from './UserAvatar'
 import { UserEmail } from './UserEmail'
 import { EditableUserName } from './EditableUserName'
+import {Path} from "app/AppRoutes";
 
 export const Profile: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
@@ -28,7 +29,7 @@ export const Profile: React.FC = () => {
         dispatch(changeProfileDataTC({ avatarFile }))
     }
 
-    if (!isLogin) return <Navigate to="/login" />
+    if (!isLogin) return <Navigate to={Path.login} />
     return (
         <>
             {!(statusLoading === RequestStatus.loading) && (
