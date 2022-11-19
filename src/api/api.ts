@@ -1,13 +1,14 @@
 import { instance } from './instance'
 import { RecoveryEmailType } from 'feature/password_recovery/Password_recovery'
 import {
-    parseAxiosError,
     getDataFromAxiosResponse,
+    parseAxiosError,
     parseLoginResponse,
-    parseUpdatedUserResponse,
     parseLogoutResponse,
     parseSingUpResponse,
+    parseUpdatedUserResponse,
 } from './responseParsers'
+import { PacksCardParamsType } from '../redux/packs-reducer'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {
@@ -65,21 +66,31 @@ export const authApi = {
 }
 
 export const packsCardApi = {
-    getPacksCard(params: GetPacksCardType) {
-        return instance.get('/cards/pack', { params })
+    getPacksCard(params: PacksCardParamsType) {
+        return instance
+            .get<GetPacksCardType>('/cards/pack', { params })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
     },
 }
 
 //==TYPES=========================================================================================
+
+export type CardType = {
+    _id: string
+    user_id: string
+    name: string
+    cardsCount: number
+    created: string
+    updated: string
+}
 export type GetPacksCardType = {
-    packName: string
-    min: number
-    max: number
-    sortPacks: string
+    cardPacks: Array<CardType>
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
     page: number
     pageCount: number
-    user_id: string
-    block: boolean
 }
 
 export type DataFormType = {
