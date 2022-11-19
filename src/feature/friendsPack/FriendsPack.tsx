@@ -10,7 +10,7 @@ import { InputSearch } from '../../components/InputSearch'
 import Container from '@mui/material/Container'
 import { BlueButton } from '../../components/BlueButton'
 
-export const Friends_Pack = () => {
+export const FriendsPack = () => {
     return (
         <Container sx={{ maxWidth: '1008px' }}>
             <Box style={{ width: '100%', margin: '0 auto' }}>
