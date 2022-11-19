@@ -83,6 +83,7 @@ export type CardType = {
     cardsCount: number
     created: string
     updated: string
+    user_name: string
 }
 export type GetPacksCardType = {
     cardPacks: Array<CardType>

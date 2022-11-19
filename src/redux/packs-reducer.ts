@@ -23,6 +23,9 @@ export const packsCardReducer = (
         case 'PACKS/SET-PACKS-CARD': {
             return { ...state, cardPacks: action.packsCard }
         }
+        default: {
+            return state
+        }
     }
 }
 
@@ -31,14 +34,14 @@ export const setPacksCard = (packsCard: Array<CardType>) => {
 }
 
 export type PacksCardParamsType = {
-    packName: string
-    min: number
-    max: number
-    sortPacks: string
-    page: number
-    pageCount: number
-    user_id: string
-    block: boolean
+    packName?: string
+    min?: number
+    max?: number
+    sortPacks?: string
+    page?: number
+    pageCount?: number
+    user_id?: string
+    block?: boolean
 }
 export const getPacksCardTC = (params: PacksCardParamsType) => async (dispatch: Dispatch) => {
     try {
