@@ -4,7 +4,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import InputBase from "@mui/material/InputBase";
 import Paper from "@mui/material/Paper/Paper";
 
-export const SearchInput = () => {
+export const Search_Input = () => {
   return (
     <Paper
       component="form"
