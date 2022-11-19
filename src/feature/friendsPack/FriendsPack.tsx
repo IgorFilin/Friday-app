@@ -12,7 +12,11 @@ import { BlueButton } from '../../components/BlueButton'
 
 export const FriendsPack = () => {
     return (
-        <Container sx={{ maxWidth: '1008px' }}>
+        <Container
+            sx={{
+                maxWidth: '1008px',
+            }}
+        >
             <Box style={{ width: '100%', margin: '0 auto' }}>
                 <Link to={'/login'} style={{ textDecoration: 'none', color: 'black' }}>
                     <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
@@ -21,6 +25,7 @@ export const FriendsPack = () => {
             <Box
                 style={{
                     width: '100%',
+                    // margin: "20px auto"
                 }}
             >
                 <Typography
