@@ -1,12 +1,13 @@
 import { instance } from './instance'
 import {
-    parseAxiosError,
     getDataFromAxiosResponse,
+    parseAxiosError,
     parseLoginResponse,
-    parseUpdatedUserResponse,
     parseLogoutResponse,
     parseSingUpResponse,
+    parseUpdatedUserResponse,
 } from './responseParsers'
+import { PacksCardParamsType } from '../redux/packs-reducer'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {
@@ -69,12 +70,46 @@ export const authApi = {
     },
 }
 
+export const packsCardApi = {
+    getPacksCard(params: PacksCardParamsType) {
+        return instance
+            .get<PacksCardType>('/cards/pack', { params })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
+    createPackCard(payload: createPackCardType) {
+        return instance.post('/cards/pack', { cardsPack: payload })
+    },
+}
+
 //==TYPES=======================================================================
 
 export type RecoveryEmailType = {
     email: string
 }
 
+export type CardType = {
+    _id: string
+    user_id: string
+    name: string
+    cardsCount: number
+    created: string
+    updated: string
+    user_name: string
+}
+export type PacksCardType = {
+    cardPacks: Array<CardType>
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
+}
+export type createPackCardType = {
+    name: string
+    deckCover: string
+    private: boolean
+}
 export type DataFormType = {
     email?: string
     password?: string
@@ -115,7 +150,6 @@ export type LogoutResponseType = {
     info: string
     error: string
 }
-
 export type SetNewPasswordType = {
     password: string
     resetPasswordToken: string
@@ -125,7 +159,6 @@ export type ResponseForgotPasswordType = {
     info: string
     success: boolean
 }
-
 export type ResponseSetNewPasswordType = {
     info: string
     error: string

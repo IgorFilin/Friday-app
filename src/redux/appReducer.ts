@@ -12,10 +12,10 @@ export enum RequestStatus {
 }
 
 type AppActionsType =
-    | ReturnType<typeof setLoadingAC>
-    | ReturnType<typeof setErrorAC>
-    | ReturnType<typeof setInfoAC>
-    | ReturnType<typeof setIsInitializedAC>
+  | ReturnType<typeof setLoadingAC>
+  | ReturnType<typeof setErrorAC>
+  | ReturnType<typeof setInfoAC>
+  | ReturnType<typeof setIsInitializedAC>;
 
 type initialStateType = typeof initialState
 
@@ -57,20 +57,20 @@ export const appReducer = (
 //===ACTIONS====================================================================
 
 export const setLoadingAC = (value: RequestStatus) => {
-    return { type: 'APP/SET-LOADING', value } as const
-}
+  return { type: "APP/SET-LOADING", value } as const;
+};
 
 export const setErrorAC = (textError: string | null) => {
-    return { type: 'APP/SET-ERROR', textError } as const
-}
+  return { type: "APP/SET-ERROR", textError } as const;
+};
 
 export const setInfoAC = (textInfo: string | null) => {
-    return { type: 'APP/SET-INFO', textInfo } as const
-}
+  return { type: "APP/SET-INFO", textInfo } as const;
+};
 
 export const setIsInitializedAC = (isInitialized: boolean) => {
-    return { type: 'APP/SET-IS-INITIALIZED', isInitialized } as const
-}
+  return { type: "APP/SET-IS-INITIALIZED", isInitialized } as const;
+};
 
 //===THUNKS=====================================================================
 

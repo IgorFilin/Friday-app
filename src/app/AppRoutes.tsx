@@ -8,7 +8,6 @@ import { PasswordRecovery } from 'feature/passwordRecovery/PasswordRecovery'
 import { NewPassword } from 'feature/passwordRecovery/NewPassword'
 import { CheckEmail } from 'feature/passwordRecovery/CheckEmail'
 import { MyPack } from 'feature/myPack/MyPack'
-import { FriendSPack } from 'feature/friendsPack/FriendSPack'
 import { PacksList } from 'feature/packsList/PacksList'
 import { NamePack } from 'feature/namePack/NamePack'
 
