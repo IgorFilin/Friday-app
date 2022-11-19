@@ -11,9 +11,11 @@ import {
 import TableSortLabel from '@mui/material/TableSortLabel'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import Box from '@mui/material/Box'
-import { useAppSelector } from '../../redux/store'
+import { useAppDispatch, useAppSelector } from '../../redux/store'
+import { getPacksCardTC, sortPacksAC } from '../../redux/packs-reducer'
 
 export const TablePacks = React.memo(() => {
+    const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
 
     const rows = cardPacks.map((pack) => {
@@ -21,11 +23,15 @@ export const TablePacks = React.memo(() => {
             key: pack._id,
             Name: pack.name,
             Cards: pack.cardsCount,
-            LastUpdated: pack.created.slice(0, 10).split('-').reverse().join('.'),
+            LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
             Actions: 1,
         }
     })
+
+    const createSortHandler = () => {
+        dispatch(sortPacksAC('1updated'))
+    }
 
     return (
         <>
@@ -42,12 +48,10 @@ export const TablePacks = React.memo(() => {
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="center">Cards</TableCell>
                                 <TableCell align="center">
-                                    Last Updated
-                                    <TableSortLabel
-                                        active={true}
-                                        IconComponent={ArrowDropDownIcon}
-                                        direction={'desc'}
-                                    ></TableSortLabel>
+                                    Last Created
+                                    <TableSortLabel onClick={createSortHandler} direction={'desc'}>
+                                        <ArrowDropDownIcon />
+                                    </TableSortLabel>
                                 </TableCell>
                                 <TableCell align="right">Created by</TableCell>
                                 <TableCell align="center">Actions</TableCell>
@@ -61,7 +65,7 @@ export const TablePacks = React.memo(() => {
                                 >
                                     <TableCell align="left">{row.Name}</TableCell>
                                     <TableCell align="center">{row.Cards}</TableCell>
-                                    <TableCell align="center">{row.LastUpdated}</TableCell>
+                                    <TableCell align="center">{row.LastCreated}</TableCell>
                                     <TableCell align="right">{row.CreatedBy}</TableCell>
                                     <TableCell align="center">{row.Actions}</TableCell>
                                 </TableRow>

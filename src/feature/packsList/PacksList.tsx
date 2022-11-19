@@ -13,12 +13,13 @@ import { getPacksCardTC } from '../../redux/packs-reducer'
 
 export const PacksList = () => {
     const statusLoading = useAppSelector((state) => state.app.request.status)
+    const sort = useAppSelector((state) => state.packsCard.sortPacks)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(getPacksCardTC())
-    }, [])
+    }, [sort])
 
     return (
         <>

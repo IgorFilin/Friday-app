@@ -17,7 +17,6 @@ export const PaginationPacksList = () => {
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number
     ) => {
-        debugger
         dispatch(setPageAC(newPage + pageCount))
         dispatch(getPacksCardTC())
     }

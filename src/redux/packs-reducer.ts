@@ -7,6 +7,7 @@ type PacksActionsType =
     | ReturnType<typeof setPacksCardAC>
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setPageAC>
+    | ReturnType<typeof sortPacksAC>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -28,6 +29,7 @@ const initialState = {
     minCardsCount: 0,
     page: 1,
     pageCount: 10,
+    sortPacks: '0updated',
 }
 
 export const packsCardReducer = (
@@ -44,6 +46,9 @@ export const packsCardReducer = (
         case 'PACKS/SET-PAGE': {
             return { ...state, page: action.newPage }
         }
+        case 'PACKS/SORT-PACKS': {
+            return { ...state, sortPacks: action.valueSort }
+        }
         default: {
             return state
         }
@@ -59,6 +64,9 @@ export const setPageCountAC = (pageCount: number) => {
 export const setPageAC = (newPage: number) => {
     return { type: 'PACKS/SET-PAGE', newPage } as const
 }
+export const sortPacksAC = (valueSort: string) => {
+    return { type: 'PACKS/SORT-PACKS', valueSort } as const
+}
 
 export const getPacksCardTC =
     () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
@@ -68,6 +76,7 @@ export const getPacksCardTC =
             max: packs.maxCardsCount,
             page: packs.page,
             pageCount: packs.pageCount,
+            sortPacks: packs.sortPacks,
         }
         try {
             dispatch(setLoading(RequestStatus.loading))
