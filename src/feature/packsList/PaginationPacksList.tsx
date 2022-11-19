@@ -2,27 +2,28 @@ import React, { useState } from 'react'
 import TablePagination from '@mui/material/TablePagination'
 import Pagination from '@mui/material/Pagination'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { getPacksCardTC, setPageCount } from '../../redux/packs-reducer'
+import { getPacksCardTC, setPageAC, setPageCountAC } from '../../redux/packs-reducer'
 
 export const PaginationPacksList = () => {
-    const [page, setPage] = useState(2)
-
     const dispatch = useAppDispatch()
 
     // const page = useAppSelector((state) => state.packsCard.page)
     const pageCount = useAppSelector((state) => state.packsCard.pageCount)
+    const page = useAppSelector((state) => state.packsCard.page)
 
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number
     ) => {
-        setPage(newPage)
+        debugger
+        dispatch(setPageAC(newPage))
+        dispatch(getPacksCardTC())
     }
 
     const handleChangeRowsPerPage = (
         event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
     ) => {
-        dispatch(setPageCount(+event.target.value))
+        dispatch(setPageCountAC(+event.target.value))
         dispatch(getPacksCardTC())
     }
 
