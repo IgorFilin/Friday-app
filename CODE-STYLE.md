@@ -1,16 +1,21 @@
-#
+# Naming
+## camelCase (lowercase first)
 
-## Naming camelCase (со строчной)
+- anything not listed for PascalCase naming
 
-- все, что не перечислены для CamelCase
+## PascalCase (uppercase first)
 
-## Naming PascalCase (с заглавной)
+- React Component file
+- React Component name
+- Type, Interface, Class
 
-- файлы React компонент
-- React компоненты
-- Types, Interfaces, Classes
--
+---
 
-## Tabs - 4 spaces
+## Tabs 
+- 4 spaces
 
-## Export not by default
+---
+
+## Other 
+- named export only (not default export)
+- import relative to folder src folder ('components/BlueButton')
