@@ -10,9 +10,6 @@ import { RequestStatus } from 'redux/appReducer'
 type FormikErrorType = {
     email: string
 }
-export type RecoveryEmailType = {
-    email: string
-}
 export const PasswordRecovery = () => {
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const success = useAppSelector((state) => state.auth.verificationEmail)
@@ -78,7 +75,6 @@ export const PasswordRecovery = () => {
                         </form>
                         <p className={s.pSmall}>Did you remember your password?</p>
                         <a className={s.pToLogin} onClick={handleClickToLogin}>
-                            {' '}
                             Try logging in
                         </a>
                     </Paper>
