@@ -24,27 +24,16 @@ export const TablePacks = () => {
 
     const packsCard = useAppSelector<Array<CardType>>((state) => state.packsCard.cardPacks)
 
-    // function createData(
-    //     Name: string,
-    //     Cards: number,
-    //     LastUpdated: string,
-    //     CreatedBy: string,
-    //     Actions: any
-    // ) {
-    //     return { Name, Cards, LastUpdated, CreatedBy, Actions }
-    // }
-    const rows = packsCard.map((pack) => ({
-        Name: pack.name,
-        Cards: pack.cardsCount,
-        LastUpdated: pack.created,
-        CreatedBy: pack.user_name,
-        Actions: 1,
-    }))
-    // createData('Pack Name', 159, '18.03.2021', 'Ivan Ivanov', 111),
-    // createData('Pack Name', 159, '18.03.2021', 'Ivan Ivanov', 111),
-    // createData('Pack Name', 159, '18.03.2021', 'Ivan Ivanov', 111),
-    // createData('Pack Name', 159, '18.03.2021', 'Ivan Ivanov', 111),
-    // createData('Pack Name', 159, '18.03.2021', 'Ivan Ivanov', 111),
+    const rows = packsCard.map((pack) => {
+        return {
+            key: pack._id,
+            Name: pack.name,
+            Cards: pack.cardsCount,
+            LastUpdated: pack.created.slice(0, 10).split('-').reverse().join('.'),
+            CreatedBy: pack.user_name,
+            Actions: 1,
+        }
+    })
 
     return (
         <>
@@ -74,7 +63,7 @@ export const TablePacks = () => {
                         <TableBody>
                             {rows.map((row) => (
                                 <TableRow
-                                    key={row.Name}
+                                    key={row.key}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
                                     <TableCell align="left">{row.Name}</TableCell>
