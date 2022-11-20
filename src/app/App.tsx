@@ -8,6 +8,7 @@ import { AppCircularProgress } from './AppCircularProgress'
 import { AppRoutes } from './AppRoutes'
 import Box from '@mui/material/Box'
 import { DEV_VERSION } from 'config'
+import { LinearProgress } from '@mui/material'
 
 export const App: React.FC = () => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
@@ -26,7 +27,9 @@ export const App: React.FC = () => {
     return (
         <Box>
             <Header />
-            {requestStatus === RequestStatus.loading && <AppCircularProgress />}
+            {requestStatus === RequestStatus.loading && (
+                <LinearProgress sx={{ position: 'absolute', width: '100%' }} />
+            )}
             <AppRoutes />
             <ErrorSnackbar />
             <InfoSnackbar />

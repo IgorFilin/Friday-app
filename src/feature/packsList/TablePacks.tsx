@@ -12,11 +12,14 @@ import TableSortLabel from '@mui/material/TableSortLabel'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { sortPacksAC } from '../../redux/packs-reducer'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const TablePacks = React.memo(() => {
     const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
+
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const rows = cardPacks.map((pack) => {
         return {
@@ -62,18 +65,35 @@ export const TablePacks = React.memo(() => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {rows.map((row) => (
-                                <TableRow
-                                    key={row.key}
-                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                >
-                                    <TableCell align="left">{row.Name}</TableCell>
-                                    <TableCell align="center">{row.Cards}</TableCell>
-                                    <TableCell align="center">{row.LastCreated}</TableCell>
-                                    <TableCell align="right">{row.CreatedBy}</TableCell>
-                                    <TableCell align="center">{row.Actions}</TableCell>
-                                </TableRow>
-                            ))}
+                            {requestStatus === RequestStatus.loading
+                                ? [1].map((el, i) => {
+                                      return (
+                                          <TableRow
+                                              key={i}
+                                              sx={{
+                                                  '&:last-child td, &:last-child th': { border: 0 },
+                                              }}
+                                          >
+                                              <TableCell align="left">...loading</TableCell>
+                                              <TableCell align="center">...loading</TableCell>
+                                              <TableCell align="center">...loading</TableCell>
+                                              <TableCell align="right">...loading</TableCell>
+                                              <TableCell align="center">...loading</TableCell>
+                                          </TableRow>
+                                      )
+                                  })
+                                : rows.map((row) => (
+                                      <TableRow
+                                          key={row.key}
+                                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                      >
+                                          <TableCell align="left">{row.Name}</TableCell>
+                                          <TableCell align="center">{row.Cards}</TableCell>
+                                          <TableCell align="center">{row.LastCreated}</TableCell>
+                                          <TableCell align="right">{row.CreatedBy}</TableCell>
+                                          <TableCell align="center">{row.Actions}</TableCell>
+                                      </TableRow>
+                                  ))}
                         </TableBody>
                     </Table>
                 </TableContainer>

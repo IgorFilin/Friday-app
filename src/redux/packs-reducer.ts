@@ -9,6 +9,7 @@ type PacksActionsType =
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof sortPacksAC>
     | ReturnType<typeof setMinMaxValueAC>
+    | ReturnType<typeof setPackNameAC>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -24,6 +25,7 @@ export type PacksCardParamsType = {
 type initialStateType = typeof initialState
 
 const initialState = {
+    packName: '',
     cardPacks: [] as Array<CardPackType>,
     cardPacksTotalCount: 0,
     maxCardsCount: 0,
@@ -47,7 +49,6 @@ export const packsCardReducer = (
             if (state.slider.max === 0) {
                 copyState.slider.max = action.packsCard.maxCardsCount
             }
-
             return {
                 ...copyState,
                 ...action.packsCard,
@@ -66,6 +67,12 @@ export const packsCardReducer = (
             return {
                 ...state,
                 slider: { min: action.minValue, max: action.maxValue },
+            }
+        }
+        case 'PACKS/SET-PACK-NAME': {
+            return {
+                ...state,
+                packName: action.name,
             }
         }
         default: {
@@ -89,11 +96,15 @@ export const sortPacksAC = (valueSort: string) => {
 export const setMinMaxValueAC = (minValue: number, maxValue: number) => {
     return { type: 'PACKS/SET-MIN-MAX-VALUE', minValue, maxValue } as const
 }
+export const setPackNameAC = (name: string) => {
+    return { type: 'PACKS/SET-PACK-NAME', name } as const
+}
 
 export const getPacksCardTC =
     () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         const packs = getState().packsCard
         let params: PacksCardParamsType = {
+            packName: packs.packName,
             min: packs.slider.min,
             max: packs.slider.max,
             page: packs.page,
