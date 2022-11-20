@@ -16,7 +16,16 @@ export const Header = () => {
     }
 
     return (
-        <AppBar color={'inherit'} position="static" sx={{ pl: '10%', pr: '10%' }}>
+        <AppBar
+            color={'inherit'}
+            position="static"
+            sx={{
+                pl: '10%',
+                pr: '10%',
+                boxShadow:
+                    '0 4px 18px rgb(54 110 255 / 35%), inset 0 1px 0 hsl(0deg 0% 100% / 30%)',
+            }}
+        >
             <Toolbar>
                 <img
                     style={{ cursor: 'pointer' }}

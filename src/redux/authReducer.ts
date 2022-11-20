@@ -116,7 +116,6 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
         const res = await authApi.login(data)
-        debugger
         dispatch(setProfileDataAC(res))
         dispatch(setInfoAC('logIn success'))
         dispatch(setIsLoginAC(true))
