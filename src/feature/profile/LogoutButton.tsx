@@ -1,7 +1,7 @@
 import React from 'react'
 import LogoutIcon from '@mui/icons-material/Logout'
 import { useAppDispatch } from 'redux/store'
-import { logoutTC } from 'redux/auth-reducer'
+import { logoutTC } from 'redux/authReducer'
 import { WhiteButton } from 'components/WhiteButton'
 
 export const LogoutButton: React.FC = () => {

@@ -1,32 +1,45 @@
 import React from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Error } from './error/Error'
-import { Test } from 'components/test/Test'
 import { Login } from 'feature/login/Login'
 import { Registration } from 'feature/registration/Registration'
 import { Profile } from 'feature/profile/Profile'
-import { PasswordRecovery } from 'feature/password_recovery/Password_recovery'
-import { NewPassword } from 'feature/password_recovery/NewPassword'
-import { CheckEmail } from 'feature/password_recovery/CheckEmail'
+import { PasswordRecovery } from 'feature/passwordRecovery/PasswordRecovery'
+import { NewPassword } from 'feature/passwordRecovery/NewPassword'
+import { CheckEmail } from 'feature/passwordRecovery/CheckEmail'
 import { MyPack } from 'feature/myPack/MyPack'
-import { FriendSPack } from 'feature/Friend’s Pack/Friend’s Pack'
 import { PacksList } from 'feature/packsList/PacksList'
 import { NamePack } from 'feature/namePack/NamePack'
+import { FriendsPack } from 'feature/friendsPack/FriendsPack'
+
+export enum Path {
+    root = '/',
+    other = '/*',
+    registration = '/registration',
+    login = '/login',
+    profile = '/profile',
+    passwordRecovery = '/password',
+    newPassword = '/set-new-password',
+    checkEmail = '/check',
+    myPack = '/mypack',
+    friendsPack = '/friendspack',
+    packsList = '/packslist',
+    namePack = '/name-pack',
+}
 
 export const AppRoutes: React.FC = () => (
     <Routes>
-        <Route path="/" element={<Navigate to={'/login'} />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/registration" element={<Registration />} />
-        <Route path="/profile" element={<Profile />} />
-        <Route path={'/*'} element={<Error />} />
-        <Route path="/password" element={<PasswordRecovery />} />
-        <Route path="/set-new-password/:token" element={<NewPassword />} />
-        <Route path="/check" element={<CheckEmail />} />
-        <Route path="/test" element={<Test />} />
-        <Route path="/mypack" element={<MyPack />} />
-        <Route path="/friendspack" element={<FriendSPack />} />
-        <Route path="/packslist" element={<PacksList />} />
-        <Route path="/name-pack" element={<NamePack />} />
+        <Route path={Path.root} element={<Navigate to={Path.login} />} />
+        <Route path={Path.login} element={<Login />} />
+        <Route path={Path.registration} element={<Registration />} />
+        <Route path={Path.profile} element={<Profile />} />
+        <Route path={Path.other} element={<Error />} />
+        <Route path={Path.passwordRecovery} element={<PasswordRecovery />} />
+        <Route path={Path.newPassword + '/:token'} element={<NewPassword />} />
+        <Route path={Path.checkEmail} element={<CheckEmail />} />
+        <Route path={Path.myPack} element={<MyPack />} />
+        <Route path={Path.friendsPack} element={<FriendsPack />} />
+        <Route path={Path.packsList} element={<PacksList />} />
+        <Route path={Path.namePack} element={<NamePack />} />
     </Routes>
 )

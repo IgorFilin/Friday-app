@@ -1,13 +1,13 @@
 import { instance } from './instance'
-import { RecoveryEmailType } from 'feature/password_recovery/Password_recovery'
 import {
-    parseAxiosError,
     getDataFromAxiosResponse,
+    parseAxiosError,
     parseLoginResponse,
-    parseUpdatedUserResponse,
     parseLogoutResponse,
     parseSingUpResponse,
+    parseUpdatedUserResponse,
 } from './responseParsers'
+import { PacksCardParamsType } from '../redux/packs-reducer'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {
@@ -17,6 +17,7 @@ export const authApi = {
             .catch(parseAxiosError)
             .then(parseSingUpResponse)
     },
+
     login(data: LoginDataType) {
         return instance
             .post<LoginResponseType>('/auth/login', data)
@@ -24,23 +25,26 @@ export const authApi = {
             .catch(parseAxiosError)
             .then(parseLoginResponse)
     },
+
     forgotPass(email: RecoveryEmailType) {
         return instance.post<ResponseForgotPasswordType>('/auth/forgot', {
             email: email.email,
             message: `<div style="background-color: #f7f7f7; padding: 15px">
-                        Follow 
-                        <a href=${instance.getUri()}set-new-password/$token$
+                        Follow
+                        <a href='https://Samurai-way.github.io/Friday-app/#/set-new-password/$token$'
                         style="font-weight: bold; color: #1a73e8;">
                         this link</a> to recover your password
                         </div>`, // html-письмо, вместо $token$ бэк вставит токен
         })
     },
+
     setNewPassword({ password, resetPasswordToken }: SetNewPasswordType) {
         return instance.post<ResponseSetNewPasswordType>('/auth/set-new-password', {
             password,
             resetPasswordToken,
         })
     },
+
     changeUserNameOrAvatar(data: { name?: string; avatar?: string }) {
         return instance
             .put('/auth/me', data)
@@ -48,6 +52,7 @@ export const authApi = {
             .catch(parseAxiosError)
             .then(parseUpdatedUserResponse)
     },
+
     me() {
         return instance
             .post<LoginResponseType>('auth/me')
@@ -55,6 +60,7 @@ export const authApi = {
             .catch(parseAxiosError)
             .then(parseLoginResponse)
     },
+
     logout() {
         return instance
             .delete<LogoutResponseType>('auth/me')
@@ -64,8 +70,46 @@ export const authApi = {
     },
 }
 
-//==TYPES=========================================================================================
+export const packsCardApi = {
+    getPacksCard(params: PacksCardParamsType) {
+        return instance
+            .get<PacksCardType>('/cards/pack', { params })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
+    createPackCard(payload: createPackCardType) {
+        return instance.post('/cards/pack', { cardsPack: payload })
+    },
+}
 
+//==TYPES=======================================================================
+
+export type RecoveryEmailType = {
+    email: string
+}
+
+export type CardType = {
+    _id: string
+    user_id: string
+    name: string
+    cardsCount: number
+    created: string
+    updated: string
+    user_name: string
+}
+export type PacksCardType = {
+    cardPacks: Array<CardType>
+    cardPacksTotalCount: number
+    maxCardsCount: number
+    minCardsCount: number
+    page: number
+    pageCount: number
+}
+export type createPackCardType = {
+    name: string
+    deckCover: string
+    private: boolean
+}
 export type DataFormType = {
     email?: string
     password?: string
@@ -80,7 +124,7 @@ export type LoginDataType = {
 
 export type SingUpResponseType = {
     addedUser: {}
-    error?: string //{ email: string; error: string; in: string } | null
+    error?: string
 }
 
 export type LoginResponseType = ProfileDataType & {
