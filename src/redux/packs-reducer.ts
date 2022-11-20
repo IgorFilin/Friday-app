@@ -1,5 +1,5 @@
 import { Dispatch } from 'redux'
-import { CardType, packsCardApi, PacksCardType } from 'api/api'
+import { CardPackType, packsCardApi, PacksCardType } from 'api/api'
 import { AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 
@@ -23,7 +23,7 @@ export type PacksCardParamsType = {
 type initialStateType = typeof initialState
 
 const initialState = {
-    cardPacks: [] as Array<CardType>,
+    cardPacks: [] as Array<CardPackType>,
     cardPacksTotalCount: 0,
     maxCardsCount: 0,
     minCardsCount: 0,
