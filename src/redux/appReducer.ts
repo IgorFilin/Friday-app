@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
 import { authApi } from 'api/api'
-import { setIsLoginAC, setLoginUserIdAC, setProfileDataAC } from './authReducer'
+import { setIsLoginAC, setProfileDataAC } from './authReducer'
 
 //===TYPES======================================================================
 
@@ -80,7 +80,7 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
         const res = await authApi.me()
         dispatch(setProfileDataAC(res))
         dispatch(setIsLoginAC(true))
-        dispatch(setLoginUserIdAC(res._id))
+        // dispatch(setLoginUserIdAC(res._id))
     } catch (error) {
         dispatch(setIsLoginAC(false))
     } finally {
