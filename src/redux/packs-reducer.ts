@@ -31,6 +31,10 @@ const initialState = {
     page: 1,
     pageCount: 10,
     sortPacks: '0updated',
+    slider: {
+        max: 0,
+        min: 0,
+    },
 }
 
 export const packsCardReducer = (
@@ -39,7 +43,15 @@ export const packsCardReducer = (
 ): initialStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS-CARD': {
-            return { ...state, ...action.packsCard }
+            let copyState = { ...state }
+            if (state.slider.max === 0) {
+                copyState.slider.max = action.packsCard.maxCardsCount
+            }
+
+            return {
+                ...copyState,
+                ...action.packsCard,
+            }
         }
         case 'PACKS/SET-PAGE-COUNT': {
             return { ...state, pageCount: action.pageCount }
@@ -51,7 +63,10 @@ export const packsCardReducer = (
             return { ...state, sortPacks: action.valueSort }
         }
         case 'PACKS/SET-MIN-MAX-VALUE': {
-            return { ...state, minCardsCount: action.minValue, maxCardsCount: action.maxValue }
+            return {
+                ...state,
+                slider: { min: action.minValue, max: action.maxValue },
+            }
         }
         default: {
             return state
@@ -79,8 +94,8 @@ export const getPacksCardTC =
     () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         const packs = getState().packsCard
         let params: PacksCardParamsType = {
-            min: packs.minCardsCount,
-            max: packs.maxCardsCount,
+            min: packs.slider.min,
+            max: packs.slider.max,
             page: packs.page,
             pageCount: packs.pageCount,
             sortPacks: packs.sortPacks,

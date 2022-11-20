@@ -1,33 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Slider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { setMinMaxValueAC } from '../../redux/packs-reducer'
+import { useDebounce } from 'usehooks-ts'
 
 export const NumberOfCards = () => {
-    // const [value, setValue] = useState<string>('')
-    // const debouncedValue = useDebounce<string>(value, 500)
-    //
-    // const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    //     setValue(event.target.value)
-    // }
-    //
-    // // Fetch API (optional)
-    // useEffect(() => {
-    //     // Do fetch here...
-    //     // Triggers when "debouncedValue" changes
-    // }, [debouncedValue])
+    const minCountCards = useAppSelector((state) => state.packsCard.minCardsCount)
+    const maxCountCards = useAppSelector((state) => state.packsCard.maxCardsCount)
+    const max = useAppSelector((state) => state.packsCard.slider.max)
+    const min = useAppSelector((state) => state.packsCard.slider.min)
 
-    const min = useAppSelector((state) => state.packsCard.minCardsCount)
-    const max = useAppSelector((state) => state.packsCard.maxCardsCount)
+    const [value, setValue] = useState<Array<number>>([min, max])
+    const debouncedValue = useDebounce<Array<number>>(value, 500)
 
     const dispatch = useAppDispatch()
 
     const handleChange = (event: Event, value: number | number[]) => {
-        // @ts-ignore
-        dispatch(setMinMaxValueAC(value[0], value[1]))
+        setValue(value as number[])
     }
+
+    useEffect(() => {
+        dispatch(setMinMaxValueAC(value[0], value[1]))
+    }, [debouncedValue])
+
     return (
         <>
             <Box
@@ -59,16 +56,18 @@ export const NumberOfCards = () => {
                             margin: '0 15px 0 0',
                         }}
                     >
-                        <Typography>{min}</Typography>
+                        <Typography>{value[0]}</Typography>
                     </Box>
                     <Slider
                         sx={{
                             width: '155px',
                         }}
                         getAriaLabel={() => 'range'}
-                        value={[min, max]}
+                        value={[value[0], value[1]]}
                         onChange={handleChange}
                         valueLabelDisplay="off"
+                        min={minCountCards}
+                        max={maxCountCards}
                     />
                     <Box
                         sx={{
@@ -83,7 +82,7 @@ export const NumberOfCards = () => {
                             margin: '0 0 0 15px',
                         }}
                     >
-                        <Typography>{max}</Typography>
+                        <Typography>{value[1]}</Typography>
                     </Box>
                 </Box>
             </Box>
