@@ -16,7 +16,7 @@ export const getDataFromAxiosResponse = <T>(res: AxiosResponse<T>): T => res.dat
 export const parseAxiosError = (res: AxiosError<ErrorResponseType>) =>
     Promise.reject(res.response?.data?.error ?? res.message)
 
-export const parseLoginResponse = ({ _id, email, name, avatar, error }: LoginResponseType): any =>
+export const parseLoginResponse = ({ _id, email, name, avatar, error }: LoginResponseType) =>
     error ? Promise.reject(error) : Promise.resolve({ email, name, avatar, _id })
 
 export const parseUpdatedUserResponse = ({
