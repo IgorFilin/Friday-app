@@ -17,7 +17,7 @@ export const TablePacks = React.memo(() => {
     const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
-    console.log(sort)
+
     const rows = cardPacks.map((pack) => {
         return {
             key: pack._id,

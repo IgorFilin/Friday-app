@@ -12,8 +12,11 @@ import { getPacksCardTC } from '../../redux/packs-reducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const PacksList = () => {
+    console.log('PacksList')
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
+    const page = useAppSelector((state) => state.packsCard.page)
+    const pageCount = useAppSelector((state) => state.packsCard.pageCount)
 
     const dispatch = useAppDispatch()
 
