@@ -9,15 +9,15 @@ import {
     TableRow,
 } from '@mui/material'
 import TableSortLabel from '@mui/material/TableSortLabel'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { getPacksCardTC, sortPacksAC } from '../../redux/packs-reducer'
+import { sortPacksAC } from '../../redux/packs-reducer'
 
 export const TablePacks = React.memo(() => {
     const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
-
+    const sort = useAppSelector((state) => state.packsCard.sortPacks)
+    console.log(sort)
     const rows = cardPacks.map((pack) => {
         return {
             key: pack._id,
@@ -30,7 +30,8 @@ export const TablePacks = React.memo(() => {
     })
 
     const createSortHandler = () => {
-        dispatch(sortPacksAC('1updated'))
+        const valueSort = sort === '0updated' ? '1updated' : '0updated'
+        dispatch(sortPacksAC(valueSort))
     }
 
     return (
@@ -44,13 +45,16 @@ export const TablePacks = React.memo(() => {
                 <TableContainer component={Paper}>
                     <Table size="small" aria-label="a dense table">
                         <TableHead>
-                            <TableRow style={{ backgroundColor: '#EFEFEF' }}>
+                            <TableRow hover style={{ backgroundColor: '#EFEFEF' }}>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="center">Cards</TableCell>
                                 <TableCell align="center">
-                                    Last Created
-                                    <TableSortLabel onClick={createSortHandler} direction={'desc'}>
-                                        <ArrowDropDownIcon />
+                                    <TableSortLabel
+                                        active
+                                        onClick={createSortHandler}
+                                        direction={sort === '0updated' ? 'asc' : 'desc'}
+                                    >
+                                        Last Created
                                     </TableSortLabel>
                                 </TableCell>
                                 <TableCell align="right">Created by</TableCell>

@@ -19,8 +19,8 @@ export const App: React.FC = () => {
         dispatch(initializeAppTC())
     }, [dispatch])
 
-    DEV_VERSION &&
-        console.log('App render ', 'requestStatus:', requestStatus, 'isInitialized:', isInitialized)
+    // DEV_VERSION &&
+    // console.log('App render ', 'requestStatus:', requestStatus, 'isInitialized:', isInitialized)
 
     if (!isInitialized) return <AppCircularProgress />
 
