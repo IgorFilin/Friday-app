@@ -8,6 +8,7 @@ type PacksActionsType =
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof sortPacksAC>
+    | ReturnType<typeof setMinMaxValueAC>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -49,6 +50,9 @@ export const packsCardReducer = (
         case 'PACKS/SORT-PACKS': {
             return { ...state, sortPacks: action.valueSort }
         }
+        case 'PACKS/SET-MIN-MAX-VALUE': {
+            return { ...state, minCardsCount: action.minValue, maxCardsCount: action.maxValue }
+        }
         default: {
             return state
         }
@@ -66,6 +70,9 @@ export const setPageAC = (newPage: number) => {
 }
 export const sortPacksAC = (valueSort: string) => {
     return { type: 'PACKS/SORT-PACKS', valueSort } as const
+}
+export const setMinMaxValueAC = (minValue: number, maxValue: number) => {
+    return { type: 'PACKS/SET-MIN-MAX-VALUE', minValue, maxValue } as const
 }
 
 export const getPacksCardTC =

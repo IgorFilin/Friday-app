@@ -17,12 +17,14 @@ export const PacksList = () => {
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
     const page = useAppSelector((state) => state.packsCard.page)
     const pageCount = useAppSelector((state) => state.packsCard.pageCount)
+    const minCardsCount = useAppSelector((state) => state.packsCard.minCardsCount)
+    const maxCardsCount = useAppSelector((state) => state.packsCard.maxCardsCount)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(getPacksCardTC())
-    }, [sort])
+    }, [sort, minCardsCount, maxCardsCount, pageCount, page])
 
     return (
         <>
