@@ -8,6 +8,7 @@ type PacksActionsType =
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof sortPacksAC>
+    | ReturnType<typeof setMinMaxValueAC>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -30,6 +31,10 @@ const initialState = {
     page: 1,
     pageCount: 10,
     sortPacks: '0updated',
+    slider: {
+        max: 0,
+        min: 0,
+    },
 }
 
 export const packsCardReducer = (
@@ -38,7 +43,15 @@ export const packsCardReducer = (
 ): initialStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS-CARD': {
-            return { ...state, ...action.packsCard }
+            let copyState = { ...state }
+            if (state.slider.max === 0) {
+                copyState.slider.max = action.packsCard.maxCardsCount
+            }
+
+            return {
+                ...copyState,
+                ...action.packsCard,
+            }
         }
         case 'PACKS/SET-PAGE-COUNT': {
             return { ...state, pageCount: action.pageCount }
@@ -48,6 +61,12 @@ export const packsCardReducer = (
         }
         case 'PACKS/SORT-PACKS': {
             return { ...state, sortPacks: action.valueSort }
+        }
+        case 'PACKS/SET-MIN-MAX-VALUE': {
+            return {
+                ...state,
+                slider: { min: action.minValue, max: action.maxValue },
+            }
         }
         default: {
             return state
@@ -67,13 +86,16 @@ export const setPageAC = (newPage: number) => {
 export const sortPacksAC = (valueSort: string) => {
     return { type: 'PACKS/SORT-PACKS', valueSort } as const
 }
+export const setMinMaxValueAC = (minValue: number, maxValue: number) => {
+    return { type: 'PACKS/SET-MIN-MAX-VALUE', minValue, maxValue } as const
+}
 
 export const getPacksCardTC =
     () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         const packs = getState().packsCard
         let params: PacksCardParamsType = {
-            min: packs.minCardsCount,
-            max: packs.maxCardsCount,
+            min: packs.slider.min,
+            max: packs.slider.max,
             page: packs.page,
             pageCount: packs.pageCount,
             sortPacks: packs.sortPacks,

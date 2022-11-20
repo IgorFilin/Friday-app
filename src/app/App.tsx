@@ -18,7 +18,6 @@ export const App: React.FC = () => {
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [dispatch])
-
     // DEV_VERSION &&
     // console.log('App render ', 'requestStatus:', requestStatus, 'isInitialized:', isInitialized)
 
