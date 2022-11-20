@@ -80,7 +80,6 @@ export const initializeAppTC = () => async (dispatch: Dispatch) => {
         const res = await authApi.me()
         dispatch(setProfileDataAC(res))
         dispatch(setIsLoginAC(true))
-        // dispatch(setLoginUserIdAC(res._id))
     } catch (error) {
         dispatch(setIsLoginAC(false))
     } finally {

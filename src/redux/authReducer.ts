@@ -20,14 +20,12 @@ type AuthActionsType =
     | ReturnType<typeof getVerificationEmailAC>
     | ReturnType<typeof setNewPasswordAC>
     | ReturnType<typeof changePasswordAC>
-    | ReturnType<typeof setLoginUserIdAC>
 
 type InitialStateType = typeof initialState
 
 //===REDUCER====================================================================
 
 const initialState = {
-    loginUserId: '',
     isSingUp: false,
     isLogin: false,
     email: '',
@@ -67,9 +65,7 @@ export const authReducer = (
         case 'FORGOT-PASS/CHANGE-PASSWORD': {
             return { ...state, passChanged: action.passChanged }
         }
-        case 'AUTH/SET-LOGIN-USER-ID': {
-            return { ...state, loginUserId: action.id }
-        }
+
         default: {
             return state
         }
@@ -98,9 +94,6 @@ export const setNewPasswordAC = (password: string) => {
 }
 export const changePasswordAC = (passChanged: string) => {
     return { type: 'FORGOT-PASS/CHANGE-PASSWORD', passChanged } as const
-}
-export const setLoginUserIdAC = (id: string) => {
-    return { type: 'AUTH/SET-LOGIN-USER-ID', id } as const
 }
 
 //===THUNKS=====================================================================
