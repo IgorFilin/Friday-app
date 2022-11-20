@@ -34,7 +34,7 @@ const initialState = {
     verificationEmail: false,
     password: '',
     passChanged: '',
-    profileData: { email: '', name: '' } as ProfileDataType, // avatar: undefined
+    profileData: { email: '', name: '', id: '' } as ProfileDataType, // avatar: undefined
 }
 
 export const authReducer = (
@@ -123,6 +123,7 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
         const res = await authApi.login(data)
+        debugger
         dispatch(setProfileDataAC(res))
         dispatch(setInfoAC('logIn success'))
         dispatch(setIsLoginAC(true))

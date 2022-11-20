@@ -82,13 +82,22 @@ export const packsCardApi = {
     },
 }
 
+export const cardsApi = {
+    getCards(params: GetCardsParamsType) {
+        return instance
+            .get<CardsStateType>('/cards/card', { params })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
+}
+
 //==TYPES=======================================================================
 
 export type RecoveryEmailType = {
     email: string
 }
 
-export type CardType = {
+export type CardPackType = {
     _id: string
     user_id: string
     name: string
@@ -98,7 +107,7 @@ export type CardType = {
     user_name: string
 }
 export type PacksCardType = {
-    cardPacks: Array<CardType>
+    cardPacks: Array<CardPackType>
     cardPacksTotalCount: number
     maxCardsCount: number
     minCardsCount: number
@@ -141,6 +150,7 @@ export type LoginResponseType = ProfileDataType & {
 }
 
 export type ProfileDataType = {
+    id: string
     email: string
     name: string
     avatar?: string
@@ -162,4 +172,37 @@ export type ResponseForgotPasswordType = {
 export type ResponseSetNewPasswordType = {
     info: string
     error: string
+}
+
+export type GetCardsParamsType = {
+    cardsPack_id: string
+    cardAnswer?: string
+    cardQuestion?: string
+    min?: number
+    max?: number
+    sortCards?: string
+    page?: number
+    pageCount?: number
+}
+
+export type CardType = {
+    answer: string
+    question: string
+    cardsPack_id: string
+    grade: number
+    shots: number
+    user_id: string
+    created: string
+    updated: string
+    _id: string
+}
+
+export type CardsStateType = {
+    cards: Array<CardType>
+    cardsTotalCount: number
+    maxGrade: number
+    minGrade: number
+    page: number
+    pageCount: number
+    packUserId: string
 }

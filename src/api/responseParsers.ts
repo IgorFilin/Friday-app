@@ -1,11 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import {
-    PacksCardType,
-    LoginResponseType,
-    LogoutResponseType,
-    ProfileDataType,
-    SingUpResponseType,
-} from './api'
+import { LoginResponseType, LogoutResponseType, ProfileDataType, SingUpResponseType } from './api'
 
 type ErrorResponseType = {
     error: string
@@ -16,8 +10,14 @@ export const getDataFromAxiosResponse = <T>(res: AxiosResponse<T>): T => res.dat
 export const parseAxiosError = (res: AxiosError<ErrorResponseType>) =>
     Promise.reject(res.response?.data?.error ?? res.message)
 
-export const parseLoginResponse = ({ _id, email, name, avatar, error }: LoginResponseType) =>
-    error ? Promise.reject(error) : Promise.resolve({ email, name, avatar, _id })
+export const parseLoginResponse = ({
+    email,
+    name,
+    avatar,
+    error,
+    _id,
+}: LoginResponseType): Promise<ProfileDataType> =>
+    error ? Promise.reject(error) : Promise.resolve({ email, name, avatar, id: _id })
 
 export const parseUpdatedUserResponse = ({
     updatedUser,
@@ -32,6 +32,7 @@ export const parseUpdatedUserResponse = ({
               email: updatedUser.email,
               name: updatedUser.name,
               avatar: updatedUser.avatar,
+              id: updatedUser._id,
           })
 }
 

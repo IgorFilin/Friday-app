@@ -33,13 +33,13 @@ export const AppRoutes: React.FC = () => (
         <Route path={Path.login} element={<Login />} />
         <Route path={Path.registration} element={<Registration />} />
         <Route path={Path.profile} element={<Profile />} />
-        <Route path={Path.other} element={<Error />} />
         <Route path={Path.passwordRecovery} element={<PasswordRecovery />} />
         <Route path={Path.newPassword + '/:token'} element={<NewPassword />} />
         <Route path={Path.checkEmail} element={<CheckEmail />} />
-        <Route path={Path.myPack} element={<MyPack />} />
+        <Route path={Path.myPack + '/:packId'} element={<MyPack />} />
         <Route path={Path.friendsPack} element={<FriendsPack />} />
         <Route path={Path.packsList} element={<PacksList />} />
         <Route path={Path.namePack} element={<NamePack />} />
+        <Route path={Path.other} element={<Error />} />
     </Routes>
 )
