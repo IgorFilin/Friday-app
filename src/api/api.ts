@@ -91,6 +91,37 @@ export const cardsApi = {
     },
 }
 
+
+
+export const decksApi = {
+    setCards(
+        packId: string,
+        question?: string,
+        answer?: string,
+        min?: string,
+        max?: string,
+        page?: number,
+        pageCount?: number
+    ) {
+        return instance
+            .get(`/cards/card`, {
+                params: {
+                    cardsPack_id: packId,
+                    cardQuestion: question,
+                    cardAnswer: answer,
+                    min,
+                    max,
+                    page,
+                    pageCount,
+                },
+            })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+        // .then(parseLogoutResponse)
+    },
+}
+
+
 //==TYPES=======================================================================
 
 export type RecoveryEmailType = {

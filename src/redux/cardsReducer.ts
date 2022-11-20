@@ -1,6 +1,6 @@
-import { cardsApi, CardsStateType, GetCardsParamsType } from 'api/api'
 import { Dispatch } from 'redux'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
+import {cardsApi, CardsStateType, GetCardsParamsType} from "../api/api";
 
 //===TYPES======================================================================
 
