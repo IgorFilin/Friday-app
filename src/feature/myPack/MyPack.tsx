@@ -13,15 +13,19 @@ import { PackTable } from './PackTable'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { Path } from 'app/AppRoutes'
 import { fetchCardsTC } from 'redux/cardsReducer'
+import { setErrorAC } from '../../redux/appReducer'
 
 export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
+    const userId = useAppSelector((state) => state.auth.profileData.id)
     const cardsState = useAppSelector((state) => state.cards.cardsState)
     const dispatch = useAppDispatch()
     const { packId } = useParams() //for test /63515cf1684bc52aa9f1c764
 
     useEffect(() => {
-        if (packId) dispatch(fetchCardsTC({ cardsPack_id: packId }))
+        if (packId && userId === cardsState.packUserId)
+            dispatch(fetchCardsTC({ cardsPack_id: packId }))
+        dispatch(setErrorAC('This is not your Cards Pack'))
     }, [packId, dispatch])
 
     if (!isLogin) return <Navigate to={Path.login} />

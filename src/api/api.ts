@@ -150,6 +150,7 @@ export type LoginResponseType = ProfileDataType & {
 }
 
 export type ProfileDataType = {
+    id: string
     email: string
     name: string
     avatar?: string
