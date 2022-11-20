@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'
 import Box from '@mui/material/Box'
-import { Link } from 'react-router-dom'
+import {Link, Navigate} from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import { TableComponent } from './TableComponent'
 import Stack from '@mui/material/Stack'
@@ -15,11 +15,16 @@ import {setCardsTC} from "../../redux/decksReducer";
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
     const decks = useAppSelector((state) => state.decks)
+    const isLogin = useAppSelector((state) => state.auth.isLogin)
+
 
     useEffect(() => {
         dispatch(setCardsTC())
     }, [])
 
+    if(!isLogin){
+        return <Navigate to={'/login'} />
+    }
     return (
         <>
             {!decks.cardsData.cards.length ? (

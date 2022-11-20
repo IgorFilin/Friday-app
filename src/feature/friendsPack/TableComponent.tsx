@@ -84,7 +84,7 @@ export const TableComponent = () => {
                   </StyledTableCell>
                   <StyledTableCell align="right">{card.answer}</StyledTableCell>
                   <StyledTableCell align="right">
-                    {card.updated.slice(0, 10)}
+                    {card.updated.slice(0, 10).split('-').reverse().join('.')}
                   </StyledTableCell>
                   <StyledTableCell align="right">
                     <RatingComponent />

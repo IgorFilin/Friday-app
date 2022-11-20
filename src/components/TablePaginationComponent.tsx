@@ -1,44 +1,62 @@
 import React from "react";
 import TablePagination from "@mui/material/TablePagination";
 import Pagination from "@mui/material/Pagination";
+import {useAppDispatch, useAppSelector} from "../redux/store";
+import {setPageAC, setPageCountAC} from "../redux/decksReducer";
 
 export const TablePaginationComponent = () => {
-  const [page, setPage] = React.useState(2);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
 
-  const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
-  ) => {
-    setPage(newPage);
-  };
+    const dispatch = useAppDispatch()
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
+    const cardsTotalCount = useAppSelector(state => state.decks.cardsData.cardsTotalCount)
+    const page = useAppSelector(state => state.decks.cardsData.page)
+    const pageCount = useAppSelector(state => state.decks.cardsData.pageCount)
 
-  return (
-    <div style={{ display: "flex", width: "100%", margin: "10px auto" }}>
-      <Pagination
-        color={"primary"}
-        count={10}
-        variant="outlined"
-        shape="rounded"
-      />
-      <TablePagination
-        sx={{
-          mt: -1,
-        }}
-        component="div"
-        count={100}
-        page={page}
-        onPageChange={handleChangePage}
-        rowsPerPage={rowsPerPage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />
-    </div>
-  );
+    const TotalCountPages = Math.round(cardsTotalCount / pageCount)
+
+    const [pages, setPage] = React.useState(2);
+    const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+    const handleChangePage = (
+        event: React.MouseEvent<HTMLButtonElement> | null,
+        newPage: number
+    ) => {
+        dispatch(setPageAC(newPage + pageCount))
+    };
+
+    const handleChangeRowsPerPage = (
+        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    ) => {
+        dispatch(setPageCountAC(parseInt(event.target.value, 10)));
+    };
+
+    const currentPageHandler = (event: React.ChangeEvent<unknown>, page: number) => {
+        dispatch(setPageAC(page))
+    }
+
+    return (
+        <div style={{display: "flex", width: "100%", margin: "10px auto"}}>
+            <Pagination
+                color={'primary'}
+                count={TotalCountPages}
+                variant="outlined"
+                shape="rounded"
+                page={page}
+                defaultPage={1}
+                onChange={currentPageHandler}
+            />
+            <TablePagination
+                sx={{
+                    mt: -1,
+                }}
+                component="div"
+                count={cardsTotalCount}
+                page={page - 1}
+                onPageChange={handleChangePage}
+                rowsPerPage={pageCount}
+                onRowsPerPageChange={handleChangeRowsPerPage}
+                rowsPerPageOptions={[5, 10, 25]}
+            />
+        </div>
+    );
 };

@@ -4,8 +4,14 @@ import TextField from '@mui/material/TextField'
 import { InputAdornment } from '@mui/material'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
 import Box from '@mui/material/Box'
+import {useDispatch} from "react-redux";
+import {useAppSelector} from "../redux/store";
 
 export const InputSearch: React.FC<{ width?: number | string }> = ({ width }) => {
+
+    const dispatch = useDispatch()
+    const question = useAppSelector(state => state.decks.cardsData)
+
     const [inputValue, setInputValue] = React.useState('')
     return (
         <Box
