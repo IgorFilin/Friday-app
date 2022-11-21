@@ -107,7 +107,7 @@ export const setPackNameAC = (name: string) => {
 }
 
 export const getPacksCardTC =
-    () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
+    (userId?: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         const packs = getState().packsCard
         let params: PacksCardParamsType = {
             packName: packs.packName,
@@ -116,6 +116,7 @@ export const getPacksCardTC =
             page: packs.page,
             pageCount: packs.pageCount,
             sortPacks: packs.sortPacks,
+            user_id: userId,
         }
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
