@@ -9,6 +9,8 @@ import TableBody from '@mui/material/TableBody'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
 import IconButton from '@mui/material/IconButton'
+import Rating from '@mui/material/Rating'
+import StarIcon from '@mui/icons-material/Star'
 
 export type PackType = {
     question: string
@@ -45,7 +47,17 @@ export const PackTable: React.FC<TablePropsType<PackType>> = ({ rows }) => {
                             </TableCell>
                             <TableCell align="center">{row.answer}</TableCell>
                             <TableCell align="center">{row.lastUpdated}</TableCell>
-                            <TableCell align="right">{row.grade}</TableCell>
+                            <TableCell align="right">
+                                <Rating
+                                    name="card grade"
+                                    value={row.grade}
+                                    precision={0.1}
+                                    readOnly
+                                    emptyIcon={
+                                        <StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />
+                                    }
+                                />
+                            </TableCell>
                             <TableCell align="right">
                                 <IconButton>
                                     <DriveFileRenameOutlineIcon />
