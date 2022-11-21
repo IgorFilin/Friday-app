@@ -5,7 +5,7 @@ import { InputAdornment } from '@mui/material'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
 import Box from '@mui/material/Box'
 import { useDebounce } from 'usehooks-ts'
-import { setPackNameAC } from '../../redux/packs-reducer'
+import { setPackNameAC } from '../../redux/packsReducer'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../redux/store'
 

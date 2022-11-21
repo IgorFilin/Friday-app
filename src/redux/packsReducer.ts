@@ -39,7 +39,7 @@ const initialState = {
     },
 }
 
-export const packsCardReducer = (
+export const packsReducer = (
     state: initialStateType = initialState,
     action: PacksActionsType
 ): initialStateType => {

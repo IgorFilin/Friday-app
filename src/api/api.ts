@@ -7,7 +7,7 @@ import {
     parseSingUpResponse,
     parseUpdatedUserResponse,
 } from './responseParsers'
-import { PacksCardParamsType } from '../redux/packs-reducer'
+import { PacksCardParamsType } from '../redux/packsReducer'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {

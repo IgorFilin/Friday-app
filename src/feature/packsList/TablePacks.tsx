@@ -11,7 +11,7 @@ import {
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { sortPacksAC } from '../../redux/packs-reducer'
+import { sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const TablePacks = React.memo(() => {
