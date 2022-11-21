@@ -18,6 +18,8 @@ import { deletePackTC, sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const TablePacks = React.memo(() => {
+    type iconFlowType = 'read' | 'delete' | 'changed'
+
     const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
@@ -31,9 +33,12 @@ export const TablePacks = React.memo(() => {
         '&:hover': { color: '#1976d2', transition: '0.5s' },
     }
 
-    const onClickDeleteHandler = (id: string) => {
-        dispatch(deletePackTC(id))
+    const onClickIconHandler = (type: iconFlowType, id: string) => {
+        if (type === 'delete') dispatch(deletePackTC(id))
+        if (type === 'read') alert('readPack')
+        if (type === 'changed') alert('ChangedPack')
     }
+
     const rows = cardPacks.map((pack) => {
         return {
             userId: pack.user_id,
@@ -43,12 +48,28 @@ export const TablePacks = React.memo(() => {
             LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
             Actions: [
-                { icon: <SchoolOutlinedIcon sx={hoverStyleIcon} />, status: 'allMy' },
-                { icon: <ModeEditIcon sx={hoverStyleIcon} />, status: 'my' },
+                {
+                    icon: (
+                        <SchoolOutlinedIcon
+                            onClick={() => onClickIconHandler('read', pack._id)}
+                            sx={hoverStyleIcon}
+                        />
+                    ),
+                    status: 'allMy',
+                },
+                {
+                    icon: (
+                        <ModeEditIcon
+                            onClick={() => onClickIconHandler('changed', pack._id)}
+                            sx={hoverStyleIcon}
+                        />
+                    ),
+                    status: 'my',
+                },
                 {
                     icon: (
                         <DeleteOutlineIcon
-                            onClick={() => onClickDeleteHandler(pack._id)}
+                            onClick={() => onClickIconHandler('delete', pack._id)}
                             sx={hoverStyleIcon}
                         />
                     ),

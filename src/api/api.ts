@@ -89,6 +89,12 @@ export const packsCardApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
+    changePackCard(id: string) {
+        return instance
+            .put(`/cards/pack?id=${id}`)
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
 }
 
 export const cardsApi = {
