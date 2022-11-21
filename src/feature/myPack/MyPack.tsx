@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/store'
-import { Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Navigate, useParams } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -20,24 +20,24 @@ export const MyPack: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.profileData.id)
     const cardsState = useAppSelector((state) => state.cards)
     const dispatch = useAppDispatch()
-    const navigate = useNavigate()
     const { packId } = useParams() //for test /63515cf1684bc52aa9f1c764
 
     useEffect(() => {
-        if (userId !== cardsState.packUserId) {
-            dispatch(setErrorAC('This is not your Cards Pack'))
-            navigate(Path.packsList)
-        }
-        if (packId) dispatch(fetchCardsTC({ cardsPack_id: packId }))
-    }, [packId, cardsState.packUserId, userId, dispatch, navigate])
-
-    if (!isLogin) return <Navigate to={Path.login} />
+        if (isLogin && packId) dispatch(fetchCardsTC({ cardsPack_id: packId }))
+    }, [packId, isLogin, dispatch])
 
     const onAddCardClickHandler = () => {
         if (!packId) return
         dispatch(
             createCardTC({ cardsPack_id: packId, answer: 'test answer', question: 'test question' })
         )
+    }
+
+    if (!isLogin) return <Navigate to={Path.login} />
+
+    if (cardsState.packUserId !== '' && cardsState.packUserId !== userId) {
+        dispatch(setErrorAC("It's not yours Cards Pack"))
+        return <Navigate to={Path.packsList} />
     }
 
     return (
