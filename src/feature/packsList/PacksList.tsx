@@ -7,7 +7,7 @@ import { AddNewPack } from './AddNewPack'
 import { TablePacks } from './TablePacks'
 import { PaginationPacksList } from './PaginationPacksList'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { getPacksCardTC } from '../../redux/packs-reducer'
+import { getPacksCardTC } from '../../redux/packsReducer'
 import { InputSearchPacksCard } from './InputSearchPacksCard'
 
 export const PacksList = () => {

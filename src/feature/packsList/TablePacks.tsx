@@ -10,8 +10,11 @@ import {
 } from '@mui/material'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Box from '@mui/material/Box'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { sortPacksAC } from '../../redux/packs-reducer'
+import { sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 import {setCardsTC} from "../../redux/decksReducer";
 import {Link} from "react-router-dom";
@@ -23,6 +26,12 @@ export const TablePacks = React.memo(() => {
 
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
+    const hoverStyleIcon = {
+        transition: '0.5s',
+        cursor: 'pointer',
+        '&:hover': { color: '#1976d2', transition: '0.5s' },
+    }
+
     const rows = cardPacks.map((pack) => {
         return {
             key: pack._id,
@@ -30,7 +39,11 @@ export const TablePacks = React.memo(() => {
             Cards: pack.cardsCount,
             LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
-            Actions: 1,
+            Actions: [
+                <SchoolOutlinedIcon sx={hoverStyleIcon} />,
+                <ModeEditIcon sx={hoverStyleIcon} />,
+                <DeleteOutlineIcon sx={hoverStyleIcon} />,
+            ],
         }
     })
 
@@ -99,7 +112,15 @@ export const TablePacks = React.memo(() => {
                                           <TableCell align="center">{row.Cards}</TableCell>
                                           <TableCell align="center">{row.LastCreated}</TableCell>
                                           <TableCell align="right">{row.CreatedBy}</TableCell>
-                                          <TableCell align="center">{row.Actions}</TableCell>
+                                          <TableCell align="center">
+                                              {row.Actions.map((icon, i) => {
+                                                  return (
+                                                      <span style={{ padding: '3px' }} key={i}>
+                                                          {icon}
+                                                      </span>
+                                                  )
+                                              })}
+                                          </TableCell>
                                       </TableRow>
                                   ))}
                         </TableBody>

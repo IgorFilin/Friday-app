@@ -7,7 +7,7 @@ import {
     parseSingUpResponse,
     parseUpdatedUserResponse,
 } from './responseParsers'
-import { PacksCardParamsType } from '../redux/packs-reducer'
+import { PacksCardParamsType } from '../redux/packsReducer'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {
@@ -78,7 +78,16 @@ export const packsCardApi = {
             .catch(parseAxiosError)
     },
     createPackCard(payload: createPackCardType) {
-        return instance.post('/cards/pack', { cardsPack: payload })
+        return instance
+            .post('/cards/pack', { cardsPack: payload })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
+    deletePackCard(id: string) {
+        return instance
+            .delete(`/cards/pack?id=${id}`)
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
     },
 }
 
@@ -146,9 +155,9 @@ export type PacksCardType = {
     pageCount: number
 }
 export type createPackCardType = {
-    name: string
-    deckCover: string
-    private: boolean
+    name?: string
+    deckCover?: string
+    private?: boolean
 }
 export type DataFormType = {
     email?: string

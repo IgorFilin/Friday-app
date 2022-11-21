@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Slider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { setMinMaxValueAC } from '../../redux/packs-reducer'
+import { setMinMaxValueAC } from '../../redux/packsReducer'
 import { useDebounce } from 'usehooks-ts'
 
 export const NumberOfCards = () => {
