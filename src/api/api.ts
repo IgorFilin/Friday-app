@@ -83,6 +83,12 @@ export const packsCardApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
+    deletePackCard(id: string) {
+        return instance
+            .delete(`/cards/pack?id=${id}`)
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
 }
 
 export const cardsApi = {
