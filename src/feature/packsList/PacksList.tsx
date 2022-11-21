@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp'
+import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined'
 import Box from '@mui/material/Box'
 import { ShowPacksCards } from './ShowPacksCards'
 import { NumberOfCards } from './NumberOfCards'
@@ -24,6 +24,9 @@ export const PacksList = () => {
         dispatch(getPacksCardTC())
     }, [sort, max, min, pageCount, page, packName])
 
+    const onClickFilterDefaultHandler = () => {
+        dispatch(getPacksCardTC('', true))
+    }
     return (
         <>
             <Box
@@ -73,7 +76,14 @@ export const PacksList = () => {
                                     borderRadius: '2px',
                                 }}
                             >
-                                <FilterAltSharpIcon />
+                                <FilterAltOffOutlinedIcon
+                                    sx={{
+                                        transition: '0.5s',
+                                        cursor: 'pointer',
+                                        '&:hover': { color: '#1976d2', transition: '0.5s' },
+                                    }}
+                                    onClick={onClickFilterDefaultHandler}
+                                />
                             </Box>
                         </Box>
                     </Box>

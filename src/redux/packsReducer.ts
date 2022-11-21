@@ -107,21 +107,29 @@ export const setPackNameAC = (name: string) => {
 }
 
 export const getPacksCardTC =
-    (userId?: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
-        const packs = getState().packsCard
-        let params: PacksCardParamsType = {
-            packName: packs.packName,
-            min: packs.slider.min,
-            max: packs.slider.max,
-            page: packs.page,
-            pageCount: packs.pageCount,
-            sortPacks: packs.sortPacks,
-            user_id: userId,
+    (userId?: string, activeDefaultValue?: boolean) =>
+    async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
+        let params: PacksCardParamsType = {}
+        if (!activeDefaultValue) {
+            const packs = getState().packsCard
+            params = {
+                packName: packs.packName,
+                min: packs.slider.min,
+                max: packs.slider.max,
+                page: packs.page,
+                pageCount: packs.pageCount,
+                sortPacks: packs.sortPacks,
+                user_id: userId,
+            }
         }
+
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
             const result = await packsCardApi.getPacksCard(params)
-            dispatch(setPacksCardAC(result))
+            if (activeDefaultValue) {
+                dispatch(setMinMaxValueAC(0, 0))
+                dispatch(setPackNameAC(''))
+            } else dispatch(setPacksCardAC(result))
         } catch (e) {
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))

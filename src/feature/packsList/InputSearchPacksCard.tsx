@@ -15,7 +15,9 @@ export const InputSearchPacksCard: React.FC<{ width?: number | string }> = ({ wi
     const namePack = useAppSelector((state) => state.packsCard.packName)
 
     const [inputValue, setInputValue] = useState(namePack)
-
+    useEffect(() => {
+        setInputValue(namePack)
+    }, [namePack])
     const debouncedValue = useDebounce<string>(inputValue, 500)
 
     useEffect(() => {
