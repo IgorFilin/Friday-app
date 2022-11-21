@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
-import { CardPackType, packsCardApi, PacksCardType } from 'api/api'
-import { AppRootReducerType } from './store'
+import { CardPackType, createPackCardType, packsCardApi, PacksCardType } from 'api/api'
+import { AppDispatch, AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 
 type PacksActionsType =
@@ -115,6 +115,22 @@ export const getPacksCardTC =
             dispatch(setLoadingAC(RequestStatus.loading))
             const result = await packsCardApi.getPacksCard(params)
             dispatch(setPacksCardAC(result))
+        } catch (e) {
+            dispatch(setErrorAC(e as string))
+            dispatch(setLoadingAC(RequestStatus.error))
+        } finally {
+            dispatch(setLoadingAC(RequestStatus.succeeded))
+        }
+    }
+
+export const createPackTC =
+    (payload: createPackCardType) =>
+    async (dispatch: AppDispatch, getState: () => AppRootReducerType) => {
+        try {
+            dispatch(setLoadingAC(RequestStatus.loading))
+            await packsCardApi.createPackCard(payload)
+            await dispatch(getPacksCardTC())
+            dispatch(setLoadingAC(RequestStatus.succeeded))
         } catch (e) {
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))

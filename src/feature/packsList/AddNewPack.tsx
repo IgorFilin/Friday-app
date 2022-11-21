@@ -2,10 +2,14 @@ import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { BlueButton } from '../../components/BlueButton'
+import { useAppDispatch } from '../../redux/store'
+import { createPackTC } from '../../redux/packsReducer'
 
 export const AddNewPack = () => {
+    const dispatch = useAppDispatch()
+
     const addNewPackHandler = () => {
-        console.log(1)
+        dispatch(createPackTC({ name: 'MyPack(filin)' }))
     }
 
     return (
