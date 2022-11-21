@@ -24,6 +24,12 @@ export const TablePacks = React.memo(() => {
 
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
+    const hoverStyleIcon = {
+        transition: '0.5s',
+        cursor: 'pointer',
+        '&:hover': { color: '#1976d2', transition: '0.5s' },
+    }
+
     const rows = cardPacks.map((pack) => {
         return {
             key: pack._id,
@@ -31,7 +37,11 @@ export const TablePacks = React.memo(() => {
             Cards: pack.cardsCount,
             LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
-            Actions: [<SchoolOutlinedIcon />, <ModeEditIcon />, <DeleteOutlineIcon />],
+            Actions: [
+                <SchoolOutlinedIcon sx={hoverStyleIcon} />,
+                <ModeEditIcon sx={hoverStyleIcon} />,
+                <DeleteOutlineIcon sx={hoverStyleIcon} />,
+            ],
         }
     })
 
@@ -94,7 +104,15 @@ export const TablePacks = React.memo(() => {
                                           <TableCell align="center">{row.Cards}</TableCell>
                                           <TableCell align="center">{row.LastCreated}</TableCell>
                                           <TableCell align="right">{row.CreatedBy}</TableCell>
-                                          <TableCell align="center">{row.Actions}</TableCell>
+                                          <TableCell align="center">
+                                              {row.Actions.map((icon, i) => {
+                                                  return (
+                                                      <span style={{ padding: '3px' }} key={i}>
+                                                          {icon}
+                                                      </span>
+                                                  )
+                                              })}
+                                          </TableCell>
                                       </TableRow>
                                   ))}
                         </TableBody>
