@@ -150,3 +150,17 @@ export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
         dispatch(setLoadingAC(RequestStatus.succeeded))
     }
 }
+
+export const changePackTC = (id: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.changePackCard(id)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    }
+}
