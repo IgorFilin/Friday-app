@@ -123,18 +123,30 @@ export const getPacksCardTC =
         }
     }
 
-export const createPackTC =
-    (payload: createPackCardType) =>
-    async (dispatch: AppDispatch, getState: () => AppRootReducerType) => {
-        try {
-            dispatch(setLoadingAC(RequestStatus.loading))
-            await packsCardApi.createPackCard(payload)
-            await dispatch(getPacksCardTC())
-            dispatch(setLoadingAC(RequestStatus.succeeded))
-        } catch (e) {
-            dispatch(setErrorAC(e as string))
-            dispatch(setLoadingAC(RequestStatus.error))
-        } finally {
-            dispatch(setLoadingAC(RequestStatus.succeeded))
-        }
+export const createPackTC = (payload: createPackCardType) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.createPackCard(payload)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
     }
+}
+
+export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.deletePackCard(id)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    }
+}
