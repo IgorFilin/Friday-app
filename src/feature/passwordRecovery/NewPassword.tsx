@@ -13,7 +13,7 @@ export type FormikErrorType = {
 }
 
 export const NewPassword = () => {
-    const passChanged = useAppSelector((state) => state.auth.passChanged)
+    const passChanged = useAppSelector((state) => state.auth.forgotPass.passChanged)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
     const params = useParams<'token'>()

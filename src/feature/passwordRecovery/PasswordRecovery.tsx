@@ -12,7 +12,7 @@ type FormikErrorType = {
 }
 export const PasswordRecovery = () => {
     const statusLoading = useAppSelector((state) => state.app.request.status)
-    const success = useAppSelector((state) => state.auth.verificationEmail)
+    const success = useAppSelector((state) => state.auth.forgotPass.verificationEmail)
     const dispatch = useAppDispatch()
     const navigate = useNavigate()
 

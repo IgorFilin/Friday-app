@@ -27,15 +27,18 @@ export const authApi = {
     },
 
     forgotPass(email: RecoveryEmailType) {
-        return instance.post<ResponseForgotPasswordType>('/auth/forgot', {
-            email: email.email,
-            message: `<div style="background-color: #f7f7f7; padding: 15px">
+        return instance
+            .post<ResponseForgotPasswordType>('/auth/forgot', {
+                email: email.email,
+                message: `<div style="background-color: #f7f7f7; padding: 15px">
                         Follow
                         <a href='https://Samurai-way.github.io/Friday-app/#/set-new-password/$token$'
                         style="font-weight: bold; color: #1a73e8;">
                         this link</a> to recover your password
                         </div>`, // html-письмо, вместо $token$ бэк вставит токен
-        })
+            })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
     },
 
     setNewPassword({ password, resetPasswordToken }: SetNewPasswordType) {

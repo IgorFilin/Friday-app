@@ -12,7 +12,7 @@ export const CheckEmail = () => {
     const handleClickToLogin = () => {
         navigate('/login')
     }
-    const email = useAppSelector((state) => state.auth.email)
+    const email = useAppSelector((state) => state.auth.forgotPass.email)
     const statusLoading = useAppSelector((state) => state.app.request.status)
 
     return (
