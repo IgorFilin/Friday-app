@@ -14,12 +14,13 @@ import {setCardsTC} from "../../redux/decksReducer";
 import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
 import ModeEditIcon from "@mui/icons-material/ModeEdit";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import {AddToPack} from "./AddPoPack";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
     const decks = useAppSelector((state) => state.decks)
     const isLogin = useAppSelector((state) => state.auth.isLogin)
-
+    const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
 
 
     const params = useParams<'id'>()
@@ -28,57 +29,44 @@ export const FriendsPack = () => {
 
     useEffect(() => {
         dispatch(setCardsTC(some))
-    }, [])
+    }, [sort])
 
     if(!isLogin){
         return <Navigate to={'/login'} />
     }
+
     return (
         <>
-            {!decks.cardsData.cards.length ? (
-                <Typography
-                    variant={'h6'}
+            {!decks.cardsData.cards.length ? <AddToPack/> : <Container sx={{ maxWidth: '1008px' }}>
+                <Box style={{ width: '100%', margin: '24px auto' }}>
+                    <Link to={'/packslist'} style={{ textDecoration: 'none', color: 'black' }}>
+                        <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
+                    </Link>
+                </Box>
+                <Box
                     style={{
-                        fontWeight: 'bold',
-                        // display: 'flex',
-                        margin: '20px 40%',
-                        // justifyContent: 'space-between',
+                        width: '100%',
                     }}
                 >
-                    Sorry, maps is over =(
-                </Typography>
-            ) : (
-                <Container sx={{ maxWidth: '1008px' }}>
-                    <Box style={{ width: '100%', margin: '24px auto' }}>
-                        <Link to={'/packslist'} style={{ textDecoration: 'none', color: 'black' }}>
-                            <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
-                        </Link>
-                    </Box>
-                    <Box
+
+                    <Typography
+                        variant={'h6'}
                         style={{
-                            width: '100%',
+                            fontWeight: 'bold',
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                            marginTop: '27px'
                         }}
                     >
-
-                        <Typography
-                            variant={'h6'}
-                            style={{
-                                fontWeight: 'bold',
-                                display: 'flex',
-                                justifyContent: 'space-between',
-                                marginTop: '27px'
-                            }}
-                        >
-                            Friend’s Pack
-                            <BlueButton>Learn to pack</BlueButton>
-                        </Typography>
-                    </Box>
-                    <InputSearch />
-                    <TableComponent />
-                    <Stack sx={{ width: '100%', margin: '0 auto' }} spacing={2}></Stack>
-                    <TablePaginationComponent />
-                </Container>
-            )}
+                        Friend’s Pack
+                        <BlueButton>Learn to pack</BlueButton>
+                    </Typography>
+                </Box>
+                <InputSearch />
+                <TableComponent />
+                <Stack sx={{ width: '100%', margin: '0 auto' }} spacing={2}></Stack>
+                <TablePaginationComponent />
+            </Container>}
         </>
     )
 }

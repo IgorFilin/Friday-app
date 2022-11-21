@@ -11,7 +11,9 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {RatingComponent} from "./RatingComponent";
 import TableSortLabel from "@mui/material/TableSortLabel/TableSortLabel";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {sortCardsAC} from "../../redux/decksReducer";
+import {setCardsTC, sortCardsAC} from "../../redux/decksReducer";
+import {useEffect} from "react";
+import {useParams} from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -42,7 +44,14 @@ export const TableComponent = () => {
     const decks = useAppSelector((state) => state.decks)
     const dispatch = useAppDispatch()
     const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
+    const params = useParams<'id'>()
 
+    const some = params.id
+
+
+    // useEffect(() => {
+    //     dispatch(setCardsTC(some))
+    // }, [sort])
 
     const createSortHandler = () => {
         const valueSort = sort === '0updated' ? '1updated' : '0updated'
@@ -62,7 +71,7 @@ export const TableComponent = () => {
                 <TableHead>
                     <TableRow>
                         <TableCell style={style}>Question</TableCell>
-                        <TableCell style={style} align="center">
+                        <TableCell style={style} align="right">
                             Answer
                         </TableCell>
                         <TableCell style={style} align="right">
@@ -74,7 +83,7 @@ export const TableComponent = () => {
                                 direction={sort === '0updated' ? 'asc' : 'desc'}
                             >Last Updated</TableSortLabel>
                         </TableCell>
-                        <TableCell style={style} align="center">
+                        <TableCell style={style} align="right">
                             Grade
                         </TableCell>
                     </TableRow>
