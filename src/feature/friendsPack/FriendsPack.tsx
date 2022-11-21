@@ -1,7 +1,7 @@
 import React, {useEffect} from 'react'
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'
 import Box from '@mui/material/Box'
-import {Link, Navigate} from 'react-router-dom'
+import {Link, Navigate, useNavigate, useParams} from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import { TableComponent } from './TableComponent'
 import Stack from '@mui/material/Stack'
@@ -17,7 +17,9 @@ export const FriendsPack = () => {
     const decks = useAppSelector((state) => state.decks)
     const isLogin = useAppSelector((state) => state.auth.isLogin)
 
-
+    const params = useParams<'id'>()
+    const some = params
+    console.log(some)
     useEffect(() => {
         dispatch(setCardsTC())
     }, [])

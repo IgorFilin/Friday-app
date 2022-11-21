@@ -13,6 +13,8 @@ import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { sortPacksAC } from '../../redux/packs-reducer'
 import { RequestStatus } from '../../redux/appReducer'
+import {setCardsTC} from "../../redux/decksReducer";
+import {Link} from "react-router-dom";
 
 export const TablePacks = React.memo(() => {
     const dispatch = useAppDispatch()
@@ -35,6 +37,10 @@ export const TablePacks = React.memo(() => {
     const createSortHandler = () => {
         const valueSort = sort === '0updated' ? '1updated' : '0updated'
         dispatch(sortPacksAC(valueSort))
+    }
+
+    const onClickUserHandler = (id: string) => {
+        // dispatch(setCardsTC(id))
     }
 
     return (
@@ -87,7 +93,9 @@ export const TablePacks = React.memo(() => {
                                           key={row.key}
                                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                       >
-                                          <TableCell align="left">{row.Name}</TableCell>
+                                          <TableCell align="left">
+                                              <Link to={`friendspack/${row.key}`}>{row.Name}</Link>
+                                          </TableCell>
                                           <TableCell align="center">{row.Cards}</TableCell>
                                           <TableCell align="center">{row.LastCreated}</TableCell>
                                           <TableCell align="right">{row.CreatedBy}</TableCell>
