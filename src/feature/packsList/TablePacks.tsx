@@ -14,15 +14,18 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { sortPacksAC } from '../../redux/packsReducer'
+import { changePackTC, deletePackTC, sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 import {setCardsTC} from "../../redux/decksReducer";
 import {Link} from "react-router-dom";
 
 export const TablePacks = React.memo(() => {
+    type iconFlowType = 'read' | 'delete' | 'changed'
+
     const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
+    const authUserId = useAppSelector((state) => state.auth.profileData.id)
 
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
@@ -32,17 +35,48 @@ export const TablePacks = React.memo(() => {
         '&:hover': { color: '#1976d2', transition: '0.5s' },
     }
 
+    const onClickIconHandler = (type: iconFlowType, id: string) => {
+        if (type === 'delete') dispatch(deletePackTC(id))
+        if (type === 'read') alert('readPack')
+        if (type === 'changed') dispatch(changePackTC({ _id: id, name: 'UpdatedNamePack' }))
+    }
+
     const rows = cardPacks.map((pack) => {
         return {
+            userId: pack.user_id,
             key: pack._id,
             Name: pack.name,
             Cards: pack.cardsCount,
             LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
             Actions: [
-                <SchoolOutlinedIcon sx={hoverStyleIcon} />,
-                <ModeEditIcon sx={hoverStyleIcon} />,
-                <DeleteOutlineIcon sx={hoverStyleIcon} />,
+                {
+                    icon: (
+                        <SchoolOutlinedIcon
+                            onClick={() => onClickIconHandler('read', pack._id)}
+                            sx={hoverStyleIcon}
+                        />
+                    ),
+                    status: 'allMy',
+                },
+                {
+                    icon: (
+                        <ModeEditIcon
+                            onClick={() => onClickIconHandler('changed', pack._id)}
+                            sx={hoverStyleIcon}
+                        />
+                    ),
+                    status: 'my',
+                },
+                {
+                    icon: (
+                        <DeleteOutlineIcon
+                            onClick={() => onClickIconHandler('delete', pack._id)}
+                            sx={hoverStyleIcon}
+                        />
+                    ),
+                    status: 'my',
+                },
             ],
         }
     })
@@ -111,11 +145,19 @@ export const TablePacks = React.memo(() => {
                                           <TableCell align="right">{row.CreatedBy}</TableCell>
                                           <TableCell align="center">
                                               {row.Actions.map((icon, i) => {
-                                                  return (
-                                                      <span style={{ padding: '3px' }} key={i}>
-                                                          {icon}
-                                                      </span>
-                                                  )
+                                                  if (authUserId === row.userId) {
+                                                      return (
+                                                          <span style={{ padding: '3px' }} key={i}>
+                                                              {icon.icon}
+                                                          </span>
+                                                      )
+                                                  } else if (icon.status === 'allMy') {
+                                                      return (
+                                                          <span style={{ padding: '3px' }} key={i}>
+                                                              {icon.icon}
+                                                          </span>
+                                                      )
+                                                  }
                                               })}
                                           </TableCell>
                                       </TableRow>

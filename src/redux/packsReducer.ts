@@ -1,5 +1,11 @@
 import { Dispatch } from 'redux'
-import { CardPackType, createPackCardType, packsCardApi, PacksCardType } from 'api/api'
+import {
+    CardPackType,
+    ChangePackCardType,
+    createPackCardType,
+    packsCardApi,
+    PacksCardType,
+} from 'api/api'
 import { AppDispatch, AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 
@@ -101,7 +107,7 @@ export const setPackNameAC = (name: string) => {
 }
 
 export const getPacksCardTC =
-    () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
+    (userId?: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         const packs = getState().packsCard
         let params: PacksCardParamsType = {
             packName: packs.packName,
@@ -110,6 +116,7 @@ export const getPacksCardTC =
             page: packs.page,
             pageCount: packs.pageCount,
             sortPacks: packs.sortPacks,
+            user_id: userId,
         }
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
@@ -141,6 +148,20 @@ export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
         await packsCardApi.deletePackCard(id)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    }
+}
+
+export const changePackTC = (payload: ChangePackCardType) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.changePackCard(payload)
         await dispatch(getPacksCardTC())
         dispatch(setLoadingAC(RequestStatus.succeeded))
     } catch (e) {
