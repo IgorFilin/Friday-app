@@ -56,8 +56,7 @@ export const PacksList = () => {
                         <NumberOfCards />
                         <Box
                             sx={{
-                                marginTop: '30px',
-                                alignSelf: 'self-end',
+                                alignSelf: 'flex-end',
                                 marginBottom: '2px',
                             }}
                         >
