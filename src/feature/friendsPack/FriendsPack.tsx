@@ -11,17 +11,23 @@ import Container from '@mui/material/Container'
 import { BlueButton } from '../../components/BlueButton'
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {setCardsTC} from "../../redux/decksReducer";
+import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
+import ModeEditIcon from "@mui/icons-material/ModeEdit";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
     const decks = useAppSelector((state) => state.decks)
     const isLogin = useAppSelector((state) => state.auth.isLogin)
 
+
+
     const params = useParams<'id'>()
-    const some = params
-    console.log(some)
+    const some = params.id
+
+
     useEffect(() => {
-        dispatch(setCardsTC())
+        dispatch(setCardsTC(some))
     }, [])
 
     if(!isLogin){
@@ -43,8 +49,8 @@ export const FriendsPack = () => {
                 </Typography>
             ) : (
                 <Container sx={{ maxWidth: '1008px' }}>
-                    <Box style={{ width: '100%', margin: '0 auto' }}>
-                        <Link to={'/login'} style={{ textDecoration: 'none', color: 'black' }}>
+                    <Box style={{ width: '100%', margin: '24px auto' }}>
+                        <Link to={'/packslist'} style={{ textDecoration: 'none', color: 'black' }}>
                             <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
                         </Link>
                     </Box>
@@ -53,12 +59,14 @@ export const FriendsPack = () => {
                             width: '100%',
                         }}
                     >
+
                         <Typography
                             variant={'h6'}
                             style={{
                                 fontWeight: 'bold',
                                 display: 'flex',
                                 justifyContent: 'space-between',
+                                marginTop: '27px'
                             }}
                         >
                             Friend’s Pack

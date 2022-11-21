@@ -22,7 +22,7 @@ export enum Path {
     newPassword = '/set-new-password',
     checkEmail = '/check',
     myPack = '/mypack',
-    friendsPack = '/friendspack',
+    friendsPack = '/friendspack/:id',
     packsList = '/packslist',
     namePack = '/name-pack',
 }

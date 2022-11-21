@@ -22,7 +22,9 @@ export const InputSearch: React.FC<{ width?: number | string }> = ({ width }) =>
                 gap: '5px',
             }}
         >
-            <Typography variant="h6">Search</Typography>
+            <Typography sx={{
+                mt: '28px'
+            }} variant="h6">Search</Typography>
             <TextField
                 size={'small'}
                 placeholder={'Provide your text'}

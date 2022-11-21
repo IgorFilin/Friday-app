@@ -52,9 +52,6 @@ export const TablePacks = React.memo(() => {
         dispatch(sortPacksAC(valueSort))
     }
 
-    const onClickUserHandler = (id: string) => {
-        // dispatch(setCardsTC(id))
-    }
 
     return (
         <>
@@ -107,7 +104,7 @@ export const TablePacks = React.memo(() => {
                                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                       >
                                           <TableCell align="left">
-                                              <Link to={`friendspack/${row.key}`}>{row.Name}</Link>
+                                              <Link style={{textDecoration: 'none'}} to={`/friendspack/${row.key}`}>{row.Name}</Link>
                                           </TableCell>
                                           <TableCell align="center">{row.Cards}</TableCell>
                                           <TableCell align="center">{row.LastCreated}</TableCell>
