@@ -10,6 +10,9 @@ import {
 } from '@mui/material'
 import TableSortLabel from '@mui/material/TableSortLabel'
 import Box from '@mui/material/Box'
+import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
+import ModeEditIcon from '@mui/icons-material/ModeEdit'
+import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
@@ -28,7 +31,7 @@ export const TablePacks = React.memo(() => {
             Cards: pack.cardsCount,
             LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
-            Actions: 1,
+            Actions: [<SchoolOutlinedIcon />, <ModeEditIcon />, <DeleteOutlineIcon />],
         }
     })
 
