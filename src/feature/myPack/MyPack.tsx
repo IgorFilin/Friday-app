@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/store'
-import { Navigate, useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
@@ -12,23 +12,33 @@ import { TablePaginationComponent } from 'components/TablePaginationComponent'
 import { PackTable } from './PackTable'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { Path } from 'app/AppRoutes'
-import { fetchCardsTC } from 'redux/cardsReducer'
-import { setErrorAC } from '../../redux/appReducer'
+import { createCardTC, fetchCardsTC } from 'redux/cardsReducer'
+import { setErrorAC } from 'redux/appReducer'
 
 export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
     const userId = useAppSelector((state) => state.auth.profileData.id)
-    const cardsState = useAppSelector((state) => state.cards.cardsState)
+    const cardsState = useAppSelector((state) => state.cards)
     const dispatch = useAppDispatch()
+    const navigate = useNavigate()
     const { packId } = useParams() //for test /63515cf1684bc52aa9f1c764
 
     useEffect(() => {
-        if (packId && userId === cardsState.packUserId)
-            dispatch(fetchCardsTC({ cardsPack_id: packId }))
-        dispatch(setErrorAC('This is not your Cards Pack'))
-    }, [packId, dispatch])
+        if (userId !== cardsState.packUserId) {
+            dispatch(setErrorAC('This is not your Cards Pack'))
+            navigate(Path.packsList)
+        }
+        if (packId) dispatch(fetchCardsTC({ cardsPack_id: packId }))
+    }, [packId, cardsState.packUserId, userId, dispatch, navigate])
 
     if (!isLogin) return <Navigate to={Path.login} />
+
+    const onAddCardClickHandler = () => {
+        if (!packId) return
+        dispatch(
+            createCardTC({ cardsPack_id: packId, answer: 'test answer', question: 'test question' })
+        )
+    }
 
     return (
         <Container
@@ -56,21 +66,7 @@ export const MyPack: React.FC = () => {
                         </Typography>
                         <MyPackButtonWithMenu />
                     </Box>
-                    <BlueButton
-                    // onClick={() => {
-                    //     setRows((rs) => [
-                    //         ...rs,
-                    //         {
-                    //             question: 'question',
-                    //             grade: 5,
-                    //             answer: 'answer',
-                    //             lastUpdated: new Date().toLocaleString(),
-                    //         },
-                    //     ])
-                    // }}
-                    >
-                        Add new card
-                    </BlueButton>
+                    <BlueButton onClick={onAddCardClickHandler}>Add new card</BlueButton>
                 </Box>
                 <InputSearch width={'100%'} />
                 <br />
