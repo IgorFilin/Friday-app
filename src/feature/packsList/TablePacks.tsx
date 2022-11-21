@@ -14,13 +14,14 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { sortPacksAC } from '../../redux/packsReducer'
+import { deletePackTC, sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const TablePacks = React.memo(() => {
     const dispatch = useAppDispatch()
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
+    const authUserId = useAppSelector((state) => state.auth.profileData.id)
 
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
@@ -30,17 +31,29 @@ export const TablePacks = React.memo(() => {
         '&:hover': { color: '#1976d2', transition: '0.5s' },
     }
 
+    const onClickDeleteHandler = (id: string) => {
+        dispatch(deletePackTC(id))
+    }
     const rows = cardPacks.map((pack) => {
         return {
+            userId: pack.user_id,
             key: pack._id,
             Name: pack.name,
             Cards: pack.cardsCount,
             LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             CreatedBy: pack.user_name,
             Actions: [
-                <SchoolOutlinedIcon sx={hoverStyleIcon} />,
-                <ModeEditIcon sx={hoverStyleIcon} />,
-                <DeleteOutlineIcon sx={hoverStyleIcon} />,
+                { icon: <SchoolOutlinedIcon sx={hoverStyleIcon} />, status: 'allMy' },
+                { icon: <ModeEditIcon sx={hoverStyleIcon} />, status: 'my' },
+                {
+                    icon: (
+                        <DeleteOutlineIcon
+                            onClick={() => onClickDeleteHandler(pack._id)}
+                            sx={hoverStyleIcon}
+                        />
+                    ),
+                    status: 'my',
+                },
             ],
         }
     })
@@ -106,11 +119,19 @@ export const TablePacks = React.memo(() => {
                                           <TableCell align="right">{row.CreatedBy}</TableCell>
                                           <TableCell align="center">
                                               {row.Actions.map((icon, i) => {
-                                                  return (
-                                                      <span style={{ padding: '3px' }} key={i}>
-                                                          {icon}
-                                                      </span>
-                                                  )
+                                                  if (authUserId === row.userId) {
+                                                      return (
+                                                          <span style={{ padding: '3px' }} key={i}>
+                                                              {icon.icon}
+                                                          </span>
+                                                      )
+                                                  } else if (icon.status === 'allMy') {
+                                                      return (
+                                                          <span style={{ padding: '3px' }} key={i}>
+                                                              {icon.icon}
+                                                          </span>
+                                                      )
+                                                  }
                                               })}
                                           </TableCell>
                                       </TableRow>
