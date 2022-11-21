@@ -1,5 +1,11 @@
 import { Dispatch } from 'redux'
-import { CardPackType, createPackCardType, packsCardApi, PacksCardType } from 'api/api'
+import {
+    CardPackType,
+    ChangePackCardType,
+    createPackCardType,
+    packsCardApi,
+    PacksCardType,
+} from 'api/api'
 import { AppDispatch, AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 
@@ -151,10 +157,10 @@ export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
     }
 }
 
-export const changePackTC = (id: string) => async (dispatch: AppDispatch) => {
+export const changePackTC = (payload: ChangePackCardType) => async (dispatch: AppDispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
-        await packsCardApi.changePackCard(id)
+        await packsCardApi.changePackCard(payload)
         await dispatch(getPacksCardTC())
         dispatch(setLoadingAC(RequestStatus.succeeded))
     } catch (e) {

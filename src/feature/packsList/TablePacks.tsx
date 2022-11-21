@@ -14,7 +14,7 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { deletePackTC, sortPacksAC } from '../../redux/packsReducer'
+import { changePackTC, deletePackTC, sortPacksAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const TablePacks = React.memo(() => {
@@ -36,7 +36,7 @@ export const TablePacks = React.memo(() => {
     const onClickIconHandler = (type: iconFlowType, id: string) => {
         if (type === 'delete') dispatch(deletePackTC(id))
         if (type === 'read') alert('readPack')
-        if (type === 'changed') alert('ChangedPack')
+        if (type === 'changed') dispatch(changePackTC({ _id: id, name: 'UpdatedNamePack' }))
     }
 
     const rows = cardPacks.map((pack) => {

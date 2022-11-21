@@ -89,9 +89,10 @@ export const packsCardApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
-    changePackCard(id: string) {
+    changePackCard(payload: ChangePackCardType) {
+        console.log(payload)
         return instance
-            .put(`/cards/pack?id=${id}`)
+            .put('/cards/pack', { cardsPack: payload })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -107,6 +108,11 @@ export const cardsApi = {
 }
 
 //==TYPES=======================================================================
+
+export type ChangePackCardType = {
+    _id: string
+    name?: string
+}
 
 export type RecoveryEmailType = {
     email: string
