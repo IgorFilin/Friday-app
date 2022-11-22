@@ -10,29 +10,24 @@ import {InputSearch} from '../../components/InputSearch'
 import Container from '@mui/material/Container'
 import {BlueButton} from '../../components/BlueButton'
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {setCardsTC} from "../../redux/decksReducer";
+import {setCardsTC, sortCardsAC} from "../../redux/decksReducer";
 import {AddToPack} from "./AddPoPack";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
     const decks = useAppSelector((state) => state.decks.cardsState)
     const isLogin = useAppSelector((state) => state.auth.isLogin)
-    // const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
+    const sort = useAppSelector(state => state.decks.cardsState.sortCards)
+    const page = useAppSelector(state => state.decks.cardsState.page)
     // const userId = useAppSelector((state) => state.auth.profileData.id)
-    const {id} = useParams()
+    const {id} = useParams<'id'>()
     // const cardsState = useAppSelector(state => state.decks.cardsData)
-    
-    console.log(id)
+
+
 
     useEffect(() => {
-        if(id){
-            dispatch(setCardsTC(id))
-        }
-        // if (packId && userId !== decks.cardsState.packUserId)
-        // dispatch(setErrorAC('This is not your Cards Pack'))
-
-
-    }, [])
+        id && dispatch(setCardsTC(id))
+    }, [sort, page])
 
     if (!isLogin) {
         return <Navigate to={'/login'}/>

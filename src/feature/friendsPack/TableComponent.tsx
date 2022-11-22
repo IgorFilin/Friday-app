@@ -12,6 +12,8 @@ import {RatingComponent} from "./RatingComponent";
 import TableSortLabel from "@mui/material/TableSortLabel/TableSortLabel";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {useParams} from "react-router-dom";
+import {useEffect} from "react";
+import {setCardsTC, sortCardsAC} from "../../redux/decksReducer";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -34,27 +36,24 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
 }))
 
 export const TableComponent = () => {
-
     const style = {
         backgroundColor: '#c1bfbf',
     }
 
-    const decks = useAppSelector((state) => state.decks)
+    const decks = useAppSelector((state) => state.decks.cardsState)
+    const sort = useAppSelector(state => state.decks.cardsState.sortCards)
+    const page = useAppSelector(state => state.decks.cardsState.page)
     const dispatch = useAppDispatch()
-    // const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
-    const params = useParams<'id'>()
+    const {id} = useParams()
 
-    const some = params.id
+    useEffect(() => {
+            id && dispatch(setCardsTC(id))
+    }, [sort, page])
 
-
-    // useEffect(() => {
-    //     dispatch(setCardsTC(some))
-    // }, [sort])
-
-    // const createSortHandler = () => {
-    //     const valueSort = sort === '0updated' ? '1updated' : '0updated'
-    //     dispatch(sortCardsAC(valueSort))
-    // }
+    const createSortHandler = () => {
+        const valueSort = sort === '0updated' ? '1updated' : '0updated'
+        dispatch(sortCardsAC(valueSort))
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -77,8 +76,8 @@ export const TableComponent = () => {
                                 sx={{ml: '5px'}}
                                 active={true}
                                 IconComponent={ArrowDropDownIcon}
-                                // onClick={createSortHandler}
-                                // direction={sort === '0updated' ? 'asc' : 'desc'}
+                                onClick={createSortHandler}
+                                direction={sort === '0updated' ? 'asc' : 'desc'}
                             >Last Updated</TableSortLabel>
                         </TableCell>
                         <TableCell style={style} align="right">
@@ -87,24 +86,24 @@ export const TableComponent = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {/*{decks.cardsData.cards.map((card) => (*/}
+                    {decks.cards.map((card) => (
                         <StyledTableRow
-                            // key={card.question}
+                            key={card.question}
                         >
                             <StyledTableCell component="th" scope="row">
-                                {/*{card.question}*/}
+                                {card.question}
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                {/*{card.answer}*/}
+                                {card.answer}
                             </StyledTableCell>
                             <StyledTableCell align="right">
-                                {/*{card.updated.slice(0, 10).split('-').reverse().join('.')}*/}
+                                {card.updated.slice(0, 10).split('-').reverse().join('.')}
                             </StyledTableCell>
                             <StyledTableCell align="right">
                                 <RatingComponent/>
                             </StyledTableCell>
                         </StyledTableRow>
-                    {/*))}*/}
+                    ))}
                 </TableBody>
             </Table>
         </TableContainer>
