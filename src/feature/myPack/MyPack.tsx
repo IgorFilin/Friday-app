@@ -70,16 +70,23 @@ export const MyPack: React.FC = () => {
                 </Box>
                 <InputSearch width={'100%'} />
                 <br />
-                <PackTable
-                    rows={cardsState.cards.map((c) => ({
-                        question: c.question,
-                        answer: c.answer,
-                        lastUpdated: c.updated,
-                        grade: c.grade,
-                    }))}
-                />
-
-                <TablePaginationComponent />
+                {packId && packId !== '' ? (
+                    <>
+                        <PackTable
+                            packId={packId}
+                            rows={cardsState.cards.map((c) => ({
+                                id: c._id,
+                                question: c.question,
+                                answer: c.answer,
+                                lastUpdated: c.updated,
+                                grade: c.grade,
+                            }))}
+                        />
+                        <TablePaginationComponent />
+                    </>
+                ) : (
+                    <></>
+                )}
             </Stack>
         </Container>
     )
