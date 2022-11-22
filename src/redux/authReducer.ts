@@ -12,7 +12,7 @@ import { getBase64 } from './utils'
 
 //===TYPES======================================================================
 
-type AuthActionsType =
+export type AuthActionsType =
     | ReturnType<typeof setSingUpAC>
     | ReturnType<typeof setIsLoginAC>
     | ReturnType<typeof getEmailForgotPassAC>

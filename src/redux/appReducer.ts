@@ -11,7 +11,7 @@ export enum RequestStatus {
     'error',
 }
 
-type AppActionsType =
+export type AppActionsType =
     | ReturnType<typeof setLoadingAC>
     | ReturnType<typeof setErrorAC>
     | ReturnType<typeof setInfoAC>
