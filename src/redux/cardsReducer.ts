@@ -1,10 +1,11 @@
 import { cardsApi, CardsStateType, CardType, GetCardsParamsType, NewCardType } from 'api/api'
 import { Dispatch } from 'redux'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
+import { AppDispatch } from './store'
 
 //===TYPES======================================================================
 
-type AuthActionsType = ReturnType<typeof setCardsAC> | ReturnType<typeof updateCardAC>
+export type CardsActionsType = ReturnType<typeof setCardsAC> | ReturnType<typeof updateCardAC>
 
 type InitialStateType = typeof initialState
 
@@ -22,7 +23,7 @@ const initialState = {
 
 export const cardsReducer = (
     state: InitialStateType = initialState,
-    action: AuthActionsType
+    action: CardsActionsType
 ): InitialStateType => {
     switch (action.type) {
         case 'CARDS/SET-CARDS':
@@ -65,10 +66,11 @@ export const fetchCardsTC = (params: GetCardsParamsType) => async (dispatch: Dis
     }
 }
 
-export const createCardTC = (newCard: NewCardType) => async (dispatch: Dispatch) => {
+export const createCardTC = (newCard: NewCardType) => async (dispatch: AppDispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
         await cardsApi.createCard(newCard)
+        dispatch(fetchCardsTC({ cardsPack_id: newCard.cardsPack_id }))
     } catch (error) {
         dispatch(setErrorAC(error as string))
         dispatch(setLoadingAC(RequestStatus.error))

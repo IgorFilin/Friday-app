@@ -9,7 +9,7 @@ import {
 import { AppDispatch, AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 
-type PacksActionsType =
+export type PacksActionsType =
     | ReturnType<typeof setPacksCardAC>
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setPageAC>
