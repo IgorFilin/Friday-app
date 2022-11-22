@@ -137,6 +137,7 @@ export const getPacksCardTC =
             if (activeDefaultValue) {
                 dispatch(setMinMaxValueAC(0, 0))
                 dispatch(setPackNameAC(''))
+                dispatch(sortPacksAC('0updated'))
                 dispatch(setShowPacksCards('All'))
             } else dispatch(setPacksCardAC(result))
         } catch (e) {

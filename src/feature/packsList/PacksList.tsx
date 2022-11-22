@@ -28,6 +28,7 @@ export const PacksList = () => {
     const onClickFilterDefaultHandler = () => {
         dispatch(getPacksCardTC(true))
     }
+
     return (
         <>
             <Box
