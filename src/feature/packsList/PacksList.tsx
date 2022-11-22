@@ -17,15 +17,16 @@ export const PacksList = () => {
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
     const packName = useAppSelector((state) => state.packsCard.packName)
+    const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(getPacksCardTC())
-    }, [sort, max, min, pageCount, page, packName])
+    }, [sort, max, min, pageCount, page, packName, whosePackCard])
 
     const onClickFilterDefaultHandler = () => {
-        dispatch(getPacksCardTC('', true))
+        dispatch(getPacksCardTC(true))
     }
     return (
         <>

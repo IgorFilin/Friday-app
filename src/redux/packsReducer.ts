@@ -16,6 +16,7 @@ export type PacksActionsType =
     | ReturnType<typeof sortPacksAC>
     | ReturnType<typeof setMinMaxValueAC>
     | ReturnType<typeof setPackNameAC>
+    | ReturnType<typeof setShowPacksCards>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -31,6 +32,7 @@ export type PacksCardParamsType = {
 type initialStateType = typeof initialState
 
 const initialState = {
+    whosePackCard: 'All' as 'All' | 'My',
     packName: '',
     cardPacks: [] as Array<CardPackType>,
     cardPacksTotalCount: 0,
@@ -81,6 +83,9 @@ export const packsReducer = (
                 packName: action.name,
             }
         }
+        case 'PACKS/SET-SHOW-PACK-CARDS': {
+            return { ...state, whosePackCard: action.statusPack }
+        }
         default: {
             return state
         }
@@ -105,9 +110,12 @@ export const setMinMaxValueAC = (minValue: number, maxValue: number) => {
 export const setPackNameAC = (name: string) => {
     return { type: 'PACKS/SET-PACK-NAME', name } as const
 }
+export const setShowPacksCards = (statusPack: 'All' | 'My') => {
+    return { type: 'PACKS/SET-SHOW-PACK-CARDS', statusPack } as const
+}
 
 export const getPacksCardTC =
-    (userId?: string, activeDefaultValue?: boolean) =>
+    (activeDefaultValue?: boolean) =>
     async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         let params: PacksCardParamsType = {}
         if (!activeDefaultValue) {
@@ -119,7 +127,7 @@ export const getPacksCardTC =
                 page: packs.page,
                 pageCount: packs.pageCount,
                 sortPacks: packs.sortPacks,
-                user_id: userId,
+                user_id: packs.whosePackCard === 'My' ? getState().auth.profileData.id : '',
             }
         }
 
@@ -129,6 +137,7 @@ export const getPacksCardTC =
             if (activeDefaultValue) {
                 dispatch(setMinMaxValueAC(0, 0))
                 dispatch(setPackNameAC(''))
+                dispatch(setShowPacksCards('All'))
             } else dispatch(setPacksCardAC(result))
         } catch (e) {
             dispatch(setErrorAC(e as string))

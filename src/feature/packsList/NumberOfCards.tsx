@@ -12,15 +12,19 @@ export const NumberOfCards = () => {
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
 
-    useEffect(() => {
-        setValue([min, max])
-    }, [max, min])
+    const dispatch = useAppDispatch()
 
     const [value, setValue] = useState<Array<number>>([min, max])
 
     const debouncedValue = useDebounce<Array<number>>(value, 500)
 
-    const dispatch = useAppDispatch()
+    useEffect(() => {
+        setValue([min, max])
+    }, [max, min])
+
+    useEffect(() => {
+        dispatch(setMinMaxValueAC(minCountCards, maxCountCards))
+    }, [maxCountCards, minCountCards])
 
     const handleChange = (event: Event, value: number | number[]) => {
         setValue(value as number[])
