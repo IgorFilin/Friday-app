@@ -4,9 +4,11 @@ import { Button, ButtonGroup } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { setShowPacksCards } from '../../redux/packsReducer'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const ShowPacksCards = () => {
     const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const dispatch = useAppDispatch()
 
@@ -34,6 +36,7 @@ export const ShowPacksCards = () => {
                     aria-label="Disabled elevation buttons"
                 >
                     <Button
+                        disabled={requestStatus === RequestStatus.loading}
                         onClick={() => onClickShowPacksHandler('My')}
                         sx={{
                             width: '196px',
@@ -44,6 +47,7 @@ export const ShowPacksCards = () => {
                         My
                     </Button>
                     <Button
+                        disabled={requestStatus === RequestStatus.loading}
                         onClick={() => onClickShowPacksHandler('All')}
                         sx={{
                             width: '196px',

@@ -5,12 +5,14 @@ import { Slider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { setMinMaxValueAC } from '../../redux/packsReducer'
 import { useDebounce } from 'usehooks-ts'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const NumberOfCards = () => {
     const minCountCards = useAppSelector((state) => state.packsCard.minCardsCount)
     const maxCountCards = useAppSelector((state) => state.packsCard.maxCardsCount)
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const dispatch = useAppDispatch()
 
@@ -68,6 +70,7 @@ export const NumberOfCards = () => {
                         <Typography>{value[0]}</Typography>
                     </Box>
                     <Slider
+                        disabled={requestStatus === RequestStatus.loading}
                         sx={{
                             width: '155px',
                         }}
