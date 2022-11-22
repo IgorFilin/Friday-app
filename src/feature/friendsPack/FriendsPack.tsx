@@ -1,46 +1,50 @@
 import React, {useEffect} from 'react'
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'
 import Box from '@mui/material/Box'
-import {Link, Navigate, useNavigate, useParams} from 'react-router-dom'
+import {Link, Navigate, useParams} from 'react-router-dom'
 import Typography from '@mui/material/Typography'
-import { TableComponent } from './TableComponent'
+import {TableComponent} from './TableComponent'
 import Stack from '@mui/material/Stack'
-import { TablePaginationComponent } from '../../components/TablePaginationComponent'
-import { InputSearch } from '../../components/InputSearch'
+import {TablePaginationComponent} from '../../components/TablePaginationComponent'
+import {InputSearch} from '../../components/InputSearch'
 import Container from '@mui/material/Container'
-import { BlueButton } from '../../components/BlueButton'
+import {BlueButton} from '../../components/BlueButton'
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {setCardsTC} from "../../redux/decksReducer";
-import SchoolOutlinedIcon from "@mui/icons-material/SchoolOutlined";
-import ModeEditIcon from "@mui/icons-material/ModeEdit";
-import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 import {AddToPack} from "./AddPoPack";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
-    const decks = useAppSelector((state) => state.decks)
+    const decks = useAppSelector((state) => state.decks.cardsState)
     const isLogin = useAppSelector((state) => state.auth.isLogin)
-    const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
-
-
-    const params = useParams<'id'>()
-    const some = params.id
-
+    // const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
+    // const userId = useAppSelector((state) => state.auth.profileData.id)
+    const {id} = useParams()
+    // const cardsState = useAppSelector(state => state.decks.cardsData)
+    
+    console.log(id)
 
     useEffect(() => {
-        dispatch(setCardsTC(some))
-    }, [sort])
+        if(id){
+            dispatch(setCardsTC(id))
+        }
+        // if (packId && userId !== decks.cardsState.packUserId)
+        // dispatch(setErrorAC('This is not your Cards Pack'))
 
-    if(!isLogin){
-        return <Navigate to={'/login'} />
+
+    }, [])
+
+    if (!isLogin) {
+        return <Navigate to={'/login'}/>
     }
 
     return (
         <>
-            {!decks.cardsData.cards.length ? <AddToPack/> : <Container sx={{ maxWidth: '1008px' }}>
-                <Box style={{ width: '100%', margin: '24px auto' }}>
-                    <Link to={'/packslist'} style={{ textDecoration: 'none', color: 'black' }}>
-                        <KeyboardReturnRoundedIcon sx={{ mt: 2 }} /> Back to Packs List
+            {!decks.cards.length ? <AddToPack/> :
+            <Container sx={{maxWidth: '1008px'}}>
+                <Box style={{width: '100%', margin: '24px auto'}}>
+                    <Link to={'/packslist'} style={{textDecoration: 'none', color: 'black'}}>
+                        <KeyboardReturnRoundedIcon sx={{mt: 2}}/> Back to Packs List
                     </Link>
                 </Box>
                 <Box
@@ -62,11 +66,12 @@ export const FriendsPack = () => {
                         <BlueButton>Learn to pack</BlueButton>
                     </Typography>
                 </Box>
-                <InputSearch />
-                <TableComponent />
-                <Stack sx={{ width: '100%', margin: '0 auto' }} spacing={2}></Stack>
-                <TablePaginationComponent />
-            </Container>}
+                <InputSearch/>
+                <TableComponent/>
+                <Stack sx={{width: '100%', margin: '0 auto'}} spacing={2}></Stack>
+                <TablePaginationComponent/>
+            </Container>
+            }
         </>
     )
 }

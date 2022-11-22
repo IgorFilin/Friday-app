@@ -23,7 +23,7 @@ export enum Path {
     newPassword = '/set-new-password',
     checkEmail = '/check',
     myPack = '/mypack',
-    friendsPack = '/friendspack/:id',
+    friendsPack = '/friendspack',
     packsList = '/packslist',
     namePack = '/name-pack'
 }
@@ -38,7 +38,7 @@ export const AppRoutes: React.FC = () => (
         <Route path={Path.newPassword + '/:token'} element={<NewPassword />} />
         <Route path={Path.checkEmail} element={<CheckEmail />} />
         <Route path={Path.myPack + '/:packId'} element={<MyPack />} />
-        <Route path={Path.friendsPack} element={<FriendsPack />} />
+        <Route path={Path.friendsPack + '/:id'} element={<FriendsPack />} />
         <Route path={Path.packsList} element={<PacksList />} />
         <Route path={Path.namePack} element={<NamePack />} />
         <Route path={Path.other} element={<Error />} />

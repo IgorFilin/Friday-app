@@ -11,8 +11,6 @@ import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
 import {RatingComponent} from "./RatingComponent";
 import TableSortLabel from "@mui/material/TableSortLabel/TableSortLabel";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {setCardsTC, sortCardsAC} from "../../redux/decksReducer";
-import {useEffect} from "react";
 import {useParams} from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
@@ -43,7 +41,7 @@ export const TableComponent = () => {
 
     const decks = useAppSelector((state) => state.decks)
     const dispatch = useAppDispatch()
-    const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
+    // const sort = useAppSelector(state => state.decks.cardsData.sortPacks)
     const params = useParams<'id'>()
 
     const some = params.id
@@ -53,10 +51,10 @@ export const TableComponent = () => {
     //     dispatch(setCardsTC(some))
     // }, [sort])
 
-    const createSortHandler = () => {
-        const valueSort = sort === '0updated' ? '1updated' : '0updated'
-        dispatch(sortCardsAC(valueSort))
-    }
+    // const createSortHandler = () => {
+    //     const valueSort = sort === '0updated' ? '1updated' : '0updated'
+    //     dispatch(sortCardsAC(valueSort))
+    // }
 
     return (
         <TableContainer component={Paper}>
@@ -79,8 +77,8 @@ export const TableComponent = () => {
                                 sx={{ml: '5px'}}
                                 active={true}
                                 IconComponent={ArrowDropDownIcon}
-                                onClick={createSortHandler}
-                                direction={sort === '0updated' ? 'asc' : 'desc'}
+                                // onClick={createSortHandler}
+                                // direction={sort === '0updated' ? 'asc' : 'desc'}
                             >Last Updated</TableSortLabel>
                         </TableCell>
                         <TableCell style={style} align="right">
@@ -89,20 +87,24 @@ export const TableComponent = () => {
                     </TableRow>
                 </TableHead>
                 <TableBody>
-                    {decks.cardsData.cards.map((card) => (
-                        <StyledTableRow key={card.question}>
+                    {/*{decks.cardsData.cards.map((card) => (*/}
+                        <StyledTableRow
+                            // key={card.question}
+                        >
                             <StyledTableCell component="th" scope="row">
-                                {card.question}
+                                {/*{card.question}*/}
                             </StyledTableCell>
-                            <StyledTableCell align="right">{card.answer}</StyledTableCell>
                             <StyledTableCell align="right">
-                                {card.updated.slice(0, 10).split('-').reverse().join('.')}
+                                {/*{card.answer}*/}
+                            </StyledTableCell>
+                            <StyledTableCell align="right">
+                                {/*{card.updated.slice(0, 10).split('-').reverse().join('.')}*/}
                             </StyledTableCell>
                             <StyledTableCell align="right">
                                 <RatingComponent/>
                             </StyledTableCell>
                         </StyledTableRow>
-                    ))}
+                    {/*))}*/}
                 </TableBody>
             </Table>
         </TableContainer>

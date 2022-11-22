@@ -101,40 +101,20 @@ export const packsCardApi = {
 export const cardsApi = {
     getCards(params: GetCardsParamsType) {
         return instance
-            .get<CardsStateType>(`/cards/card`, { params })
+            .get<CardsStateType>('/cards/card', { params })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
 }
 
 export const decksApi = {
-    setCards(
-        packId: string,
-        question?: string,
-        answer?: string,
-        min?: string,
-        max?: string,
-        page?: number,
-        pageCount?: number
-    ) {
+    getDecks(id: string){
         return instance
-            .get(`/cards/card`, {
-                params: {
-                    cardsPack_id: packId,
-                    cardQuestion: question,
-                    cardAnswer: answer,
-                    min,
-                    max,
-                    page,
-                    pageCount,
-                },
-            })
+            .get<CardsStateType>(`/cards/card?cardsPack_id=${id}`)
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
-        // .then(parseLogoutResponse)
-    },
+    }
 }
-
 
 //==TYPES=======================================================================
 
@@ -225,9 +205,9 @@ export type ResponseSetNewPasswordType = {
 }
 
 export type GetCardsParamsType = {
-    cardsPack_id: string
     cardAnswer?: string
     cardQuestion?: string
+    cardsPack_id: string
     min?: number
     max?: number
     sortCards?: string
