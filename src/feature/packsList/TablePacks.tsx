@@ -27,7 +27,6 @@ export const TablePacks = React.memo(() => {
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
     const authUserId = useAppSelector((state) => state.auth.profileData.id)
-
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const hoverStyleIcon = {
@@ -110,7 +109,8 @@ export const TablePacks = React.memo(() => {
                                 <TableCell align="center">Cards</TableCell>
                                 <TableCell align="center">
                                     <TableSortLabel
-                                        active
+                                        active={!(requestStatus === RequestStatus.loading)}
+                                        disabled={requestStatus === RequestStatus.loading}
                                         onClick={createSortHandler}
                                         direction={sort === '0updated' ? 'asc' : 'desc'}
                                     >
