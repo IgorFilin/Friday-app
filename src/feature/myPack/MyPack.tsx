@@ -23,7 +23,7 @@ export const MyPack: React.FC = () => {
     const { packId } = useParams()
 
     useEffect(() => {
-        if (isLogin && packId) dispatch(fetchCardsTC({ cardsPack_id: packId }))
+        if (isLogin && packId) dispatch(fetchCardsTC(packId))
     }, [packId, isLogin, dispatch])
 
     const onAddCardClickHandler = () => {
