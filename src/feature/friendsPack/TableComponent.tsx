@@ -1,19 +1,21 @@
 import * as React from "react";
+import {useEffect} from "react";
 import {styled} from "@mui/material/styles";
-import Table from "@mui/material/Table";
-import TableBody from "@mui/material/TableBody";
 import TableCell, {tableCellClasses} from "@mui/material/TableCell";
-import TableContainer from "@mui/material/TableContainer";
-import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
-import {RatingComponent} from "./RatingComponent";
-import TableSortLabel from "@mui/material/TableSortLabel/TableSortLabel";
 import {useAppDispatch, useAppSelector} from "../../redux/store";
 import {useParams} from "react-router-dom";
-import {useEffect} from "react";
-import {setCardsTC, sortCardsAC} from "../../redux/decksReducer";
+import {sortCardsAC} from "../../redux/decksReducer";
+import {RequestStatus} from "../../redux/appReducer";
+import Paper from "@mui/material/Paper";
+import Table from "@mui/material/Table";
+import TableHead from "@mui/material/TableHead";
+import TableSortLabel from "@mui/material/TableSortLabel/TableSortLabel";
+import ArrowDropDownIcon from "@mui/icons-material/ArrowDropDown";
+import TableBody from "@mui/material/TableBody";
+import {RatingComponent} from "./RatingComponent";
+import TableContainer from "@mui/material/TableContainer";
+import {AppCircularProgress} from "../../app/AppCircularProgress";
 
 const StyledTableCell = styled(TableCell)(({theme}) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -43,12 +45,13 @@ export const TableComponent = () => {
     const decks = useAppSelector((state) => state.decks.cardsState)
     const sort = useAppSelector(state => state.decks.cardsState.sortCards)
     const page = useAppSelector(state => state.decks.cardsState.page)
+    const pageCount = useAppSelector(state => state.decks.cardsState.pageCount)
+    const statusLoading = useAppSelector((state) => state.app.request.status)
     const dispatch = useAppDispatch()
     const {id} = useParams()
 
     useEffect(() => {
-            id && dispatch(setCardsTC(id))
-    }, [sort, page])
+    }, [sort, pageCount])
 
     const createSortHandler = () => {
         const valueSort = sort === '0updated' ? '1updated' : '0updated'
@@ -56,56 +59,59 @@ export const TableComponent = () => {
     }
 
     return (
-        <TableContainer component={Paper}>
-            <Table
-                sx={{
-                    width: '100%',
-                    margin: '20px auto',
-                    backgroundColor: '#f6f6f6',
-                }}
-                aria-label="customized table"
-            >
-                <TableHead>
-                    <TableRow>
-                        <TableCell style={style}>Question</TableCell>
-                        <TableCell style={style} align="right">
-                            Answer
-                        </TableCell>
-                        <TableCell style={style} align="right">
-                            <TableSortLabel
-                                sx={{ml: '5px'}}
-                                active={true}
-                                IconComponent={ArrowDropDownIcon}
-                                onClick={createSortHandler}
-                                direction={sort === '0updated' ? 'asc' : 'desc'}
-                            >Last Updated</TableSortLabel>
-                        </TableCell>
-                        <TableCell style={style} align="right">
-                            Grade
-                        </TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {decks.cards.map((card) => (
-                        <StyledTableRow
-                            key={card.question}
-                        >
-                            <StyledTableCell component="th" scope="row">
-                                {card.question}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                                {card.answer}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                                {card.updated.slice(0, 10).split('-').reverse().join('.')}
-                            </StyledTableCell>
-                            <StyledTableCell align="right">
-                                <RatingComponent/>
-                            </StyledTableCell>
-                        </StyledTableRow>
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            {statusLoading === RequestStatus.loading ? <AppCircularProgress/> : <TableContainer component={Paper}>
+                <Table
+                    sx={{
+                        width: '100%',
+                        margin: '20px auto',
+                        backgroundColor: '#f6f6f6',
+                    }}
+                    aria-label="customized table"
+                >
+                    <TableHead>
+                        <TableRow>
+                            <TableCell style={style}>Question</TableCell>
+                            <TableCell style={style} align="right">
+                                Answer
+                            </TableCell>
+                            <TableCell style={style} align="right">
+                                <TableSortLabel
+                                    sx={{ml: '5px'}}
+                                    active={true}
+                                    IconComponent={ArrowDropDownIcon}
+                                    onClick={createSortHandler}
+                                    direction={sort === '0updated' ? 'asc' : 'desc'}
+                                >Last Updated</TableSortLabel>
+                            </TableCell>
+                            <TableCell style={style} align="right">
+                                Grade
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {decks.cards.map((card) => (
+                            <StyledTableRow
+                                key={card._id}
+                            >
+                                <StyledTableCell component="th" scope="row">
+                                    {card.question}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    {card.answer}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    {card.updated.slice(0, 10).split('-').reverse().join('.')}
+                                </StyledTableCell>
+                                <StyledTableCell align="right">
+                                    <RatingComponent/>
+                                </StyledTableCell>
+                            </StyledTableRow>
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>}
+        </>
     )
 }
+

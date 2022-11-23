@@ -109,9 +109,9 @@ export const cardsApi = {
 }
 
 export const decksApi = {
-    getDecks(id: string) {
+    getDecks(params: GetCardsParamsType) {
         return instance
-            .get<DecksStateType>(`/cards/card?cardsPack_id=${id}`)
+            .get<DecksStateType>(`/cards/card`, {params})
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     }

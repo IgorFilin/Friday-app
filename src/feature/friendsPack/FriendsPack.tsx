@@ -10,8 +10,10 @@ import {InputSearch} from '../../components/InputSearch'
 import Container from '@mui/material/Container'
 import {BlueButton} from '../../components/BlueButton'
 import {useAppDispatch, useAppSelector} from "../../redux/store";
-import {setCardsTC, sortCardsAC} from "../../redux/decksReducer";
+import {setCardsTC} from "../../redux/decksReducer";
 import {AddToPack} from "./AddPoPack";
+import {RequestStatus} from "../../redux/appReducer";
+import {AppCircularProgress} from "../../app/AppCircularProgress";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
@@ -19,54 +21,58 @@ export const FriendsPack = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
     const sort = useAppSelector(state => state.decks.cardsState.sortCards)
     const page = useAppSelector(state => state.decks.cardsState.page)
-    // const userId = useAppSelector((state) => state.auth.profileData.id)
-    const {id} = useParams<'id'>()
-    // const cardsState = useAppSelector(state => state.decks.cardsData)
+    const pageCount = useAppSelector(state => state.decks.cardsState.pageCount)
+    const statusLoading = useAppSelector((state) => state.app.request.status)
 
+    const {id} = useParams<'id'>()
 
 
     useEffect(() => {
-        id && dispatch(setCardsTC(id))
-    }, [sort, page])
+        id && dispatch(setCardsTC(id, ''))
+    }, [sort, pageCount, page])
 
     if (!isLogin) {
         return <Navigate to={'/login'}/>
     }
+    const handleRequest = (param: string) => {
+        id && dispatch(setCardsTC(id, param))
+    }
 
     return (
         <>
-            {!decks.cards.length ? <AddToPack/> :
-            <Container sx={{maxWidth: '1008px'}}>
-                <Box style={{width: '100%', margin: '24px auto'}}>
-                    <Link to={'/packslist'} style={{textDecoration: 'none', color: 'black'}}>
-                        <KeyboardReturnRoundedIcon sx={{mt: 2}}/> Back to Packs List
-                    </Link>
-                </Box>
-                <Box
-                    style={{
-                        width: '100%',
-                    }}
-                >
-
-                    <Typography
-                        variant={'h6'}
-                        style={{
-                            fontWeight: 'bold',
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                            marginTop: '27px'
-                        }}
-                    >
-                        Friend’s Pack
-                        <BlueButton>Learn to pack</BlueButton>
-                    </Typography>
-                </Box>
-                <InputSearch/>
-                <TableComponent/>
-                <Stack sx={{width: '100%', margin: '0 auto'}} spacing={2}></Stack>
-                <TablePaginationComponent/>
-            </Container>
-            }
+            {statusLoading === RequestStatus.loading ? <AppCircularProgress/> : <>
+                {!decks.cards.length ? <AddToPack/> :
+                    <Container sx={{maxWidth: '1008px'}}>
+                        <Box style={{width: '100%', margin: '24px auto'}}>
+                            <Link to={'/packslist'} style={{textDecoration: 'none', color: 'black'}}>
+                                <KeyboardReturnRoundedIcon sx={{mt: 2}}/> Back to Packs List
+                            </Link>
+                        </Box>
+                        <Box
+                            style={{
+                                width: '100%',
+                            }}
+                        >
+                            <Typography
+                                variant={'h6'}
+                                style={{
+                                    fontWeight: 'bold',
+                                    display: 'flex',
+                                    justifyContent: 'space-between',
+                                    marginTop: '27px'
+                                }}
+                            >
+                                Friend’s Pack
+                                <BlueButton>Learn to pack</BlueButton>
+                            </Typography>
+                        </Box>
+                        <InputSearch handleRequest={handleRequest}/>
+                        <TableComponent/>
+                        <Stack sx={{width: '100%', margin: '0 auto'}} spacing={2}></Stack>
+                        <TablePaginationComponent/>
+                    </Container>
+                }
+            </>}
         </>
     )
 }

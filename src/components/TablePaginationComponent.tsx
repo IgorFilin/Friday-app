@@ -2,7 +2,8 @@ import React from "react";
 import TablePagination from "@mui/material/TablePagination";
 import Pagination from "@mui/material/Pagination";
 import {useAppDispatch, useAppSelector} from "../redux/store";
-import {setPageAC, setPageCountAC} from "redux/packsReducer";
+import {setPageAC, setPageCountAC} from "redux/decksReducer";
+
 
 export const TablePaginationComponent = () => {
 
