@@ -7,7 +7,7 @@ import Box from '@mui/material/Box'
 import {useDispatch} from "react-redux";
 import {useAppSelector} from "../redux/store";
 import {useDebounce} from "usehooks-ts";
-import {searchDecksAC, setCardsTC} from "../redux/decksReducer";
+import {searchDecksAC} from "../redux/decksReducer";
 
 
 export const InputSearch: React.FC<{ width?: number | string, handleRequest?: (val:string) => void }> = ({width,handleRequest}) => {
@@ -15,7 +15,6 @@ export const InputSearch: React.FC<{ width?: number | string, handleRequest?: (v
     const dispatch = useDispatch()
 
     const cardAnswer = useAppSelector(state => state.decks.cardAnswer)
-    console.log(cardAnswer, 'answer')
     const [inputValue, setInputValue] = useState(cardAnswer)
 
     const onChangeInputValue = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -27,8 +26,6 @@ export const InputSearch: React.FC<{ width?: number | string, handleRequest?: (v
     useEffect(() => {
         if(inputValue !== cardAnswer) dispatch(searchDecksAC(inputValue))
         ifNotChangeInputValue && handleRequest(inputValue)
-
-
     }, [debouncedValue])
 
 
