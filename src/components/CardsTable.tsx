@@ -27,7 +27,7 @@ type TablePropsType<T> = {
     rows: T[]
 }
 
-export const PackTable: React.FC<TablePropsType<PackType>> = ({ rows, packId }) => {
+export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId }) => {
     const dispatch = useAppDispatch()
 
     const onCardDeleteHandler = (cardId: string) => {
