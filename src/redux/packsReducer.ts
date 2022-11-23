@@ -106,8 +106,7 @@ export const setPackNameAC = (name: string) => {
     return { type: 'PACKS/SET-PACK-NAME', name } as const
 }
 
-export const getPacksCardTC =
-    (userId?: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
+export const getPacksCardTC = (userId?: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         const packs = getState().packsCard
         let params: PacksCardParamsType = {
             packName: packs.packName,

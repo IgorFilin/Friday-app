@@ -37,6 +37,8 @@ const StyledTableRow = styled(TableRow)(({theme}) => ({
     },
 }))
 
+
+
 export const TableComponent = () => {
     const style = {
         backgroundColor: '#c1bfbf',
@@ -44,17 +46,17 @@ export const TableComponent = () => {
 
     const decks = useAppSelector((state) => state.decks.cardsState)
     const sort = useAppSelector(state => state.decks.cardsState.sortCards)
-    const page = useAppSelector(state => state.decks.cardsState.page)
     const pageCount = useAppSelector(state => state.decks.cardsState.pageCount)
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const dispatch = useAppDispatch()
-    const {id} = useParams()
+
 
     useEffect(() => {
     }, [sort, pageCount])
 
     const createSortHandler = () => {
-        const valueSort = sort === '0updated' ? '1updated' : '0updated'
+
+        const valueSort = sort === '0grade' ? '1grade' : '0grade'
         dispatch(sortCardsAC(valueSort))
     }
 

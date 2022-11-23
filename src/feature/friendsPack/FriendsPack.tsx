@@ -42,7 +42,7 @@ export const FriendsPack = () => {
         <>
             {statusLoading === RequestStatus.loading ? <AppCircularProgress/> : <>
                 {!decks.cards.length ? <AddToPack/> :
-                    <Container sx={{maxWidth: '1008px'}}>
+                    <Container style={{maxWidth: '1000px'}}>
                         <Box style={{width: '100%', margin: '24px auto'}}>
                             <Link to={'/packslist'} style={{textDecoration: 'none', color: 'black'}}>
                                 <KeyboardReturnRoundedIcon sx={{mt: 2}}/> Back to Packs List

@@ -15,9 +15,6 @@ export const TablePaginationComponent = () => {
 
     const TotalCountPages = Math.round(cardsTotalCount / pageCount)
 
-    // const [pages, setPage] = React.useState(2);
-    // const [rowsPerPage, setRowsPerPage] = React.useState(10);
-
     const handleChangePage = (
         event: React.MouseEvent<HTMLButtonElement> | null,
         newPage: number
@@ -32,7 +29,6 @@ export const TablePaginationComponent = () => {
     };
 
     const currentPageHandler = (event: React.ChangeEvent<unknown>, page: number) => {
-        debugger
         dispatch(setPageAC(page))
     }
 
