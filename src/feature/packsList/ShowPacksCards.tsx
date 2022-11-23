@@ -3,22 +3,17 @@ import Typography from '@mui/material/Typography'
 import { Button, ButtonGroup } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { getPacksCardTC } from '../../redux/packsReducer'
+import { setShowPacksCards } from '../../redux/packsReducer'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const ShowPacksCards = () => {
-    const [showPacksCards, setShowPacksCards] = React.useState<'All' | 'My'>('All')
+    const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
-    const authUserId = useAppSelector((state) => state.auth.profileData.id)
     const dispatch = useAppDispatch()
 
-    const onClickShowPacksHandler = (changeButton: 'All' | 'My', authUserId?: string) => {
-        if (changeButton === 'My' && authUserId) {
-            setShowPacksCards(changeButton)
-            dispatch(getPacksCardTC(authUserId))
-        } else {
-            setShowPacksCards(changeButton)
-            dispatch(getPacksCardTC())
-        }
+    const onClickShowPacksHandler = (changeButton: 'All' | 'My') => {
+        dispatch(setShowPacksCards(changeButton))
     }
 
     return (
@@ -41,22 +36,24 @@ export const ShowPacksCards = () => {
                     aria-label="Disabled elevation buttons"
                 >
                     <Button
-                        onClick={() => onClickShowPacksHandler('My', authUserId)}
+                        disabled={requestStatus === RequestStatus.loading}
+                        onClick={() => onClickShowPacksHandler('My')}
                         sx={{
                             width: '196px',
                             height: '39px',
                         }}
-                        variant={showPacksCards === 'My' ? 'contained' : 'outlined'}
+                        variant={whosePackCard === 'My' ? 'contained' : 'outlined'}
                     >
                         My
                     </Button>
                     <Button
+                        disabled={requestStatus === RequestStatus.loading}
                         onClick={() => onClickShowPacksHandler('All')}
                         sx={{
                             width: '196px',
                             height: '39px',
                         }}
-                        variant={showPacksCards === 'All' ? 'contained' : 'outlined'}
+                        variant={whosePackCard === 'All' ? 'contained' : 'outlined'}
                     >
                         All
                     </Button>

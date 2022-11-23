@@ -106,6 +106,24 @@ export const cardsApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
+    createCard(card: NewCardType) {
+        return instance
+            .post('/cards/card', { card }) //response object not required
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
+    deleteCard(cardId: string) {
+        return instance
+            .delete('/cards/card?id=' + cardId) //response object not required
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
+    updateCard(card: CardType) {
+        return instance
+            .put<CardType>('/cards/card', { card })
+            .then(getDataFromAxiosResponse)
+            .catch(parseAxiosError)
+    },
 }
 
 export const decksApi = {
@@ -226,6 +244,12 @@ export type CardType = {
     created: string
     updated: string
     _id: string
+}
+
+export type NewCardType = {
+    cardsPack_id: string
+    answer: string
+    question: string
 }
 
 export type CardsStateType = {

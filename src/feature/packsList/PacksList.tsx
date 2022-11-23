@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import FilterAltSharpIcon from '@mui/icons-material/FilterAltSharp'
+import FilterAltOffOutlinedIcon from '@mui/icons-material/FilterAltOffOutlined'
 import Box from '@mui/material/Box'
 import { ShowPacksCards } from './ShowPacksCards'
 import { NumberOfCards } from './NumberOfCards'
@@ -9,6 +9,7 @@ import { PaginationPacksList } from './PaginationPacksList'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { getPacksCardTC } from '../../redux/packsReducer'
 import { InputSearchPacksCard } from './InputSearchPacksCard'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const PacksList = () => {
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
@@ -17,12 +18,18 @@ export const PacksList = () => {
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
     const packName = useAppSelector((state) => state.packsCard.packName)
+    const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(getPacksCardTC())
-    }, [sort, max, min, pageCount, page, packName])
+    }, [sort, max, min, pageCount, page, packName, whosePackCard])
+
+    const onClickFilterDefaultHandler = () => {
+        dispatch(getPacksCardTC(true))
+    }
 
     return (
         <>
@@ -73,7 +80,25 @@ export const PacksList = () => {
                                     borderRadius: '2px',
                                 }}
                             >
-                                <FilterAltSharpIcon />
+                                <FilterAltOffOutlinedIcon
+                                    sx={
+                                        !(requestStatus === RequestStatus.loading)
+                                            ? {
+                                                  transition: '0.5s',
+                                                  cursor: 'pointer',
+                                                  '&:hover': {
+                                                      color: '#1976d2',
+                                                      transition: '0.5s',
+                                                  },
+                                              }
+                                            : {}
+                                    }
+                                    onClick={
+                                        requestStatus === RequestStatus.loading
+                                            ? () => {}
+                                            : onClickFilterDefaultHandler
+                                    }
+                                />
                             </Box>
                         </Box>
                     </Box>

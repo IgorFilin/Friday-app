@@ -13,20 +13,20 @@ import Box from '@mui/material/Box'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { changePackTC, deletePackTC, sortPacksAC } from '../../redux/packsReducer'
-import { RequestStatus } from '../../redux/appReducer'
-import {setCardsTC} from "../../redux/decksReducer";
-import {Link} from "react-router-dom";
+import { useAppDispatch, useAppSelector } from 'redux/store'
+import { changePackTC, deletePackTC, sortPacksAC } from 'redux/packsReducer'
+import { RequestStatus } from 'redux/appReducer'
+import { useNavigate } from 'react-router-dom'
+import { Path } from 'app/AppRoutes'
 
 export const TablePacks = React.memo(() => {
     type iconFlowType = 'read' | 'delete' | 'changed'
 
     const dispatch = useAppDispatch()
+
     const cardPacks = useAppSelector((state) => state.packsCard.cardPacks)
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
     const authUserId = useAppSelector((state) => state.auth.profileData.id)
-
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const hoverStyleIcon = {
@@ -86,6 +86,12 @@ export const TablePacks = React.memo(() => {
         dispatch(sortPacksAC(valueSort))
     }
 
+    const navigate = useNavigate()
+
+    const onNameClickHandler = (id: string, packUserId: string) => {
+        if (packUserId !== authUserId) navigate(Path.friendsPack + '/' + id)
+        else navigate(Path.myPack + '/' + id)
+    }
 
     return (
         <>
@@ -103,7 +109,8 @@ export const TablePacks = React.memo(() => {
                                 <TableCell align="center">Cards</TableCell>
                                 <TableCell align="center">
                                     <TableSortLabel
-                                        active
+                                        active={!(requestStatus === RequestStatus.loading)}
+                                        disabled={requestStatus === RequestStatus.loading}
                                         onClick={createSortHandler}
                                         direction={sort === '0updated' ? 'asc' : 'desc'}
                                     >
@@ -137,8 +144,14 @@ export const TablePacks = React.memo(() => {
                                           key={row.key}
                                           sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                       >
-                                          <TableCell align="left">
-                                              <Link style={{textDecoration: 'none'}} to={`/friendspack/${row.key}`}>{row.Name}</Link>
+                                          <TableCell
+                                              align="left"
+                                              style={{ cursor: 'pointer' }}
+                                              onClick={() =>
+                                                  onNameClickHandler(row.key, row.userId)
+                                              }
+                                          >
+                                              {row.Name}
                                           </TableCell>
                                           <TableCell align="center">{row.Cards}</TableCell>
                                           <TableCell align="center">{row.LastCreated}</TableCell>

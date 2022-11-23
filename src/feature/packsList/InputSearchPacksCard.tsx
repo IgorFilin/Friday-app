@@ -8,14 +8,18 @@ import { useDebounce } from 'usehooks-ts'
 import { setPackNameAC } from '../../redux/packsReducer'
 import { useDispatch } from 'react-redux'
 import { useAppSelector } from '../../redux/store'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const InputSearchPacksCard: React.FC<{ width?: number | string }> = ({ width }) => {
     const dispatch = useDispatch()
 
     const namePack = useAppSelector((state) => state.packsCard.packName)
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const [inputValue, setInputValue] = useState(namePack)
-
+    useEffect(() => {
+        setInputValue(namePack)
+    }, [namePack])
     const debouncedValue = useDebounce<string>(inputValue, 500)
 
     useEffect(() => {
@@ -36,6 +40,7 @@ export const InputSearchPacksCard: React.FC<{ width?: number | string }> = ({ wi
         >
             <Typography variant="h6">Search</Typography>
             <TextField
+                disabled={requestStatus === RequestStatus.loading}
                 size={'small'}
                 placeholder={'Provide your text'}
                 value={inputValue}

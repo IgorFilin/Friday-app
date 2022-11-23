@@ -6,11 +6,12 @@ import AppBar from '@mui/material/AppBar'
 import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'redux/store'
 import { HeaderAvatar } from './HeaderAvatar'
+import { DEV_VERSION } from 'config'
 
-export const Header = () => {
+export const Header: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
+    const navigate = useNavigate()
 
-    let navigate = useNavigate()
     const onClickSingInHandler = () => {
         navigate('/login')
     }
@@ -35,8 +36,8 @@ export const Header = () => {
                     alt={'logo'}
                     onClick={() => navigate('/')}
                 />
-                <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                    {/*News*/}
+                <Typography variant="h6" component="div" sx={{ flexGrow: 1, ml: 3 }}>
+                    {DEV_VERSION && 'DEV VERSION'}
                 </Typography>
                 {isLogin ? (
                     <HeaderAvatar />
