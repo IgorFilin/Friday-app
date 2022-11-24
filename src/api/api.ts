@@ -90,7 +90,6 @@ export const packsCardApi = {
             .catch(parseAxiosError)
     },
     changePackCard(payload: ChangePackCardType) {
-        console.log(payload)
         return instance
             .put('/cards/pack', { cardsPack: payload })
             .then(getDataFromAxiosResponse)
