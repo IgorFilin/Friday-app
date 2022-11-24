@@ -1,11 +1,15 @@
 import { cardsApi, CardsStateType, CardType, GetCardsParamsType, NewCardType } from 'api/api'
 import { Dispatch } from 'redux'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
-import { AppDispatch } from './store'
+import { AppDispatch, AppRootReducerType } from './store'
 
 //===TYPES======================================================================
 
-export type CardsActionsType = ReturnType<typeof setCardsAC> | ReturnType<typeof updateCardAC>
+export type CardsActionsType =
+    | ReturnType<typeof setCardsAC>
+    | ReturnType<typeof updateCardAC>
+    | ReturnType<typeof setPageAC>
+    | ReturnType<typeof setPageCountAC>
 
 type InitialStateType = typeof initialState
 
@@ -13,11 +17,9 @@ type InitialStateType = typeof initialState
 
 const initialState = {
     cards: [] as Array<CardType>,
-    cardsTotalCount: 0,
+    cardsTotalCount: 10,
     page: 1,
-    pageCount: 0,
-    maxGrade: 0,
-    minGrade: 0,
+    pageCount: 10,
     packUserId: '',
 }
 
@@ -35,6 +37,10 @@ export const cardsReducer = (
                     card._id === action.card._id ? { ...card, ...action.card } : card
                 ),
             }
+        case 'CARDS/SET-PAGE':
+            return { ...state, page: action.page }
+        case 'CARDS/SET-PAGE-COUNT':
+            return { ...state, pageCount: action.pageCount }
         default: {
             return state
         }
@@ -51,26 +57,42 @@ export const updateCardAC = (card: CardType) => {
     return { type: 'CARDS/UPDATE-CARD', card } as const
 }
 
+export const setPageAC = (page: number) => {
+    return { type: 'CARDS/SET-PAGE', page } as const
+}
+
+export const setPageCountAC = (pageCount: number) => {
+    return { type: 'CARDS/SET-PAGE-COUNT', pageCount } as const
+}
+
 //===THUNKS=====================================================================
 
-export const fetchCardsTC = (params: GetCardsParamsType) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setLoadingAC(RequestStatus.loading))
-        const res = await cardsApi.getCards(params)
-        dispatch(setCardsAC(res))
-    } catch (error) {
-        dispatch(setErrorAC(error as string))
-        dispatch(setLoadingAC(RequestStatus.error))
-    } finally {
-        dispatch(setLoadingAC(RequestStatus.idle))
+export const fetchCardsTC =
+    (cardsPack_id: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
+        try {
+            const cards = getState().cards
+            const params = {
+                cardsPack_id,
+                pageCount: cards.pageCount,
+                page: cards.page,
+            } as GetCardsParamsType
+
+            dispatch(setLoadingAC(RequestStatus.loading))
+            const res = await cardsApi.getCards(params)
+            dispatch(setCardsAC(res))
+        } catch (error) {
+            dispatch(setErrorAC(error as string))
+            dispatch(setLoadingAC(RequestStatus.error))
+        } finally {
+            dispatch(setLoadingAC(RequestStatus.idle))
+        }
     }
-}
 
 export const createCardTC = (newCard: NewCardType) => async (dispatch: AppDispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
         await cardsApi.createCard(newCard)
-        dispatch(fetchCardsTC({ cardsPack_id: newCard.cardsPack_id }))
+        dispatch(fetchCardsTC(newCard.cardsPack_id))
     } catch (error) {
         dispatch(setErrorAC(error as string))
         dispatch(setLoadingAC(RequestStatus.error))
@@ -84,7 +106,7 @@ export const deleteCardTC =
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
             await cardsApi.deleteCard(cardId)
-            dispatch(fetchCardsTC({ cardsPack_id: cardsPackId }))
+            dispatch(fetchCardsTC(cardsPackId))
         } catch (error) {
             dispatch(setErrorAC(error as string))
             dispatch(setLoadingAC(RequestStatus.error))

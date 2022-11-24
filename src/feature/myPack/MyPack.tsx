@@ -5,13 +5,13 @@ import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { Path } from 'app/AppRoutes'
 import { BackToPacksListButton } from 'components/BackToPacksListButton'
 import { BlueButton } from 'components/BlueButton'
 import { InputSearch } from 'components/InputSearch'
-import { TablePaginationComponent } from 'components/TablePaginationComponent'
-import { CardsTable } from '../../components/CardsTable'
+import { CardsTable } from 'components/CardsTable'
+import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
-import { Path } from 'app/AppRoutes'
 import { createCardTC, fetchCardsTC } from 'redux/cardsReducer'
 import { setErrorAC } from 'redux/appReducer'
 
@@ -23,8 +23,8 @@ export const MyPack: React.FC = () => {
     const { packId } = useParams()
 
     useEffect(() => {
-        if (isLogin && packId) dispatch(fetchCardsTC({ cardsPack_id: packId }))
-    }, [packId, isLogin, dispatch])
+        if (isLogin && packId) dispatch(fetchCardsTC(packId))
+    }, [cardsState.page, cardsState.pageCount, packId, isLogin, dispatch])
 
     const onAddCardClickHandler = () => {
         if (!packId) return
@@ -81,7 +81,7 @@ export const MyPack: React.FC = () => {
                                 grade: c.grade,
                             }))}
                         />
-                        <TablePaginationComponent />
+                        <CardsPagination />
                     </>
                 ) : (
                     <></>
