@@ -20,7 +20,7 @@ export const CardsSearchInput: React.FC<PropsType> = ({ width }) => {
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
         dispatch(setCardQuestionAC(e.currentTarget.value))
     }
-    console.log('CardsSearchInput', cardQuestion)
+
     return (
         <Box
             sx={{

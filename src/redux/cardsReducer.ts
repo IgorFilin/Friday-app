@@ -85,7 +85,6 @@ export const fetchCardsTC =
                 page: cards.page,
                 cardQuestion: cards.cardQuestion,
             } as GetCardsParamsType
-            console.log('fetchCardsTC', params)
             dispatch(setLoadingAC(RequestStatus.loading))
             const res = await cardsApi.getCards(params)
             dispatch(setCardsAC(res))
