@@ -39,8 +39,8 @@ export const AddToPack = () => {
                         <Button
                             variant={'contained'}
                             sx={{
-                                marginLeft: '700px',
-                                marginTop: '20px',
+                                ml: '45%',
+                                mt: '2%',
                                 w: 20,
                                 borderRadius: 5,
                                 textTransform: 'none',

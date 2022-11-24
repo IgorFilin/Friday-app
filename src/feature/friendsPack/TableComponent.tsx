@@ -1,21 +1,19 @@
 import * as React from 'react'
-import { useEffect } from 'react'
-import { styled } from '@mui/material/styles'
-import TableCell, { tableCellClasses } from '@mui/material/TableCell'
+import {useEffect} from 'react'
+import {styled} from '@mui/material/styles'
+import TableCell, {tableCellClasses} from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { useParams } from 'react-router-dom'
-import { sortCardsAC } from '../../redux/decksReducer'
-import { RequestStatus } from '../../redux/appReducer'
+import {useAppDispatch, useAppSelector} from '../../redux/store'
+import {sortCardsAC} from '../../redux/decksReducer'
+import {RequestStatus} from '../../redux/appReducer'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
 import TableSortLabel from '@mui/material/TableSortLabel/TableSortLabel'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import TableBody from '@mui/material/TableBody'
-import { RatingComponent } from './RatingComponent'
+import {RatingComponent} from './RatingComponent'
 import TableContainer from '@mui/material/TableContainer'
-import { AppCircularProgress } from '../../app/AppCircularProgress'
+import {LinearProgress} from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {
@@ -57,9 +55,6 @@ export const TableComponent = () => {
 
     return (
         <>
-            {statusLoading === RequestStatus.loading ? (
-                <AppCircularProgress />
-            ) : (
                 <TableContainer component={Paper}>
                     <Table
                         sx={{
@@ -108,7 +103,6 @@ export const TableComponent = () => {
                         </TableBody>
                     </Table>
                 </TableContainer>
-            )}
         </>
     )
 }
