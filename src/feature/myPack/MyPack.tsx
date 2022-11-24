@@ -8,12 +8,12 @@ import Box from '@mui/material/Box'
 import { Path } from 'app/AppRoutes'
 import { BackToPacksListButton } from 'components/BackToPacksListButton'
 import { BlueButton } from 'components/BlueButton'
-import { InputSearch } from 'components/InputSearch'
 import { CardsTable } from 'components/CardsTable'
 import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { createCardTC, fetchCardsTC } from 'redux/cardsReducer'
 import { setErrorAC } from 'redux/appReducer'
+import { CardsSearchInput } from 'components/CardsSearchInput'
 
 export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
@@ -24,7 +24,7 @@ export const MyPack: React.FC = () => {
 
     useEffect(() => {
         if (isLogin && packId) dispatch(fetchCardsTC(packId))
-    }, [cardsState.page, cardsState.pageCount, packId, isLogin, dispatch])
+    }, [cardsState.page, cardsState.pageCount, cardsState.cardQuestion, packId, isLogin, dispatch])
 
     const onAddCardClickHandler = () => {
         if (!packId) return
@@ -67,7 +67,7 @@ export const MyPack: React.FC = () => {
                     </Box>
                     <BlueButton onClick={onAddCardClickHandler}>Add new card</BlueButton>
                 </Box>
-                <InputSearch width={'100%'} />
+                <CardsSearchInput width={'100%'} />
                 <br />
                 {packId && packId !== '' ? (
                     <>
