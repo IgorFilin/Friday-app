@@ -7,15 +7,11 @@ export const CardsPagination: React.FC = () => {
     const { page, pageCount, cardsTotalCount } = useAppSelector((state) => state.cards)
     const dispatch = useAppDispatch()
 
-    console.log(page, pageCount, cardsTotalCount)
-
     const setPageHandler = (page: number) => {
-        console.log('page', page)
         dispatch(setPageAC(page))
     }
 
     const setPageCountHandler = (pageCount: number) => {
-        console.log('pageCount', pageCount)
         dispatch(setPageCountAC(pageCount))
     }
 
@@ -26,6 +22,7 @@ export const CardsPagination: React.FC = () => {
             totalCount={cardsTotalCount}
             setPage={setPageHandler}
             setPageCount={setPageCountHandler}
+            itemsCaption={'Cards'}
         />
     )
 }
