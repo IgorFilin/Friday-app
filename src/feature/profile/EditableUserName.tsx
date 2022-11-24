@@ -7,32 +7,32 @@ import BorderColorIcon from '@mui/icons-material/BorderColor'
 import CloseIcon from '@mui/icons-material/Close'
 import Box from '@mui/material/Box'
 
-type EditableSpanPropsType = {
+type PropsType = {
     value: string
     disabled?: boolean
     onConfirm: (newValue: string) => void
     onCancel?: () => void
 }
-export const EditableUserName: React.FC<EditableSpanPropsType> = (props) => {
-    const [value, setValue] = useState(props.value)
+export const EditableUserName: React.FC<PropsType> = ({ disabled, onCancel, onConfirm, value }) => {
+    const [changingValue, setChangingValue] = useState(value)
     const [isEditing, setIsEditing] = useState(false)
 
-    function onChangeHandler(e: ChangeEvent<HTMLInputElement>) {
-        setValue(e.currentTarget.value)
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        setChangingValue(e.currentTarget.value)
     }
 
     const setSpanMode = () => setIsEditing(false)
-    const setInputMode = () => !props.disabled && setIsEditing(true)
+    const setInputMode = () => !disabled && setIsEditing(true)
 
     const cancel = () => {
         setSpanMode()
-        setValue(props.value)
-        if (props.onCancel) props.onCancel()
+        setChangingValue(value)
+        if (onCancel) onCancel()
     }
 
     const confirm = () => {
         setSpanMode()
-        props.onConfirm(value)
+        onConfirm(changingValue)
     }
 
     const onKeyDownHandler = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -40,7 +40,7 @@ export const EditableUserName: React.FC<EditableSpanPropsType> = (props) => {
         if (e.key === 'Escape') cancel()
     }
 
-    const error = value.trim().length < 1
+    const error = changingValue.trim().length < 1
 
     return (
         <Box sx={{ mb: 1, display: 'inline-flex', alignItems: 'center' }}>
@@ -50,12 +50,11 @@ export const EditableUserName: React.FC<EditableSpanPropsType> = (props) => {
                         size={'small'}
                         variant={'standard'}
                         InputProps={{ style: { font: 'inherit' } }}
-                        value={value}
+                        value={changingValue}
                         autoFocus
                         helperText={error && 'Input text required'}
                         error={error}
                         onChange={onChangeHandler}
-                        // onBlur={confirm}
                         onKeyDown={onKeyDownHandler}
                     />
                     <IconButton color="primary" aria-label="change name" onClick={confirm}>
@@ -68,7 +67,7 @@ export const EditableUserName: React.FC<EditableSpanPropsType> = (props) => {
             ) : (
                 <>
                     <Typography fontWeight={'bold'} variant="body1">
-                        {props.value}
+                        {value}
                     </Typography>
                     <IconButton color="primary" aria-label="change name" onClick={setInputMode}>
                         <BorderColorIcon fontSize={'small'} />

@@ -22,7 +22,10 @@ export const AppPagination: React.FC<PropsType> = ({
     itemsCaption,
 }) => {
     const onChangeRowsPerPageHandler = (e: SelectChangeEvent<number>) => {
-        setPageCount(+e.target.value)
+        const newPageSize = +e.target.value
+        const newPage = Math.ceil((page * rowsPerPage - rowsPerPage + 1) / newPageSize)
+        setPageCount(newPageSize)
+        setPage(newPage)
     }
 
     const onChangePageHandler = (event: React.ChangeEvent<unknown>, page: number) => {
