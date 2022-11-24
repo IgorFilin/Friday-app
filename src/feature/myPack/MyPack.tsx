@@ -24,7 +24,7 @@ export const MyPack: React.FC = () => {
 
     useEffect(() => {
         if (isLogin && packId) dispatch(fetchCardsTC(packId))
-    }, [packId, isLogin, dispatch])
+    }, [cardsState.page, cardsState.pageCount, packId, isLogin, dispatch])
 
     const onAddCardClickHandler = () => {
         if (!packId) return
