@@ -127,7 +127,6 @@ export const setCardsTC =
             dispatch(setIsLoginAC(false))
         } finally {
             dispatch(setIsInitializedAC(true))
+            dispatch(setLoadingAC(RequestStatus.idle))
         }
     }
-
-const a = 10

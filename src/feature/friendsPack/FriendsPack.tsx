@@ -12,8 +12,6 @@ import { BlueButton } from '../../components/BlueButton'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { setCardsTC } from '../../redux/decksReducer'
 import { AddToPack } from './AddPoPack'
-import { RequestStatus } from '../../redux/appReducer'
-import { AppCircularProgress } from '../../app/AppCircularProgress'
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
@@ -22,7 +20,6 @@ export const FriendsPack = () => {
     const sort = useAppSelector((state) => state.decks.sortCards)
     const page = useAppSelector((state) => state.decks.cardsState.page)
     const pageCount = useAppSelector((state) => state.decks.cardsState.pageCount)
-    const statusLoading = useAppSelector((state) => state.app.request.status)
 
     const { id } = useParams<'id'>()
 
