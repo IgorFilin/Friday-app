@@ -1,6 +1,8 @@
 import React from 'react'
-import TablePagination from '@mui/material/TablePagination'
 import Pagination from '@mui/material/Pagination'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
+import MenuItem from '@mui/material/MenuItem'
+import Box from '@mui/material/Box'
 
 type PropsType = {
     rowsPerPage: number
@@ -8,6 +10,7 @@ type PropsType = {
     totalCount: number
     setPageCount: (newPageCount: number) => void
     setPage: (newPageCount: number) => void
+    itemsCaption?: string
 }
 
 export const AppPagination: React.FC<PropsType> = ({
@@ -16,48 +19,51 @@ export const AppPagination: React.FC<PropsType> = ({
     page,
     setPage,
     setPageCount,
+    itemsCaption,
 }) => {
-    const onChangePageStepHandler = (
-        event: React.MouseEvent<HTMLButtonElement> | null,
-        newPage: number
-    ) => {
-        console.log('newPage', newPage)
-
-        setPage(newPage)
-    }
-
-    const onChangeRowsPerPageHandler = (
-        event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-    ) => {
-        setPageCount(parseInt(event.target.value, 10))
+    const onChangeRowsPerPageHandler = (e: SelectChangeEvent<number>) => {
+        setPageCount(+e.target.value)
     }
 
     const onChangePageHandler = (event: React.ChangeEvent<unknown>, page: number) => {
         setPage(page)
     }
 
-    const pc = Math.floor(totalCount / rowsPerPage) + 1
     return (
-        <div style={{ display: 'flex', width: '100%', margin: '10px auto' }}>
+        <Box
+            sx={{
+                mt: 1,
+                width: '100%',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-start',
+            }}
+        >
             <Pagination
                 color={'primary'}
-                count={pc}
+                count={Math.floor(totalCount / rowsPerPage) + 1}
                 variant="outlined"
                 shape="rounded"
                 page={page}
                 defaultPage={1}
                 onChange={onChangePageHandler}
             />
-            <TablePagination
-                component="div"
-                count={totalCount}
-                page={page}
-                sx={{ mt: -1 }}
-                onPageChange={onChangePageStepHandler}
-                rowsPerPage={rowsPerPage}
-                onRowsPerPageChange={onChangeRowsPerPageHandler}
-                rowsPerPageOptions={[5, 10, 25]}
-            />
-        </div>
+            <Box sx={{ ml: 2 }}>
+                <span>Show</span>
+                <Select
+                    sx={{ ml: 1, mr: 1 }}
+                    value={rowsPerPage}
+                    onChange={onChangeRowsPerPageHandler}
+                    variant={'standard'}
+                >
+                    {[5, 10, 25].map((v) => (
+                        <MenuItem key={v} value={v}>
+                            {v}
+                        </MenuItem>
+                    ))}
+                </Select>
+                <span>{itemsCaption ?? 'Items'} per Page</span>
+            </Box>
+        </Box>
     )
 }
