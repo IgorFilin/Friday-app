@@ -66,7 +66,7 @@ export const FriendsPack = () => {
                                 }}
                             >
                                 Friend’s Pack
-                                <BlueButton>Learn to pack</BlueButton>
+                                <BlueButton onClick={()=>{alert('in progress')}}>Learn to pack</BlueButton>
                             </Typography>
                         </Box>
                         <InputSearch handleRequest={handleRequest}/>

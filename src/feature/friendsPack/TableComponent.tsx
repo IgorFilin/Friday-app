@@ -43,7 +43,6 @@ export const TableComponent = () => {
     const decks = useAppSelector((state) => state.decks.cardsState)
     const sort = useAppSelector((state) => state.decks.sortCards)
     const pageCount = useAppSelector((state) => state.decks.cardsState.pageCount)
-    const statusLoading = useAppSelector((state) => state.app.request.status)
     const dispatch = useAppDispatch()
 
     useEffect(() => {}, [sort, pageCount])
