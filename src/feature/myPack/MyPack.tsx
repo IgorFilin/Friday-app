@@ -5,30 +5,48 @@ import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
+import { Path } from 'app/AppRoutes'
 import { BackToPacksListButton } from 'components/BackToPacksListButton'
 import { BlueButton } from 'components/BlueButton'
-import { InputSearch } from 'components/InputSearch'
-import { TablePaginationComponent } from 'components/TablePaginationComponent'
-import { PackTable } from './PackTable'
+import { CardsTable } from 'components/CardsTable'
+import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
-import { Path } from 'app/AppRoutes'
-import { fetchCardsTC } from 'redux/cardsReducer'
-import { setErrorAC } from '../../redux/appReducer'
+import { createCardTC, fetchCardsTC } from 'redux/cardsReducer'
+import { setErrorAC } from 'redux/appReducer'
+import { CardsSearchInput } from 'components/CardsSearchInput'
 
 export const MyPack: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
     const userId = useAppSelector((state) => state.auth.profileData.id)
-    const cardsState = useAppSelector((state) => state.cards.cardsState)
+    const cardsState = useAppSelector((state) => state.cards)
     const dispatch = useAppDispatch()
-    const { packId } = useParams() //for test /63515cf1684bc52aa9f1c764
+    const { packId } = useParams()
 
     useEffect(() => {
-        if (packId && userId === cardsState.packUserId)
-            dispatch(fetchCardsTC({ cardsPack_id: packId }))
-        dispatch(setErrorAC('This is not your Cards Pack'))
-    }, [packId, dispatch])
+        if (isLogin && packId) dispatch(fetchCardsTC(packId))
+    }, [
+        cardsState.sortCards,
+        cardsState.page,
+        cardsState.pageCount,
+        cardsState.cardQuestion,
+        packId,
+        isLogin,
+        dispatch,
+    ])
+
+    const onAddCardClickHandler = () => {
+        if (!packId) return
+        dispatch(
+            createCardTC({ cardsPack_id: packId, answer: 'test answer', question: 'test question' })
+        )
+    }
 
     if (!isLogin) return <Navigate to={Path.login} />
+
+    if (cardsState.packUserId !== '' && cardsState.packUserId !== userId) {
+        dispatch(setErrorAC("It's not yours Cards Pack"))
+        return <Navigate to={Path.packsList} />
+    }
 
     return (
         <Container
@@ -36,7 +54,6 @@ export const MyPack: React.FC = () => {
                 display: 'flex',
                 height: '100vh',
                 justifyContent: 'center',
-                // bgcolor: '#cfe8fc',
             }}
         >
             <Stack width={'100%'} sx={{ m: 3, alignItems: 'center' }}>
@@ -56,34 +73,27 @@ export const MyPack: React.FC = () => {
                         </Typography>
                         <MyPackButtonWithMenu />
                     </Box>
-                    <BlueButton
-                    // onClick={() => {
-                    //     setRows((rs) => [
-                    //         ...rs,
-                    //         {
-                    //             question: 'question',
-                    //             grade: 5,
-                    //             answer: 'answer',
-                    //             lastUpdated: new Date().toLocaleString(),
-                    //         },
-                    //     ])
-                    // }}
-                    >
-                        Add new card
-                    </BlueButton>
+                    <BlueButton onClick={onAddCardClickHandler}>Add new card</BlueButton>
                 </Box>
-                <InputSearch width={'100%'} />
+                <CardsSearchInput width={'100%'} />
                 <br />
-                <PackTable
-                    rows={cardsState.cards.map((c) => ({
-                        question: c.question,
-                        answer: c.answer,
-                        lastUpdated: c.updated,
-                        grade: c.grade,
-                    }))}
-                />
-
-                <TablePaginationComponent />
+                {packId && packId !== '' ? (
+                    <>
+                        <CardsTable
+                            packId={packId}
+                            rows={cardsState.cards.map((c) => ({
+                                id: c._id,
+                                question: c.question,
+                                answer: c.answer,
+                                lastUpdated: c.updated,
+                                grade: c.grade,
+                            }))}
+                        />
+                        <CardsPagination />
+                    </>
+                ) : (
+                    <></>
+                )}
             </Stack>
         </Container>
     )

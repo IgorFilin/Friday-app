@@ -1,16 +1,17 @@
 import React from 'react'
-import { Navigate, Route, Routes } from 'react-router-dom'
-import { Error } from './error/Error'
-import { Login } from 'feature/login/Login'
-import { Registration } from 'feature/registration/Registration'
-import { Profile } from 'feature/profile/Profile'
-import { PasswordRecovery } from 'feature/passwordRecovery/PasswordRecovery'
-import { NewPassword } from 'feature/passwordRecovery/NewPassword'
-import { CheckEmail } from 'feature/passwordRecovery/CheckEmail'
-import { MyPack } from 'feature/myPack/MyPack'
-import { PacksList } from 'feature/packsList/PacksList'
-import { NamePack } from 'feature/namePack/NamePack'
-import { FriendsPack } from 'feature/friendsPack/FriendsPack'
+import {Navigate, Route, Routes} from 'react-router-dom'
+import {Error} from './error/Error'
+import {Login} from 'feature/login/Login'
+import {Registration} from 'feature/registration/Registration'
+import {Profile} from 'feature/profile/Profile'
+import {PasswordRecovery} from 'feature/passwordRecovery/PasswordRecovery'
+import {NewPassword} from 'feature/passwordRecovery/NewPassword'
+import {CheckEmail} from 'feature/passwordRecovery/CheckEmail'
+import {MyPack} from 'feature/myPack/MyPack'
+import {PacksList} from 'feature/packsList/PacksList'
+import {NamePack} from 'feature/namePack/NamePack'
+import {FriendsPack} from 'feature/friendsPack/FriendsPack'
+import {AddToPack} from "../feature/friendsPack/AddPoPack";
 
 export enum Path {
     root = '/',
@@ -24,7 +25,7 @@ export enum Path {
     myPack = '/mypack',
     friendsPack = '/friendspack',
     packsList = '/packslist',
-    namePack = '/name-pack',
+    namePack = '/name-pack'
 }
 
 export const AppRoutes: React.FC = () => (
@@ -37,7 +38,7 @@ export const AppRoutes: React.FC = () => (
         <Route path={Path.newPassword + '/:token'} element={<NewPassword />} />
         <Route path={Path.checkEmail} element={<CheckEmail />} />
         <Route path={Path.myPack + '/:packId'} element={<MyPack />} />
-        <Route path={Path.friendsPack} element={<FriendsPack />} />
+        <Route path={Path.friendsPack + '/:id'} element={<FriendsPack />} />
         <Route path={Path.packsList} element={<PacksList />} />
         <Route path={Path.namePack} element={<NamePack />} />
         <Route path={Path.other} element={<Error />} />

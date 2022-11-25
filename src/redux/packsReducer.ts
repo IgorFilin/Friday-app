@@ -1,15 +1,22 @@
 import { Dispatch } from 'redux'
-import { CardPackType, packsCardApi, PacksCardType } from 'api/api'
-import { AppRootReducerType } from './store'
+import {
+    CardPackType,
+    ChangePackCardType,
+    createPackCardType,
+    packsCardApi,
+    PacksCardType,
+} from 'api/api'
+import { AppDispatch, AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 
-type PacksActionsType =
+export type PacksActionsType =
     | ReturnType<typeof setPacksCardAC>
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof sortPacksAC>
     | ReturnType<typeof setMinMaxValueAC>
     | ReturnType<typeof setPackNameAC>
+    | ReturnType<typeof setShowPacksCards>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -25,6 +32,7 @@ export type PacksCardParamsType = {
 type initialStateType = typeof initialState
 
 const initialState = {
+    whosePackCard: 'All' as 'All' | 'My',
     packName: '',
     cardPacks: [] as Array<CardPackType>,
     cardPacksTotalCount: 0,
@@ -39,7 +47,7 @@ const initialState = {
     },
 }
 
-export const packsCardReducer = (
+export const packsReducer = (
     state: initialStateType = initialState,
     action: PacksActionsType
 ): initialStateType => {
@@ -75,6 +83,9 @@ export const packsCardReducer = (
                 packName: action.name,
             }
         }
+        case 'PACKS/SET-SHOW-PACK-CARDS': {
+            return { ...state, whosePackCard: action.statusPack }
+        }
         default: {
             return state
         }
@@ -99,22 +110,36 @@ export const setMinMaxValueAC = (minValue: number, maxValue: number) => {
 export const setPackNameAC = (name: string) => {
     return { type: 'PACKS/SET-PACK-NAME', name } as const
 }
+export const setShowPacksCards = (statusPack: 'All' | 'My') => {
+    return { type: 'PACKS/SET-SHOW-PACK-CARDS', statusPack } as const
+}
 
 export const getPacksCardTC =
-    () => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
-        const packs = getState().packsCard
-        let params: PacksCardParamsType = {
-            packName: packs.packName,
-            min: packs.slider.min,
-            max: packs.slider.max,
-            page: packs.page,
-            pageCount: packs.pageCount,
-            sortPacks: packs.sortPacks,
+    (activeDefaultValue?: boolean) =>
+    async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
+        let params: PacksCardParamsType = {}
+        if (!activeDefaultValue) {
+            const packs = getState().packsCard
+            params = {
+                packName: packs.packName,
+                min: packs.slider.min,
+                max: packs.slider.max,
+                page: packs.page,
+                pageCount: packs.pageCount,
+                sortPacks: packs.sortPacks,
+                user_id: packs.whosePackCard === 'My' ? getState().auth.profileData.id : '',
+            }
         }
+
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
             const result = await packsCardApi.getPacksCard(params)
-            dispatch(setPacksCardAC(result))
+            if (activeDefaultValue) {
+                dispatch(setMinMaxValueAC(0, 0))
+                dispatch(setPackNameAC(''))
+                dispatch(sortPacksAC('0updated'))
+                dispatch(setShowPacksCards('All'))
+            } else dispatch(setPacksCardAC(result))
         } catch (e) {
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))
@@ -122,3 +147,45 @@ export const getPacksCardTC =
             dispatch(setLoadingAC(RequestStatus.succeeded))
         }
     }
+
+export const createPackTC = (payload: createPackCardType) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.createPackCard(payload)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    }
+}
+
+export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.deletePackCard(id)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    }
+}
+
+export const changePackTC = (payload: ChangePackCardType) => async (dispatch: AppDispatch) => {
+    try {
+        dispatch(setLoadingAC(RequestStatus.loading))
+        await packsCardApi.changePackCard(payload)
+        await dispatch(getPacksCardTC())
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    } catch (e) {
+        dispatch(setErrorAC(e as string))
+        dispatch(setLoadingAC(RequestStatus.error))
+    } finally {
+        dispatch(setLoadingAC(RequestStatus.succeeded))
+    }
+}
