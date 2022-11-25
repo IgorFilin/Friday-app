@@ -11,6 +11,7 @@ export type CardsActionsType =
     | ReturnType<typeof setPageAC>
     | ReturnType<typeof setPageCountAC>
     | ReturnType<typeof setCardQuestionAC>
+    | ReturnType<typeof setSortCardsAC>
 
 type InitialStateType = typeof initialState
 
@@ -23,6 +24,7 @@ const initialState = {
     pageCount: 10,
     packUserId: '',
     cardQuestion: '',
+    sortCards: '',
 }
 
 export const cardsReducer = (
@@ -45,6 +47,8 @@ export const cardsReducer = (
             return { ...state, pageCount: action.pageCount }
         case 'CARDS/SET-CARD-QUESTION':
             return { ...state, cardQuestion: action.cardQuestion }
+        case 'CARDS/SET-SORT-CARDS':
+            return { ...state, sortCards: action.sortCards }
         default: {
             return state
         }
@@ -73,6 +77,10 @@ export const setCardQuestionAC = (cardQuestion: string) => {
     return { type: 'CARDS/SET-CARD-QUESTION', cardQuestion } as const
 }
 
+export const setSortCardsAC = (sortCards: string) => {
+    return { type: 'CARDS/SET-SORT-CARDS', sortCards } as const
+}
+
 //===THUNKS=====================================================================
 
 export const fetchCardsTC =
@@ -84,6 +92,7 @@ export const fetchCardsTC =
                 pageCount: cards.pageCount,
                 page: cards.page,
                 cardQuestion: cards.cardQuestion,
+                sortCards: cards.sortCards,
             } as GetCardsParamsType
             dispatch(setLoadingAC(RequestStatus.loading))
             const res = await cardsApi.getCards(params)
