@@ -2,7 +2,8 @@ import { Dispatch } from 'redux'
 import { RequestStatus, setErrorAC, setIsInitializedAC, setLoadingAC } from './appReducer'
 import { setIsLoginAC } from './authReducer'
 import { AppRootReducerType } from './store'
-import { CardType, decksApi, GetCardsParamsType } from '../api/api'
+import { CardType, GetCardsParamsType } from 'api/types'
+import { decksApi } from 'api/decksApi'
 
 export type InitialStateType = typeof initialState
 export type setCards = ReturnType<typeof setCardsAC>

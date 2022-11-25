@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux'
-import { authApi } from 'api/api'
 import { setIsLoginAC, setProfileDataAC } from './authReducer'
+import { authApi } from '../api/authApi'
 
 //===TYPES======================================================================
 

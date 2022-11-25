@@ -1,14 +1,14 @@
 import { Dispatch } from 'redux'
 import {
-    authApi,
     DataFormType,
     LoginDataType,
     ProfileDataType,
     RecoveryEmailType,
     SetNewPasswordType,
-} from 'api/api'
+} from 'api/types'
 import { RequestStatus, setErrorAC, setInfoAC, setLoadingAC } from './appReducer'
 import { getBase64 } from './utils'
+import { authApi } from '../api/authApi'
 
 //===TYPES======================================================================
 

@@ -1,5 +1,5 @@
 import { AxiosError, AxiosResponse } from 'axios'
-import { LoginResponseType, LogoutResponseType, ProfileDataType, SingUpResponseType } from './api'
+import { LoginResponseType, LogoutResponseType, ProfileDataType, SingUpResponseType } from './types'
 
 type ErrorResponseType = {
     error: string

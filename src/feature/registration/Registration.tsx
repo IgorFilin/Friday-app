@@ -6,7 +6,7 @@ import { singUpTC } from 'redux/authReducer'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { RequestStatus } from 'redux/appReducer'
 import { Link, Navigate } from 'react-router-dom'
-import { DataFormType } from 'api/api'
+import { DataFormType } from 'api/types'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 
