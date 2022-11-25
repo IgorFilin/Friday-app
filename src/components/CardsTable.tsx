@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppDispatch } from 'redux/store'
-import { deleteCardTC } from 'redux/cardsReducer'
+import { deleteCardTC, editCardTC } from 'redux/cardsReducer'
 import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -23,9 +23,10 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
         dispatch(deleteCardTC(cardId, packId))
     }
 
-    const onAnswerChangedHandler = (id: string, newAnswer: string) => {}
-
-    const onQuestionChangedHandler = (id: string, newAnswer: string) => {}
+    const onEditCardHandler = (id: string, question: string, answer: string) => {
+        if (!packId) return
+        dispatch(editCardTC(id, question + '-edited question', answer + '-edited answer', packId))
+    }
 
     return (
         <TableContainer component={Paper}>
@@ -42,10 +43,10 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
                 <TableBody>
                     {rows.map((row) => (
                         <CardRow
+                            key={row.id}
                             row={row}
                             onDelete={onDeleteCardHandler}
-                            onAnswerChanged={onAnswerChangedHandler}
-                            onQuestionChanged={onQuestionChangedHandler}
+                            onEdit={onEditCardHandler}
                         />
                     ))}
                 </TableBody>

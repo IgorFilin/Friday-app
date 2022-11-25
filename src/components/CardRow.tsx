@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import Rating from '@mui/material/Rating'
@@ -18,19 +18,12 @@ export type PackType = {
 type PropsType = {
     row: PackType
     onDelete: (id: string) => void
-    onAnswerChanged: (id: string, newAnswer: string) => void
-    onQuestionChanged: (id: string, newQuestion: string) => void
+    onEdit: (id: string, question: string, answer: string) => void
 }
 
-export const CardRow: React.FC<PropsType> = ({
-    row,
-    onDelete,
-    onQuestionChanged,
-    onAnswerChanged,
-}) => {
-    const [isEditing, setIsEditing] = useState(false)
+export const CardRow: React.FC<PropsType> = ({ row, onDelete, onEdit }) => {
     return (
-        <TableRow key={row.id} sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
+        <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell component="th" scope="row">
                 {row.question}
             </TableCell>
@@ -46,7 +39,7 @@ export const CardRow: React.FC<PropsType> = ({
                 />
             </TableCell>
             <TableCell align="right">
-                <IconButton onClick={() => setIsEditing((v) => !v)}>
+                <IconButton onClick={() => onEdit(row.id, row.question, row.answer)}>
                     <DriveFileRenameOutlineIcon />
                 </IconButton>
                 <IconButton onClick={() => onDelete(row.id)}>

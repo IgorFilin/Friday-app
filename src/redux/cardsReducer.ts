@@ -123,15 +123,17 @@ export const deleteCardTC =
         }
     }
 
-export const updateCardTC = (card: CardType) => async (dispatch: Dispatch) => {
-    try {
-        dispatch(setLoadingAC(RequestStatus.loading))
-        const updatedCard = await cardsApi.updateCard(card)
-        dispatch(updateCardAC(updatedCard))
-    } catch (error) {
-        dispatch(setErrorAC(error as string))
-        dispatch(setLoadingAC(RequestStatus.error))
-    } finally {
-        dispatch(setLoadingAC(RequestStatus.idle))
+export const editCardTC =
+    (_id: string, answer: string, question: string, cardsPackId: string) =>
+    async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setLoadingAC(RequestStatus.loading))
+            await cardsApi.updateCard({ _id, answer, question })
+            dispatch(fetchCardsTC(cardsPackId))
+        } catch (error) {
+            dispatch(setErrorAC(error as string))
+            dispatch(setLoadingAC(RequestStatus.error))
+        } finally {
+            dispatch(setLoadingAC(RequestStatus.idle))
+        }
     }
-}

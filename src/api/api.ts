@@ -1,4 +1,4 @@
-import {instance} from './instance'
+import { instance } from './instance'
 import {
     getDataFromAxiosResponse,
     parseAxiosError,
@@ -7,8 +7,8 @@ import {
     parseSingUpResponse,
     parseUpdatedUserResponse,
 } from './responseParsers'
-import {PacksCardParamsType} from '../redux/packsReducer'
-import {DecksStateType} from "../redux/decksReducer";
+import { PacksCardParamsType } from '../redux/packsReducer'
+import { DecksStateType } from '../redux/decksReducer'
 
 export const authApi = {
     singUp(dataForm: DataFormType) {
@@ -39,7 +39,7 @@ export const authApi = {
         })
     },
 
-    setNewPassword({password, resetPasswordToken}: SetNewPasswordType) {
+    setNewPassword({ password, resetPasswordToken }: SetNewPasswordType) {
         return instance.post<ResponseSetNewPasswordType>('/auth/set-new-password', {
             password,
             resetPasswordToken,
@@ -74,13 +74,13 @@ export const authApi = {
 export const packsCardApi = {
     getPacksCard(params: PacksCardParamsType) {
         return instance
-            .get<PacksCardType>('/cards/pack', {params})
+            .get<PacksCardType>('/cards/pack', { params })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
     createPackCard(payload: createPackCardType) {
         return instance
-            .post('/cards/pack', {cardsPack: payload})
+            .post('/cards/pack', { cardsPack: payload })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -92,7 +92,7 @@ export const packsCardApi = {
     },
     changePackCard(payload: ChangePackCardType) {
         return instance
-            .put('/cards/pack', {cardsPack: payload})
+            .put('/cards/pack', { cardsPack: payload })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -101,7 +101,7 @@ export const packsCardApi = {
 export const cardsApi = {
     getCards(params: GetCardsParamsType) {
         return instance
-            .get<CardsStateType>('/cards/card', {params})
+            .get<CardsStateType>('/cards/card', { params })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -117,9 +117,9 @@ export const cardsApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
-    updateCard(card: CardType) {
+    updateCard(editCard: EditCardType) {
         return instance
-            .put<CardType>('/cards/card', { card })
+            .put<CardType>('/cards/card', { card: editCard }) //response object not required
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -128,10 +128,10 @@ export const cardsApi = {
 export const decksApi = {
     getDecks(params: GetCardsParamsType) {
         return instance
-            .get<DecksStateType>(`/cards/card`, {params})
+            .get<DecksStateType>(`/cards/card`, { params })
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
-    }
+    },
 }
 
 //==TYPES=======================================================================
@@ -247,6 +247,12 @@ export type CardType = {
 
 export type NewCardType = {
     cardsPack_id: string
+    answer: string
+    question: string
+}
+
+export type EditCardType = {
+    _id: string
     answer: string
     question: string
 }
