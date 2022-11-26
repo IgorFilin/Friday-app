@@ -12,6 +12,7 @@ export const SecondaryButton: React.FC<ButtonProps> = (props) => (
             pl: 3,
             pr: 3,
             textTransform: 'none',
+            ...props.sx,
         }}
     />
 )
