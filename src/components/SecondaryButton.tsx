@@ -1,26 +1,17 @@
-import React, { ReactNode } from 'react'
-import Button from '@mui/material/Button'
+import React from 'react'
+import Button, { ButtonProps } from '@mui/material/Button'
 
-type PropsType = {
-    onClick?: () => void
-    children: ReactNode
-}
-
-export const SecondaryButton: React.FC<PropsType> = ({ onClick, children }) => {
-    return (
-        <Button
-            variant={'contained'}
-            color={'inherit'}
-            sx={{
-                borderRadius: 5,
-                backgroundColor: 'white',
-                pl: 3,
-                pr: 3,
-                textTransform: 'none',
-            }}
-            onClick={onClick}
-        >
-            {children}
-        </Button>
-    )
-}
+export const SecondaryButton: React.FC<ButtonProps> = (props) => (
+    <Button
+        {...props}
+        variant={'contained'}
+        color={'inherit'}
+        sx={{
+            borderRadius: 5,
+            backgroundColor: 'white',
+            pl: 3,
+            pr: 3,
+            textTransform: 'none',
+        }}
+    />
+)
