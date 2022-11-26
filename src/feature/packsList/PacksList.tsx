@@ -26,7 +26,7 @@ export const PacksList = () => {
 
     const dispatch = useAppDispatch()
 
-    let deps = [sort, pageCount, page, packName, whosePackCard]
+    let deps = [sort, pageCount, page, whosePackCard]
     if (isInitializedSlider) deps = [...deps, min, max]
 
     useEffect(() => {

@@ -18,10 +18,12 @@ import { changePackTC, deletePackTC, sortPacksAC } from 'redux/packsReducer'
 import { RequestStatus } from 'redux/appReducer'
 import { useNavigate } from 'react-router-dom'
 import { Path } from 'app/AppRoutes'
-import { AddPackModal } from './modal/AddPackModal'
+import { DeletePackModal } from './modal/DeletePackModal'
+
+type iconFlowType = 'read' | 'delete' | 'changed'
 
 export const TablePacks = React.memo(() => {
-    type iconFlowType = 'read' | 'delete' | 'changed'
+    const [deletePackModalOpen, setDeletePackModalOpen] = useState(false)
 
     const dispatch = useAppDispatch()
 
@@ -38,20 +40,24 @@ export const TablePacks = React.memo(() => {
 
     const onClickIconHandler = (type: iconFlowType, id: string) => {
         if (type === 'delete') {
-            dispatch(deletePackTC(id))
+            setDeletePackModalOpen(true)
         }
         if (type === 'read') alert('readPack')
         if (type === 'changed') dispatch(changePackTC({ _id: id, name: 'UpdatedNamePack' }))
+    }
+
+    const onCloseDeletePackModal = () => {
+        setDeletePackModalOpen(false)
     }
 
     const rows = cardPacks.map((pack) => {
         return {
             userId: pack.user_id,
             key: pack._id,
-            Name: pack.name,
-            Cards: pack.cardsCount,
-            LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
-            CreatedBy: pack.user_name,
+            name: pack.name,
+            cards: pack.cardsCount,
+            lastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
+            createdBy: pack.user_name,
             Actions: [
                 {
                     icon: (
@@ -73,10 +79,18 @@ export const TablePacks = React.memo(() => {
                 },
                 {
                     icon: (
-                        <DeleteOutlineIcon
-                            onClick={() => onClickIconHandler('delete', pack._id)}
-                            sx={hoverStyleIcon}
-                        />
+                        <div>
+                            <DeletePackModal
+                                name={pack.name}
+                                packId={pack._id}
+                                open={deletePackModalOpen}
+                                closeModal={onCloseDeletePackModal}
+                            />
+                            <DeleteOutlineIcon
+                                onClick={() => onClickIconHandler('delete', pack._id)}
+                                sx={hoverStyleIcon}
+                            />
+                        </div>
                     ),
                     status: 'my',
                 },
@@ -135,11 +149,11 @@ export const TablePacks = React.memo(() => {
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => onNameClickHandler(row.key, row.userId)}
                                     >
-                                        {row.Name}
+                                        {row.name}
                                     </TableCell>
-                                    <TableCell align="center">{row.Cards}</TableCell>
-                                    <TableCell align="center">{row.LastCreated}</TableCell>
-                                    <TableCell align="right">{row.CreatedBy}</TableCell>
+                                    <TableCell align="center">{row.cards}</TableCell>
+                                    <TableCell align="center">{row.lastCreated}</TableCell>
+                                    <TableCell align="right">{row.createdBy}</TableCell>
                                     <TableCell align="center">
                                         {row.Actions.map((icon, i) => {
                                             if (authUserId === row.userId) {

@@ -8,14 +8,14 @@ import { RequestStatus } from '../../redux/appReducer'
 import { AddPackModal } from './modal/AddPackModal'
 
 export const AddNewPack = () => {
-    const dispatch = useAppDispatch()
     const [addPackModalOpen, setAddPackModalOpen] = useState(false)
 
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
+    const dispatch = useAppDispatch()
+
     const addNewPackHandler = () => {
         setAddPackModalOpen(true)
-        // dispatch(createPackTC({ name: 'MyPack' }))
     }
     const closeModalAddPack = () => {
         setAddPackModalOpen(false)

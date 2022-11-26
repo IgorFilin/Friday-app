@@ -5,12 +5,12 @@ import Box from '@mui/material/Box'
 import { useAppDispatch } from '../../../redux/store'
 import { createPackTC } from '../../../redux/packsReducer'
 
-type AddPackModalPropsType = {
+export type PackModalPropsType = {
     open: boolean
     closeModal: () => void
 }
 
-export const AddPackModal: React.FC<AddPackModalPropsType> = ({ open, closeModal }) => {
+export const AddPackModal: React.FC<PackModalPropsType> = ({ open, closeModal }) => {
     const [inputValue, setInputValue] = useState('')
     const [inputChecked, setInputChecked] = useState(false)
 
@@ -28,6 +28,8 @@ export const AddPackModal: React.FC<AddPackModalPropsType> = ({ open, closeModal
         dispatch(createPackTC({ name: inputValue, private: inputChecked ? inputChecked : '' }))
         closeModal()
     }
+
+    if (!open) return null
 
     return (
         <BasicModalPacksList title={'Add new pack'} open={open} closeModal={closeModal}>
