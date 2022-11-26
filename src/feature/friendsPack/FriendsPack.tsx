@@ -1,40 +1,36 @@
 import React, { useEffect } from 'react'
 import KeyboardReturnRoundedIcon from '@mui/icons-material/KeyboardReturnRounded'
 import Box from '@mui/material/Box'
-import { Link, Navigate, useParams } from 'react-router-dom'
+import { Link, useParams } from 'react-router-dom'
 import Typography from '@mui/material/Typography'
 import { TableComponent } from './TableComponent'
 import Stack from '@mui/material/Stack'
-import { TablePaginationComponent } from '../../components/TablePaginationComponent'
-import { InputSearch } from '../../components/InputSearch'
+import { TablePaginationComponent } from 'components/TablePaginationComponent'
+import { InputSearch } from 'components/InputSearch'
 import Container from '@mui/material/Container'
-import { BlueButton } from '../../components/BlueButton'
-import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { setCardsTC } from '../../redux/decksReducer'
+import { BlueButton } from 'components/BlueButton'
+import { useAppDispatch, useAppSelector } from 'redux/store'
+import { setCardsTC } from 'redux/decksReducer'
 import { AddToPack } from './AddPoPack'
-import { RequestStatus } from '../../redux/appReducer'
+import { RequestStatus } from 'redux/appReducer'
 import { LinearProgress } from '@mui/material'
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
     const decks = useAppSelector((state) => state.decks.cardsState)
-    const isLogin = useAppSelector((state) => state.auth.isLogin)
     const sort = useAppSelector((state) => state.decks.sortCards)
     const page = useAppSelector((state) => state.decks.cardsState.page)
     const pageCount = useAppSelector((state) => state.decks.cardsState.pageCount)
     const statusLoading = useAppSelector((state) => state.app.request.status)
 
-    const { id } = useParams<'id'>()
+    const { packId } = useParams<'packId'>()
 
     useEffect(() => {
-        id && dispatch(setCardsTC(id, ''))
-    }, [sort, pageCount, page])
+        packId && dispatch(setCardsTC(packId, ''))
+    }, [sort, pageCount, page, packId, dispatch])
 
-    if (!isLogin) {
-        return <Navigate to={'/login'} />
-    }
     const handleRequest = (param: string) => {
-        id && dispatch(setCardsTC(id, param))
+        packId && dispatch(setCardsTC(packId, param))
     }
 
     return (
