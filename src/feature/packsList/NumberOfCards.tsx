@@ -33,7 +33,8 @@ export const NumberOfCards = () => {
     }, [debouncedValue])
 
     const handleChange = (event: Event, value: number | number[]) => {
-        setValue(value as number[])
+        let newValue = value as [number, number]
+        setValue(newValue as number[])
     }
 
     return (
