@@ -8,7 +8,7 @@ import {
 } from 'api/types'
 import { RequestStatus, setErrorAC, setInfoAC, setLoadingAC } from './appReducer'
 import { getBase64 } from './utils'
-import { authApi } from '../api/authApi'
+import { authApi } from 'api/authApi'
 
 //===TYPES======================================================================
 
@@ -124,7 +124,6 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
         const res = await authApi.login(data)
-        debugger
         dispatch(setProfileDataAC(res))
         dispatch(setInfoAC('logIn success'))
         dispatch(setIsLoginAC(true))
