@@ -11,7 +11,7 @@ import { MyPack } from 'feature/myPack/MyPack'
 import { PacksList } from 'feature/packsList/PacksList'
 import { NamePack } from 'feature/namePack/NamePack'
 import { FriendsPack } from 'feature/friendsPack/FriendsPack'
-import { WithLoginRedirect } from './WithLoginRedirect'
+import { LoginRedirect } from './LoginRedirect'
 
 export enum Path {
     root = '/',
@@ -39,33 +39,33 @@ export const AppRoutes: React.FC = () => (
         <Route
             path={Path.profile}
             element={
-                <WithLoginRedirect>
+                <LoginRedirect>
                     <Profile />
-                </WithLoginRedirect>
+                </LoginRedirect>
             }
         />
         <Route
             path={Path.myPack + '/:packId'}
             element={
-                <WithLoginRedirect>
+                <LoginRedirect>
                     <MyPack />
-                </WithLoginRedirect>
+                </LoginRedirect>
             }
         />
         <Route
             path={Path.friendsPack + '/:packId'}
             element={
-                <WithLoginRedirect>
+                <LoginRedirect>
                     <FriendsPack />
-                </WithLoginRedirect>
+                </LoginRedirect>
             }
         />
         <Route
             path={Path.packsList}
             element={
-                <WithLoginRedirect>
+                <LoginRedirect>
                     <PacksList />
-                </WithLoginRedirect>
+                </LoginRedirect>
             }
         />
         <Route path={Path.namePack} element={<NamePack />} />
