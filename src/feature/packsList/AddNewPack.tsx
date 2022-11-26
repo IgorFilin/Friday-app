@@ -1,7 +1,7 @@
 import React from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
-import { BlueButton } from '../../components/BlueButton'
+import { PrimaryButton } from '../../components/PrimaryButton'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { createPackTC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
@@ -33,12 +33,12 @@ export const AddNewPack = () => {
                 >
                     Packs list
                 </Typography>
-                <BlueButton
+                <PrimaryButton
                     disabled={requestStatus === RequestStatus.loading}
                     onClick={addNewPackHandler}
                 >
                     Add new pack
-                </BlueButton>
+                </PrimaryButton>
             </Box>
         </>
     )

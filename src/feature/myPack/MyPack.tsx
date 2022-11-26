@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Path } from 'app/AppRoutes'
 import { BackToPacksListButton } from 'components/BackToPacksListButton'
-import { BlueButton } from 'components/BlueButton'
+import { PrimaryButton } from 'components/PrimaryButton'
 import { CardsTable } from 'components/CardsTable'
 import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
@@ -72,7 +72,7 @@ export const MyPack: React.FC = () => {
                         </Typography>
                         <MyPackButtonWithMenu />
                     </Box>
-                    <BlueButton onClick={onAddCardClickHandler}>Add new card</BlueButton>
+                    <PrimaryButton onClick={onAddCardClickHandler}>Add new card</PrimaryButton>
                 </Box>
                 <CardsSearchInput width={'100%'} />
                 <br />

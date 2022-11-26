@@ -4,16 +4,16 @@ import Button from '@mui/material/Button'
 type PropsType = {
     onClick?: () => void
     children: ReactNode
+    disabled?: boolean
 }
 
-export const WhiteButton: React.FC<PropsType> = ({ onClick, children }) => {
+export const PrimaryButton: React.FC<PropsType> = ({ onClick, children, disabled }) => {
     return (
         <Button
+            disabled={disabled}
             variant={'contained'}
-            color={'inherit'}
             sx={{
                 borderRadius: 5,
-                backgroundColor: 'white',
                 pl: 3,
                 pr: 3,
                 textTransform: 'none',

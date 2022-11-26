@@ -14,7 +14,7 @@ import { UserAvatar } from './UserAvatar'
 import { UserEmail } from './UserEmail'
 import { EditableUserName } from './EditableUserName'
 import { Path } from 'app/AppRoutes'
-import { BlueButton } from 'components/BlueButton'
+import { PrimaryButton } from 'components/PrimaryButton'
 
 export const Profile: React.FC = () => {
     const { name, email, avatar } = useAppSelector((state) => state.auth.profileData)
@@ -63,9 +63,9 @@ export const Profile: React.FC = () => {
                             </Box>
                             <EditableUserName value={name} onConfirm={onChangeUserNameHandler} />
                             <UserEmail email={email} />
-                            <BlueButton onClick={() => navigate(Path.packsList)}>
+                            <PrimaryButton onClick={() => navigate(Path.packsList)}>
                                 Packs list
-                            </BlueButton>
+                            </PrimaryButton>
                             <br />
                             <LogoutButton />
                         </Stack>

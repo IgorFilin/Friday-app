@@ -8,7 +8,7 @@ import Stack from '@mui/material/Stack'
 import { TablePaginationComponent } from 'components/TablePaginationComponent'
 import { InputSearch } from 'components/InputSearch'
 import Container from '@mui/material/Container'
-import { BlueButton } from 'components/BlueButton'
+import { PrimaryButton } from 'components/PrimaryButton'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { setCardsTC } from 'redux/decksReducer'
 import { AddToPack } from './AddPoPack'
@@ -66,13 +66,13 @@ export const FriendsPack = () => {
                                     }}
                                 >
                                     Friend’s Pack
-                                    <BlueButton
+                                    <PrimaryButton
                                         onClick={() => {
                                             alert('in progress')
                                         }}
                                     >
                                         Learn to pack
-                                    </BlueButton>
+                                    </PrimaryButton>
                                 </Typography>
                             </Box>
                             <InputSearch handleRequest={handleRequest} />
