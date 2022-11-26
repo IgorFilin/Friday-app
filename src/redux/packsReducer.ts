@@ -134,7 +134,9 @@ export const getPacksCardTC =
                 dispatch(setPackNameAC(''))
                 dispatch(sortPacksAC('0updated'))
                 dispatch(setShowPacksCards('All'))
-            } else dispatch(setPacksCardAC(result))
+            } else {
+                dispatch(setPacksCardAC(result))
+            }
         } catch (e) {
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))

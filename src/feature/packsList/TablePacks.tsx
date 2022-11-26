@@ -122,59 +122,40 @@ export const TablePacks = React.memo(() => {
                             </TableRow>
                         </TableHead>
                         <TableBody>
-                            {requestStatus === RequestStatus.loading
-                                ? [1].map((el, i) => {
-                                      return (
-                                          <TableRow
-                                              key={i}
-                                              sx={{
-                                                  '&:last-child td, &:last-child th': { border: 0 },
-                                              }}
-                                          >
-                                              <TableCell align="left">...loading</TableCell>
-                                              <TableCell align="center">...loading</TableCell>
-                                              <TableCell align="center">...loading</TableCell>
-                                              <TableCell align="right">...loading</TableCell>
-                                              <TableCell align="center">...loading</TableCell>
-                                          </TableRow>
-                                      )
-                                  })
-                                : rows.map((row) => (
-                                      <TableRow
-                                          key={row.key}
-                                          sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-                                      >
-                                          <TableCell
-                                              align="left"
-                                              style={{ cursor: 'pointer' }}
-                                              onClick={() =>
-                                                  onNameClickHandler(row.key, row.userId)
-                                              }
-                                          >
-                                              {row.Name}
-                                          </TableCell>
-                                          <TableCell align="center">{row.Cards}</TableCell>
-                                          <TableCell align="center">{row.LastCreated}</TableCell>
-                                          <TableCell align="right">{row.CreatedBy}</TableCell>
-                                          <TableCell align="center">
-                                              {row.Actions.map((icon, i) => {
-                                                  if (authUserId === row.userId) {
-                                                      return (
-                                                          <span style={{ padding: '3px' }} key={i}>
-                                                              {icon.icon}
-                                                          </span>
-                                                      )
-                                                  } else if (icon.status === 'allMy') {
-                                                      return (
-                                                          <span style={{ padding: '3px' }} key={i}>
-                                                              {icon.icon}
-                                                          </span>
-                                                      )
-                                                  }
-                                              })}
-                                          </TableCell>
-                                      </TableRow>
-                                  ))}
+                            {rows.map((row) => (
+                                <TableRow
+                                    key={row.key}
+                                    sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
+                                >
+                                    <TableCell
+                                        align="left"
+                                        style={{ cursor: 'pointer' }}
+                                        onClick={() => onNameClickHandler(row.key, row.userId)}
+                                    >
+                                        {row.Name}
+                                    </TableCell>
+                                    <TableCell align="center">{row.Cards}</TableCell>
+                                    <TableCell align="center">{row.LastCreated}</TableCell>
+                                    <TableCell align="right">{row.CreatedBy}</TableCell>
+                                    <TableCell align="center">
+                                        {row.Actions.map((icon, i) => {
+                                            if (authUserId === row.userId) {
+                                                return (
+                                                    <span style={{ padding: '3px' }} key={i}>
+                                                        {icon.icon}
+                                                    </span>
+                                                )
+                                            } else if (icon.status === 'allMy') {
+                                                return (
+                                                    <span style={{ padding: '3px' }} key={i}>
+                                                        {icon.icon}
+                                                    </span>
+                                                )
+                                            }
+                                        })}
+                                    </TableCell>
+                                </TableRow>
+                            ))}
                         </TableBody>
                     </Table>
                 </TableContainer>
