@@ -28,13 +28,13 @@ export const NumberOfCards = () => {
         dispatch(setMinMaxValueAC(minCountCards, maxCountCards))
     }, [maxCountCards, minCountCards])
 
-    const handleChange = (event: Event, value: number | number[]) => {
-        setValue(value as number[])
-    }
-
     useEffect(() => {
         dispatch(setMinMaxValueAC(value[0], value[1]))
     }, [debouncedValue])
+
+    const handleChange = (event: Event, value: number | number[]) => {
+        setValue(value as number[])
+    }
 
     return (
         <>

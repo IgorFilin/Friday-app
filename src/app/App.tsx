@@ -8,6 +8,7 @@ import { AppCircularProgress } from './AppCircularProgress'
 import { AppRoutes } from './AppRoutes'
 import Box from '@mui/material/Box'
 import { LinearProgress } from '@mui/material'
+import { BasicModal } from '../feature/packsList/BasicModal'
 
 export const App: React.FC = () => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
@@ -29,6 +30,12 @@ export const App: React.FC = () => {
             <AppRoutes />
             <ErrorSnackbar />
             <InfoSnackbar />
+            <BasicModal>
+                <div>
+                    <h1>Hello</h1>
+                    <button>ADD</button>
+                </div>
+            </BasicModal>
         </Box>
     )
 }
