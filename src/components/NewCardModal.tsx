@@ -1,6 +1,6 @@
 import React from 'react'
-import { BasicModal } from 'components/BasicModal'
 import { Button } from '@mui/material'
+import { BasicModal } from './BasicModal'
 
 type PropsType = {
     open: boolean
