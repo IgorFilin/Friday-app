@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { Navigate, useParams } from 'react-router-dom'
 import Container from '@mui/material/Container'
@@ -11,14 +11,17 @@ import { BlueButton } from 'components/BlueButton'
 import { CardsTable } from 'components/CardsTable'
 import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
-import { createCardTC, fetchCardsTC } from 'redux/cardsReducer'
+import { fetchCardsTC } from 'redux/cardsReducer'
 import { setErrorAC } from 'redux/appReducer'
 import { CardsSearchInput } from 'components/CardsSearchInput'
+import { NewCardModal } from '../../components/NewCardModal'
 
 export const MyPack: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.profileData.id)
     const cardsState = useAppSelector((state) => state.cards)
     const dispatch = useAppDispatch()
+    const [isNewCardModalOpen, setIsNewCardModalOpen] = useState(false)
+
     const { packId } = useParams<'packId'>()
 
     useEffect(() => {
@@ -31,14 +34,13 @@ export const MyPack: React.FC = () => {
         packId,
         dispatch,
     ])
-
     const onAddCardClickHandler = () => {
-        if (!packId) return
-        dispatch(
-            createCardTC({ cardsPack_id: packId, answer: 'test answer', question: 'test question' })
-        )
+        setIsNewCardModalOpen(true)
+        // if (!packId) return
+        // dispatch(
+        //     createCardTC({ cardsPack_id: packId, answer: 'test answer', question: 'test question' })
+        // )
     }
-
     if (cardsState.packUserId !== '' && cardsState.packUserId !== userId) {
         dispatch(setErrorAC("It's not yours Cards Pack"))
         return <Navigate to={Path.packsList} />
@@ -52,6 +54,7 @@ export const MyPack: React.FC = () => {
                 justifyContent: 'center',
             }}
         >
+            <NewCardModal onClose={() => setIsNewCardModalOpen(false)} open={isNewCardModalOpen} />
             <Stack width={'100%'} sx={{ m: 3, alignItems: 'center' }}>
                 <Box width={'100%'} marginBottom={2}>
                     <BackToPacksListButton />
