@@ -7,20 +7,16 @@ import { InfoSnackbar } from 'components/InfoSnackbar'
 import { AppCircularProgress } from './AppCircularProgress'
 import { AppRoutes } from './AppRoutes'
 import Box from '@mui/material/Box'
-import { DEV_VERSION } from 'config'
 import { LinearProgress } from '@mui/material'
 
 export const App: React.FC = () => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
     const isInitialized = useAppSelector((state) => state.app.isInitialized)
-
     const dispatch = useAppDispatch()
 
     useEffect(() => {
         dispatch(initializeAppTC())
     }, [dispatch])
-    // DEV_VERSION &&
-    // console.log('App render ', 'requestStatus:', requestStatus, 'isInitialized:', isInitialized)
 
     if (!isInitialized) return <AppCircularProgress />
 

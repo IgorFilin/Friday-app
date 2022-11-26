@@ -16,21 +16,19 @@ import { setErrorAC } from 'redux/appReducer'
 import { CardsSearchInput } from 'components/CardsSearchInput'
 
 export const MyPack: React.FC = () => {
-    const isLogin = useAppSelector((state) => state.auth.isLogin)
     const userId = useAppSelector((state) => state.auth.profileData.id)
     const cardsState = useAppSelector((state) => state.cards)
     const dispatch = useAppDispatch()
-    const { packId } = useParams()
+    const { packId } = useParams<'packId'>()
 
     useEffect(() => {
-        if (isLogin && packId) dispatch(fetchCardsTC(packId))
+        if (packId) dispatch(fetchCardsTC(packId))
     }, [
         cardsState.sortCards,
         cardsState.page,
         cardsState.pageCount,
         cardsState.cardQuestion,
         packId,
-        isLogin,
         dispatch,
     ])
 
@@ -40,8 +38,6 @@ export const MyPack: React.FC = () => {
             createCardTC({ cardsPack_id: packId, answer: 'test answer', question: 'test question' })
         )
     }
-
-    if (!isLogin) return <Navigate to={Path.login} />
 
     if (cardsState.packUserId !== '' && cardsState.packUserId !== userId) {
         dispatch(setErrorAC("It's not yours Cards Pack"))
