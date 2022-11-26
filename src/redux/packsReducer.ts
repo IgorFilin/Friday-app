@@ -37,6 +37,7 @@ const initialState = {
     pageCount: 10,
     sortPacks: '0updated',
     slider: {
+        isInitializedSlider: false,
         max: 0,
         min: 0,
     },
@@ -51,6 +52,7 @@ export const packsReducer = (
             let copyState = { ...state }
             if (state.slider.max === 0) {
                 copyState.slider.max = action.packsCard.maxCardsCount
+                copyState.slider.min = action.packsCard.minCardsCount
             }
             return {
                 ...copyState,
@@ -69,7 +71,7 @@ export const packsReducer = (
         case 'PACKS/SET-MIN-MAX-VALUE': {
             return {
                 ...state,
-                slider: { min: action.minValue, max: action.maxValue },
+                slider: { ...state.slider, min: action.minValue, max: action.maxValue },
             }
         }
         case 'PACKS/SET-PACK-NAME': {
@@ -134,7 +136,9 @@ export const getPacksCardTC =
                 dispatch(setPackNameAC(''))
                 dispatch(sortPacksAC('0updated'))
                 dispatch(setShowPacksCards('All'))
-            } else dispatch(setPacksCardAC(result))
+            } else {
+                dispatch(setPacksCardAC(result))
+            }
         } catch (e) {
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))
