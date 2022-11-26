@@ -12,6 +12,7 @@ export type PacksActionsType =
     | ReturnType<typeof setMinMaxValueAC>
     | ReturnType<typeof setPackNameAC>
     | ReturnType<typeof setShowPacksCards>
+    | ReturnType<typeof setIsInitializedSlider>
 
 export type PacksCardParamsType = {
     packName?: string
@@ -52,7 +53,6 @@ export const packsReducer = (
             let copyState = { ...state }
             if (state.slider.max === 0) {
                 copyState.slider.max = action.packsCard.maxCardsCount
-                copyState.slider.min = action.packsCard.minCardsCount
             }
             return {
                 ...copyState,
@@ -83,6 +83,12 @@ export const packsReducer = (
         case 'PACKS/SET-SHOW-PACK-CARDS': {
             return { ...state, whosePackCard: action.statusPack }
         }
+        case 'PACKS/SET-IS-INITIALIZED-SLIDER': {
+            return {
+                ...state,
+                slider: { ...state.slider, isInitializedSlider: action.statusSlider },
+            }
+        }
         default: {
             return state
         }
@@ -109,6 +115,9 @@ export const setPackNameAC = (name: string) => {
 }
 export const setShowPacksCards = (statusPack: 'All' | 'My') => {
     return { type: 'PACKS/SET-SHOW-PACK-CARDS', statusPack } as const
+}
+export const setIsInitializedSlider = (statusSlider: boolean) => {
+    return { type: 'PACKS/SET-IS-INITIALIZED-SLIDER', statusSlider } as const
 }
 
 export const getPacksCardTC =
@@ -143,6 +152,7 @@ export const getPacksCardTC =
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))
         } finally {
+            dispatch(setIsInitializedSlider(true))
             dispatch(setLoadingAC(RequestStatus.succeeded))
         }
     }

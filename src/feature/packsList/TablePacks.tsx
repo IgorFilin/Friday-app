@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
     Paper,
     Table,
@@ -18,6 +18,7 @@ import { changePackTC, deletePackTC, sortPacksAC } from 'redux/packsReducer'
 import { RequestStatus } from 'redux/appReducer'
 import { useNavigate } from 'react-router-dom'
 import { Path } from 'app/AppRoutes'
+import { AddPackModal } from './modal/AddPackModal'
 
 export const TablePacks = React.memo(() => {
     type iconFlowType = 'read' | 'delete' | 'changed'
@@ -36,7 +37,9 @@ export const TablePacks = React.memo(() => {
     }
 
     const onClickIconHandler = (type: iconFlowType, id: string) => {
-        if (type === 'delete') dispatch(deletePackTC(id))
+        if (type === 'delete') {
+            dispatch(deletePackTC(id))
+        }
         if (type === 'read') alert('readPack')
         if (type === 'changed') dispatch(changePackTC({ _id: id, name: 'UpdatedNamePack' }))
     }
