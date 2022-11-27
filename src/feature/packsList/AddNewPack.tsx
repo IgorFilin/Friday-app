@@ -3,26 +3,29 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { PrimaryButton } from '../../components/PrimaryButton'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { createPackTC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
-import { AddPackModal } from './modal/AddPackModal'
+import { AddEditPackModal } from './modal/AddEditPackModal'
 
 export const AddNewPack = () => {
-    const dispatch = useAppDispatch()
     const [addPackModalOpen, setAddPackModalOpen] = useState(false)
 
     const requestStatus = useAppSelector((state) => state.app.request.status)
 
+    const dispatch = useAppDispatch()
+
     const addNewPackHandler = () => {
         setAddPackModalOpen(true)
-        // dispatch(createPackTC({ name: 'MyPack' }))
     }
     const closeModalAddPack = () => {
         setAddPackModalOpen(false)
     }
     return (
         <>
-            <AddPackModal open={addPackModalOpen} closeModal={closeModalAddPack} />
+            <AddEditPackModal
+                title="Add new pack"
+                open={addPackModalOpen}
+                closeModal={closeModalAddPack}
+            />
             <Box
                 sx={{
                     width: '100%',

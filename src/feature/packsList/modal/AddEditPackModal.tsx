@@ -3,15 +3,20 @@ import { BasicModalPacksList } from './BasicModalPacksList'
 import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useAppDispatch } from '../../../redux/store'
-import { createPackTC } from '../../../redux/packsReducer'
+import { changePackTC, createPackTC } from '../../../redux/packsReducer'
 
-type AddPackModalPropsType = {
+export type PackModalPropsType = {
     open: boolean
     closeModal: () => void
+    packId?: string
+    name?: string
+    changePackModalOpenId?: string
 }
 
-export const AddPackModal: React.FC<AddPackModalPropsType> = ({ open, closeModal }) => {
-    const [inputValue, setInputValue] = useState('')
+export const AddEditPackModal: React.FC<
+    PackModalPropsType & { title: 'Edit pack' | 'Add new pack' }
+> = ({ open, closeModal, title, packId, name, changePackModalOpenId }) => {
+    const [inputValue, setInputValue] = useState(name)
     const [inputChecked, setInputChecked] = useState(false)
 
     const dispatch = useAppDispatch()
@@ -24,14 +29,33 @@ export const AddPackModal: React.FC<AddPackModalPropsType> = ({ open, closeModal
         setInputChecked(e.currentTarget.checked)
     }
 
-    const addNewPack = () => {
-        dispatch(createPackTC({ name: inputValue, private: inputChecked ? inputChecked : '' }))
-        closeModal()
+    const onClickAddChangeButtonHandler = () => {
+        if (title === 'Add new pack') {
+            dispatch(createPackTC({ name: inputValue, private: inputChecked ? inputChecked : '' }))
+            setInputValue('')
+            closeModal()
+        } else if (title === 'Edit pack' && packId) {
+            dispatch(
+                changePackTC({
+                    _id: packId,
+                    name: inputValue,
+                    private: inputChecked ? inputChecked : false,
+                })
+            )
+            closeModal()
+        }
     }
 
+    if (!open) return null
+
     return (
-        <BasicModalPacksList title={'Add new pack'} open={open} closeModal={closeModal}>
+        <BasicModalPacksList
+            title={title}
+            open={packId === changePackModalOpenId}
+            closeModal={closeModal}
+        >
             <TextField
+                autoFocus
                 onChange={onChangeInputHandler}
                 value={inputValue}
                 label="Name"
@@ -65,7 +89,7 @@ export const AddPackModal: React.FC<AddPackModalPropsType> = ({ open, closeModal
                     Cancel
                 </Button>
                 <Button
-                    onClick={addNewPack}
+                    onClick={onClickAddChangeButtonHandler}
                     sx={{ borderRadius: '30px', width: '127px' }}
                     variant="contained"
                 >
