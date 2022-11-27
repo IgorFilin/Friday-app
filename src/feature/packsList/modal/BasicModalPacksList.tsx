@@ -30,7 +30,7 @@ export const BasicModalPacksList: React.FC<BasicModalType> = ({
     closeModal,
 }) => {
     return (
-        <div>
+        <>
             <Modal open={open} onClose={closeModal}>
                 <Box sx={style}>
                     <Box
@@ -57,6 +57,6 @@ export const BasicModalPacksList: React.FC<BasicModalType> = ({
                     </Box>
                 </Box>
             </Modal>
-        </div>
+        </>
     )
 }

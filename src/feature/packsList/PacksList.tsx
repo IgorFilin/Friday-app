@@ -17,7 +17,6 @@ export const PacksList = () => {
     const pageCount = useAppSelector((state) => state.packsCard.pageCount)
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
-    const packName = useAppSelector((state) => state.packsCard.packName)
     const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
     const requestStatus = useAppSelector((state) => state.app.request.status)
     const isInitializedSlider = useAppSelector(

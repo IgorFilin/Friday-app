@@ -7,12 +7,9 @@ import Typography from '@mui/material/Typography'
 import { useAppDispatch } from '../../../redux/store'
 import { deletePackTC } from '../../../redux/packsReducer'
 
-export const DeletePackModal: React.FC<PackModalPropsType & { name: string; packId: string }> = ({
-    closeModal,
-    open,
-    packId,
-    name,
-}) => {
+export const DeletePackModal: React.FC<
+    PackModalPropsType & { name: string; packId: string; deletePackModalOpenId: string }
+> = ({ closeModal, open, packId, name, deletePackModalOpenId }) => {
     const dispatch = useAppDispatch()
 
     const deletePack = () => {
@@ -20,7 +17,11 @@ export const DeletePackModal: React.FC<PackModalPropsType & { name: string; pack
     }
 
     return (
-        <BasicModalPacksList title={'Delete Pack'} open={open} closeModal={closeModal}>
+        <BasicModalPacksList
+            title={'Delete Pack'}
+            open={open && deletePackModalOpenId === packId}
+            closeModal={closeModal}
+        >
             <Typography variant="h6" component="h1">
                 Do you really want to remove {name}? All cards will be deleted.
             </Typography>

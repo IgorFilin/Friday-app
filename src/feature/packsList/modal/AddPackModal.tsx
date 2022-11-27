@@ -26,6 +26,7 @@ export const AddPackModal: React.FC<PackModalPropsType> = ({ open, closeModal })
 
     const addNewPack = () => {
         dispatch(createPackTC({ name: inputValue, private: inputChecked ? inputChecked : '' }))
+        setInputValue('')
         closeModal()
     }
 

@@ -24,6 +24,7 @@ type iconFlowType = 'read' | 'delete' | 'changed'
 
 export const TablePacks = React.memo(() => {
     const [deletePackModalOpen, setDeletePackModalOpen] = useState(false)
+    const [deletePackModalOpenId, setDeletePackModalOpenId] = useState('')
 
     const dispatch = useAppDispatch()
 
@@ -40,6 +41,7 @@ export const TablePacks = React.memo(() => {
 
     const onClickIconHandler = (type: iconFlowType, id: string) => {
         if (type === 'delete') {
+            setDeletePackModalOpenId(id)
             setDeletePackModalOpen(true)
         }
         if (type === 'read') alert('readPack')
@@ -79,18 +81,10 @@ export const TablePacks = React.memo(() => {
                 },
                 {
                     icon: (
-                        <div>
-                            <DeletePackModal
-                                name={pack.name}
-                                packId={pack._id}
-                                open={deletePackModalOpen}
-                                closeModal={onCloseDeletePackModal}
-                            />
-                            <DeleteOutlineIcon
-                                onClick={() => onClickIconHandler('delete', pack._id)}
-                                sx={hoverStyleIcon}
-                            />
-                        </div>
+                        <DeleteOutlineIcon
+                            onClick={() => onClickIconHandler('delete', pack._id)}
+                            sx={hoverStyleIcon}
+                        />
                     ),
                     status: 'my',
                 },
@@ -171,6 +165,13 @@ export const TablePacks = React.memo(() => {
                                             }
                                         })}
                                     </TableCell>
+                                    <DeletePackModal
+                                        deletePackModalOpenId={deletePackModalOpenId}
+                                        name={row.name}
+                                        packId={row.key}
+                                        open={deletePackModalOpen}
+                                        closeModal={onCloseDeletePackModal}
+                                    />
                                 </TableRow>
                             ))}
                         </TableBody>
