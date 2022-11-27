@@ -6,6 +6,7 @@ import StarIcon from '@mui/icons-material/Star'
 import IconButton from '@mui/material/IconButton'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { formatDate } from 'utils'
 
 export type PackType = {
     id: string
@@ -28,7 +29,7 @@ export const CardRow: React.FC<PropsType> = ({ row, onDelete, onEdit }) => {
                 {row.question}
             </TableCell>
             <TableCell align="center">{row.answer}</TableCell>
-            <TableCell align="center">{row.lastUpdated}</TableCell>
+            <TableCell align="center">{formatDate(row.lastUpdated)}</TableCell>
             <TableCell align="right">
                 <Rating
                     name="card grade"
