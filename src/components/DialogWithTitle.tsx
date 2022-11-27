@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React from 'react'
 import Dialog, { DialogProps } from '@mui/material/Dialog'
 import DialogContent from '@mui/material/DialogContent'
 import DialogTitle from '@mui/material/DialogTitle'
@@ -21,6 +21,7 @@ export const DialogWithTitle: React.FC<PropsType> = (props) => {
                 sx={{
                     display: 'flex',
                     justifyContent: 'space-between',
+                    alignItems: 'center',
                 }}
             >
                 {props.title}
@@ -28,7 +29,7 @@ export const DialogWithTitle: React.FC<PropsType> = (props) => {
                     <CloseIcon />
                 </IconButton>
             </DialogTitle>
-            <DialogContent>{props.children}</DialogContent>
+            <DialogContent dividers>{props.children}</DialogContent>
         </Dialog>
     )
 }
