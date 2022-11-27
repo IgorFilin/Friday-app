@@ -5,10 +5,11 @@ import Stack from '@mui/material/Stack'
 import MenuItem from '@mui/material/MenuItem'
 import { PrimaryButton } from './PrimaryButton'
 import TextField from '@mui/material/TextField'
-import { useAppDispatch } from 'redux/store'
+import { useAppDispatch, useAppSelector } from 'redux/store'
 import { useParams } from 'react-router-dom'
 import { createCardTC } from 'redux/cardsReducer'
 import { useFormik } from 'formik'
+import { RequestStatus } from 'redux/appReducer'
 
 type PropsType = {
     open: boolean
@@ -24,6 +25,7 @@ enum QuestionFormat {
 export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const formik = useFormik({
         initialValues: {
@@ -40,6 +42,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                     question: values.question,
                 })
             )
+            onClose && onClose()
         },
     })
 
@@ -63,8 +66,8 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value={QuestionFormat.text}>Text</MenuItem>
-                        <MenuItem value={QuestionFormat.image}>Image</MenuItem>
-                        <MenuItem value={QuestionFormat.video}>Video</MenuItem>
+                        {/*<MenuItem value={QuestionFormat.image}>Image</MenuItem>*/}
+                        {/*<MenuItem value={QuestionFormat.video}>Video</MenuItem>*/}
                     </Select>
 
                     <TextField
@@ -84,7 +87,11 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         value={formik.values.answer}
                         onChange={formik.handleChange}
                     />
-                    <PrimaryButton type="submit" sx={{ mb: 2, mt: 3 }}>
+                    <PrimaryButton
+                        disabled={requestStatus === RequestStatus.loading}
+                        type="submit"
+                        sx={{ mb: 2, mt: 3 }}
+                    >
                         Add
                     </PrimaryButton>
                 </FormControl>
