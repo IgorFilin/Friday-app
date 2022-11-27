@@ -44,8 +44,14 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
     })
 
     return (
-        <DialogWithTitle title={'Add new card'} open={open} onClose={onClose}>
-            <Stack sx={{ width: '400px', p: 3 }}>
+        <DialogWithTitle
+            title={'Add new card'}
+            fullWidth
+            maxWidth={'xs'}
+            open={open}
+            onClose={onClose}
+        >
+            <Stack sx={{ mt: 2 }}>
                 <FormControl component="form" onSubmit={formik.handleSubmit} size="small" fullWidth>
                     <InputLabel id="question-format-label">Choose a question format</InputLabel>
                     <Select
