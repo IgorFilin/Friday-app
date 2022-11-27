@@ -14,7 +14,7 @@ import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { fetchCardsTC } from 'redux/cardsReducer'
 import { setErrorAC } from 'redux/appReducer'
 import { CardsSearchInput } from 'components/CardsSearchInput'
-import { NewCardDialog } from 'components/NewCardDialog'
+import { AddNewCardDialog } from 'components/AddNewCardDialog'
 
 export const MyPack: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.profileData.id)
@@ -54,7 +54,10 @@ export const MyPack: React.FC = () => {
                 justifyContent: 'center',
             }}
         >
-            <NewCardDialog onClose={() => setIsNewCardModalOpen(false)} open={isNewCardModalOpen} />
+            <AddNewCardDialog
+                onClose={() => setIsNewCardModalOpen(false)}
+                open={isNewCardModalOpen}
+            />
             <Stack width={'100%'} sx={{ m: 3, alignItems: 'center' }}>
                 <Box width={'100%'} marginBottom={2}>
                     <BackToPacksListButton />

@@ -21,7 +21,7 @@ enum QuestionFormat {
     video,
 }
 
-export const NewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
+export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
 
