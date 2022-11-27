@@ -5,8 +5,10 @@ import Rating from '@mui/material/Rating'
 import StarIcon from '@mui/icons-material/Star'
 import IconButton from '@mui/material/IconButton'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
-import DeleteIcon from '@mui/icons-material/Delete'
 import { formatDate } from 'utils'
+import { deleteCardTC, editCardTC } from 'redux/cardsReducer'
+import { useAppDispatch } from 'redux/store'
+import { DeleteCardButton } from './DeleteCardButton'
 
 export type PackType = {
     id: string
@@ -18,11 +20,22 @@ export type PackType = {
 
 type PropsType = {
     row: PackType
-    onDelete: (id: string) => void
-    onEdit: (id: string, question: string, answer: string) => void
+    packId: string
 }
 
-export const CardRow: React.FC<PropsType> = ({ row, onDelete, onEdit }) => {
+export const CardRow: React.FC<PropsType> = ({ row, packId }) => {
+    const dispatch = useAppDispatch()
+
+    const onDeleteCardHandler = () => {
+        if (!packId) return
+        dispatch(deleteCardTC(row.id, packId))
+    }
+
+    const onEditCardHandler = (id: string, question: string, answer: string) => {
+        if (!packId) return
+        dispatch(editCardTC(id, question + '-edited question', answer + '-edited answer', packId))
+    }
+
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell component="th" scope="row">
@@ -40,12 +53,10 @@ export const CardRow: React.FC<PropsType> = ({ row, onDelete, onEdit }) => {
                 />
             </TableCell>
             <TableCell align="right">
-                <IconButton onClick={() => onEdit(row.id, row.question, row.answer)}>
+                <IconButton onClick={() => onEditCardHandler(row.id, row.question, row.answer)}>
                     <DriveFileRenameOutlineIcon />
                 </IconButton>
-                <IconButton onClick={() => onDelete(row.id)}>
-                    <DeleteIcon />
-                </IconButton>
+                <DeleteCardButton cardName={row.question} onSubmit={onDeleteCardHandler} />
             </TableCell>
         </TableRow>
     )

@@ -5,20 +5,14 @@ import Stack from '@mui/material/Stack'
 import MenuItem from '@mui/material/MenuItem'
 import { PrimaryButton } from './PrimaryButton'
 import TextField from '@mui/material/TextField'
-import { useAppDispatch } from 'redux/store'
-import { useParams } from 'react-router-dom'
-import { createCardTC } from 'redux/cardsReducer'
+import { RequestStatus } from 'redux/appReducer'
+import { useAppSelector } from 'redux/store'
 import { useFormik } from 'formik'
 
-enum QuestionFormat {
+export enum QuestionFormat {
     text,
     image,
     video,
-}
-
-type PropsType = {
-    open: boolean
-    onClose: () => void
 }
 
 type ErrorsType = {
@@ -27,9 +21,20 @@ type ErrorsType = {
     format?: QuestionFormat
 }
 
-export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
-    const dispatch = useAppDispatch()
-    const { packId } = useParams<'packId'>()
+export type ValuesType = {
+    question: string
+    answer: string
+    format: QuestionFormat
+}
+
+type PropsType = {
+    open: boolean
+    onClose: () => void
+    onSubmit: (values: ValuesType) => void
+}
+
+export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open, onSubmit }) => {
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const onCloseHandler = () => {
         formik.resetForm()
@@ -41,7 +46,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
             question: '',
             answer: '',
             format: QuestionFormat.text,
-        },
+        } as ValuesType,
         validate: (values) => {
             const errors: ErrorsType = {}
             if (!values.question) {
@@ -53,14 +58,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
             return errors
         },
         onSubmit: (values) => {
-            if (!packId) return
-            dispatch(
-                createCardTC({
-                    cardsPack_id: packId,
-                    answer: values.answer,
-                    question: values.question,
-                })
-            )
+            onSubmit(values)
             onCloseHandler()
         },
     })
@@ -107,7 +105,10 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         onChange={formik.handleChange}
                     />
                     <PrimaryButton
-                        disabled={!(formik.isValid && formik.dirty)}
+                        disabled={
+                            !(formik.isValid && formik.dirty) ||
+                            requestStatus === RequestStatus.loading
+                        }
                         type="submit"
                         sx={{ mb: 2, mt: 3 }}
                     >

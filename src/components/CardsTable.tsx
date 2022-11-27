@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/store'
-import { deleteCardTC, editCardTC, setSortCardsAC } from 'redux/cardsReducer'
+import { setSortCardsAC } from 'redux/cardsReducer'
 import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
@@ -19,16 +19,6 @@ type TablePropsType<T> = {
 export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId }) => {
     const dispatch = useAppDispatch()
     const sortCards = useAppSelector((state) => state.cards.sortCards)
-
-    const onDeleteCardHandler = (cardId: string) => {
-        if (!packId) return
-        dispatch(deleteCardTC(cardId, packId))
-    }
-
-    const onEditCardHandler = (id: string, question: string, answer: string) => {
-        if (!packId) return
-        dispatch(editCardTC(id, question + '-edited question', answer + '-edited answer', packId))
-    }
 
     const onChangeSortHandler = (sortingName: string) => {
         const sortCode = sortCards?.slice(0, 1)
@@ -69,12 +59,7 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
                 </TableHead>
                 <TableBody>
                     {rows.map((row) => (
-                        <CardRow
-                            key={row.id}
-                            row={row}
-                            onDelete={onDeleteCardHandler}
-                            onEdit={onEditCardHandler}
-                        />
+                        <CardRow key={row.id} packId={packId} row={row} />
                     ))}
                 </TableBody>
             </Table>
