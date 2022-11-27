@@ -3,9 +3,8 @@ import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import { PrimaryButton } from '../../components/PrimaryButton'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { createPackTC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
-import { AddPackModal } from './modal/AddPackModal'
+import { AddEditPackModal } from './modal/AddEditPackModal'
 
 export const AddNewPack = () => {
     const [addPackModalOpen, setAddPackModalOpen] = useState(false)
@@ -22,7 +21,11 @@ export const AddNewPack = () => {
     }
     return (
         <>
-            <AddPackModal open={addPackModalOpen} closeModal={closeModalAddPack} />
+            <AddEditPackModal
+                title="Add new pack"
+                open={addPackModalOpen}
+                closeModal={closeModalAddPack}
+            />
             <Box
                 sx={{
                     width: '100%',

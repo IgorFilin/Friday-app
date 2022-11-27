@@ -1,6 +1,6 @@
 import React from 'react'
 import { BasicModalPacksList } from './BasicModalPacksList'
-import { PackModalPropsType } from './AddPackModal'
+import { PackModalPropsType } from './AddEditPackModal'
 import Box from '@mui/material/Box'
 import { Button } from '@mui/material'
 import Typography from '@mui/material/Typography'

@@ -14,17 +14,20 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from 'redux/store'
-import { changePackTC, deletePackTC, sortPacksAC } from 'redux/packsReducer'
+import { sortPacksAC } from 'redux/packsReducer'
 import { RequestStatus } from 'redux/appReducer'
 import { useNavigate } from 'react-router-dom'
 import { Path } from 'app/AppRoutes'
 import { DeletePackModal } from './modal/DeletePackModal'
+import { AddEditPackModal } from './modal/AddEditPackModal'
 
-type iconFlowType = 'read' | 'delete' | 'changed'
+export type iconFlowType = 'read' | 'delete' | 'changed'
 
 export const TablePacks = React.memo(() => {
     const [deletePackModalOpen, setDeletePackModalOpen] = useState(false)
+    const [addEditPackModalOpen, setAddEditPackModalOpen] = useState(false)
     const [deletePackModalOpenId, setDeletePackModalOpenId] = useState('')
+    const [changePackModalOpenId, setChangePackModalOpenId] = useState('')
 
     const dispatch = useAppDispatch()
 
@@ -45,11 +48,17 @@ export const TablePacks = React.memo(() => {
             setDeletePackModalOpen(true)
         }
         if (type === 'read') alert('readPack')
-        if (type === 'changed') dispatch(changePackTC({ _id: id, name: 'UpdatedNamePack' }))
+        if (type === 'changed') {
+            setChangePackModalOpenId(id)
+            setAddEditPackModalOpen(true)
+        }
     }
 
     const onCloseDeletePackModal = () => {
         setDeletePackModalOpen(false)
+    }
+    const onCloseChangePackModal = () => {
+        setAddEditPackModalOpen(false)
     }
 
     const rows = cardPacks.map((pack) => {
@@ -171,6 +180,14 @@ export const TablePacks = React.memo(() => {
                                         packId={row.key}
                                         open={deletePackModalOpen}
                                         closeModal={onCloseDeletePackModal}
+                                    />
+                                    <AddEditPackModal
+                                        changePackModalOpenId={changePackModalOpenId}
+                                        name={row.name}
+                                        packId={row.key}
+                                        open={addEditPackModalOpen}
+                                        closeModal={onCloseChangePackModal}
+                                        title="Edit pack"
                                     />
                                 </TableRow>
                             ))}
