@@ -10,26 +10,47 @@ import { useParams } from 'react-router-dom'
 import { createCardTC } from 'redux/cardsReducer'
 import { useFormik } from 'formik'
 
-type PropsType = {
-    open: boolean
-    onClose: () => void
-}
-
 enum QuestionFormat {
     text,
     image,
     video,
 }
 
+type PropsType = {
+    open: boolean
+    onClose: () => void
+}
+
+type ErrorsType = {
+    question?: string
+    answer?: string
+    format?: QuestionFormat
+}
+
 export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
+
+    const onCloseHandler = () => {
+        formik.resetForm()
+        onClose && onClose()
+    }
 
     const formik = useFormik({
         initialValues: {
             question: '',
             answer: '',
             format: QuestionFormat.text,
+        },
+        validate: (values) => {
+            const errors: ErrorsType = {}
+            if (!values.question) {
+                errors.question = 'Required'
+            }
+            if (!values.answer) {
+                errors.answer = 'Required'
+            }
+            return errors
         },
         onSubmit: (values) => {
             if (!packId) return
@@ -40,6 +61,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                     question: values.question,
                 })
             )
+            onCloseHandler()
         },
     })
 
@@ -49,7 +71,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
             fullWidth
             maxWidth={'xs'}
             open={open}
-            onClose={onClose}
+            onClose={onCloseHandler}
         >
             <Stack sx={{ mt: 2 }}>
                 <FormControl component="form" onSubmit={formik.handleSubmit} size="small" fullWidth>
@@ -63,8 +85,8 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value={QuestionFormat.text}>Text</MenuItem>
-                        <MenuItem value={QuestionFormat.image}>Image</MenuItem>
-                        <MenuItem value={QuestionFormat.video}>Video</MenuItem>
+                        {/*<MenuItem value={QuestionFormat.image}>Image</MenuItem>*/}
+                        {/*<MenuItem value={QuestionFormat.video}>Video</MenuItem>*/}
                     </Select>
 
                     <TextField
@@ -84,7 +106,11 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         value={formik.values.answer}
                         onChange={formik.handleChange}
                     />
-                    <PrimaryButton type="submit" sx={{ mb: 2, mt: 3 }}>
+                    <PrimaryButton
+                        disabled={!(formik.isValid && formik.dirty)}
+                        type="submit"
+                        sx={{ mb: 2, mt: 3 }}
+                    >
                         Add
                     </PrimaryButton>
                 </FormControl>

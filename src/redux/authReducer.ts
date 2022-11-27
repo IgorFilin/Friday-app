@@ -7,8 +7,8 @@ import {
     SetNewPasswordType,
 } from 'api/types'
 import { RequestStatus, setErrorAC, setInfoAC, setLoadingAC } from './appReducer'
-import { getBase64 } from './utils'
 import { authApi } from 'api/authApi'
+import { getBase64 } from '../utils'
 
 //===TYPES======================================================================
 

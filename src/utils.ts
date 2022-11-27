@@ -1,3 +1,7 @@
+import dayjs from 'dayjs'
+
+export const formatDate = (date: string) => dayjs(date).format('DD.MM.YYYY')
+
 export const getBase64 = (file: File) =>
     new Promise<string>((resolve, reject) => {
         const reader = new FileReader()
