@@ -20,12 +20,18 @@ export const PacksList = () => {
     const packName = useAppSelector((state) => state.packsCard.packName)
     const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isInitializedSlider = useAppSelector(
+        (state) => state.packsCard.slider.isInitializedSlider
+    )
 
     const dispatch = useAppDispatch()
 
+    let deps = [sort, pageCount, page, packName, whosePackCard]
+    if (isInitializedSlider) deps = [...deps, min, max]
+
     useEffect(() => {
         dispatch(getPacksCardTC())
-    }, [sort, max, min, pageCount, page, packName, whosePackCard])
+    }, deps)
 
     const onClickFilterDefaultHandler = () => {
         dispatch(getPacksCardTC(true))

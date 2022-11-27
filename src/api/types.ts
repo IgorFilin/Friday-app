@@ -29,7 +29,7 @@ export type PacksCardType = {
 export type CreatePackCardType = {
     name?: string
     deckCover?: string
-    private?: boolean
+    private?: boolean | string
 }
 
 export type DataFormType = {
