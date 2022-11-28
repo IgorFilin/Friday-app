@@ -3,12 +3,11 @@ import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
 import Rating from '@mui/material/Rating'
 import StarIcon from '@mui/icons-material/Star'
-import IconButton from '@mui/material/IconButton'
-import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import { formatDate } from 'utils'
 import { deleteCardTC, editCardTC } from 'redux/cardsReducer'
 import { useAppDispatch } from 'redux/store'
 import { DeleteCardDialogWithButton } from './cardDialogs/DeleteCardDialogWithButton'
+import { EditCardDialogWithButton } from './cardDialogs/EditCardDialogWithButton'
 
 export type PackType = {
     id: string
@@ -31,9 +30,9 @@ export const CardRow: React.FC<PropsType> = ({ row, packId }) => {
         dispatch(deleteCardTC(row.id, packId))
     }
 
-    const onEditCardHandler = (id: string, question: string, answer: string) => {
+    const onEditCardHandler = (question: string, answer: string) => {
         if (!packId) return
-        dispatch(editCardTC(id, question + '-edited question', answer + '-edited answer', packId))
+        dispatch(editCardTC(row.id, question, answer, packId))
     }
 
     return (
@@ -53,9 +52,11 @@ export const CardRow: React.FC<PropsType> = ({ row, packId }) => {
                 />
             </TableCell>
             <TableCell align="right">
-                <IconButton onClick={() => onEditCardHandler(row.id, row.question, row.answer)}>
-                    <DriveFileRenameOutlineIcon />
-                </IconButton>
+                <EditCardDialogWithButton
+                    question={row.question}
+                    answer={row.answer}
+                    onSubmit={onEditCardHandler}
+                />
                 <DeleteCardDialogWithButton
                     cardName={row.question}
                     onSubmit={onDeleteCardHandler}
