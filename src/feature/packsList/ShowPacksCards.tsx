@@ -3,16 +3,23 @@ import Typography from '@mui/material/Typography'
 import { Button, ButtonGroup } from '@mui/material'
 import Box from '@mui/material/Box'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { setIsInitializedSlider, setShowPacksCards } from '../../redux/packsReducer'
+import {
+    setIsInitializedSlider,
+    setMinMaxValueAC,
+    setShowPacksCards,
+} from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const ShowPacksCards = () => {
     const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const maxCardsCount = useAppSelector((state) => state.packsCard.maxCardsCount)
+    const minCardsCount = useAppSelector((state) => state.packsCard.minCardsCount)
 
     const dispatch = useAppDispatch()
 
     const onClickShowPacksHandler = (changeButton: 'All' | 'My') => {
+        dispatch(setMinMaxValueAC(minCardsCount, maxCardsCount))
         dispatch(setShowPacksCards(changeButton))
         dispatch(setIsInitializedSlider(false))
     }
