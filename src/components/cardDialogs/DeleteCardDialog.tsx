@@ -3,9 +3,9 @@ import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import DialogContentText from '@mui/material/DialogContentText'
 import { useAppSelector } from 'redux/store'
-import { DialogWithTitle } from './DialogWithTitle'
-import { AlertButton } from './AlertButton'
-import { SecondaryButton } from './SecondaryButton'
+import { DialogWithTitle } from '../DialogWithTitle'
+import { AlertButton } from '../AlertButton'
+import { SecondaryButton } from '../SecondaryButton'
 import { RequestStatus } from 'redux/appReducer'
 
 type PropsType = {

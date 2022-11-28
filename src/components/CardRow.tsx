@@ -8,7 +8,7 @@ import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutli
 import { formatDate } from 'utils'
 import { deleteCardTC, editCardTC } from 'redux/cardsReducer'
 import { useAppDispatch } from 'redux/store'
-import { DeleteCardButton } from './DeleteCardButton'
+import { DeleteCardDialogWithButton } from './cardDialogs/DeleteCardDialogWithButton'
 
 export type PackType = {
     id: string
@@ -56,7 +56,10 @@ export const CardRow: React.FC<PropsType> = ({ row, packId }) => {
                 <IconButton onClick={() => onEditCardHandler(row.id, row.question, row.answer)}>
                     <DriveFileRenameOutlineIcon />
                 </IconButton>
-                <DeleteCardButton cardName={row.question} onSubmit={onDeleteCardHandler} />
+                <DeleteCardDialogWithButton
+                    cardName={row.question}
+                    onSubmit={onDeleteCardHandler}
+                />
             </TableCell>
         </TableRow>
     )

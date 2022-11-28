@@ -13,8 +13,8 @@ import { CardsTable } from 'components/CardsTable'
 import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { CardsSearchInput } from 'components/CardsSearchInput'
-import { ValuesType } from 'components/AddNewCardDialog'
-import { AddNewCardButton } from 'components/AddNewCardButton'
+import { ValuesType } from 'components/cardDialogs/AddNewCardDialog'
+import { AddNewCardDialogWithButton } from 'components/cardDialogs/AddNewCardDialogWithButton'
 
 export const MyPack: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.profileData.id)
@@ -82,7 +82,7 @@ export const MyPack: React.FC = () => {
                         </Typography>
                         <MyPackButtonWithMenu />
                     </Box>
-                    <AddNewCardButton onSubmit={onAddCardHandler} />
+                    <AddNewCardDialogWithButton onSubmit={onAddCardHandler} />
                 </Box>
                 <CardsSearchInput width={'100%'} />
                 <br />

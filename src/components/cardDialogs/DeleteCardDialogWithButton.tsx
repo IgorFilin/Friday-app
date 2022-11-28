@@ -8,7 +8,7 @@ type PropsType = {
     onSubmit: () => void
 }
 
-export const DeleteCardButton: React.FC<PropsType> = ({ cardName, onSubmit }) => {
+export const DeleteCardDialogWithButton: React.FC<PropsType> = ({ cardName, onSubmit }) => {
     const [isDialogOpen, setIsDialogOpen] = useState(false)
 
     return (
