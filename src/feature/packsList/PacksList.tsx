@@ -26,9 +26,6 @@ export const PacksList = () => {
 
     const dispatch = useAppDispatch()
 
-    let deps = [sort, pageCount, page, whosePackCard, packName]
-    if (isInitializedSlider) deps = [...deps, min, max]
-
     useEffect(() => {
         dispatch(getPacksCardTC())
     }, [sort, pageCount, page, whosePackCard, packName])
