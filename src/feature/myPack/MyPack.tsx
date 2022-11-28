@@ -13,7 +13,6 @@ import { CardsTable } from 'components/CardsTable'
 import { CardsPagination } from 'components/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { CardsSearchInput } from 'components/CardsSearchInput'
-import { ValuesType } from 'components/cardDialogs/AddNewCardDialog'
 import { AddNewCardDialogWithButton } from 'components/cardDialogs/AddNewCardDialogWithButton'
 
 export const MyPack: React.FC = () => {
@@ -38,13 +37,13 @@ export const MyPack: React.FC = () => {
         return <Navigate to={Path.packsList} />
     }
 
-    const onAddCardHandler = (values: ValuesType) => {
+    const onAddCardHandler = (question: string, answer: string) => {
         if (!packId) return
         dispatch(
             createCardTC({
                 cardsPack_id: packId,
-                answer: values.answer,
-                question: values.question,
+                question,
+                answer,
             })
         )
     }

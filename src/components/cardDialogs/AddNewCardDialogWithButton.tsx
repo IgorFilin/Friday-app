@@ -1,9 +1,9 @@
 import React, { useState } from 'react'
-import { AddNewCardDialog, ValuesType } from './AddNewCardDialog'
+import { AddNewCardDialog } from './AddNewCardDialog'
 import { PrimaryButton } from '../PrimaryButton'
 
 type PropsType = {
-    onSubmit: (values: ValuesType) => void
+    onSubmit: (question: string, answer: string) => void
 }
 
 export const AddNewCardDialogWithButton: React.FC<PropsType> = ({ onSubmit }) => {

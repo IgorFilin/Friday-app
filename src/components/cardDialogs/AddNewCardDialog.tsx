@@ -1,13 +1,15 @@
 import React from 'react'
-import { FormControl, InputLabel, Select } from '@mui/material'
-import { DialogWithTitle } from '../DialogWithTitle'
-import Stack from '@mui/material/Stack'
+import { useFormik } from 'formik'
+import FormControl from '@mui/material/FormControl'
+import InputLabel from '@mui/material/InputLabel'
+import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
-import { PrimaryButton } from '../PrimaryButton'
+import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
+import { DialogWithTitle } from '../DialogWithTitle'
+import { PrimaryButton } from '../PrimaryButton'
 import { RequestStatus } from 'redux/appReducer'
 import { useAppSelector } from 'redux/store'
-import { useFormik } from 'formik'
 
 export enum QuestionFormat {
     text,
@@ -30,7 +32,7 @@ export type ValuesType = {
 type PropsType = {
     open: boolean
     onClose: () => void
-    onSubmit: (values: ValuesType) => void
+    onSubmit: (question: string, answer: string) => void
 }
 
 export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open, onSubmit }) => {
@@ -58,7 +60,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open, onSubmit 
             return errors
         },
         onSubmit: (values) => {
-            onSubmit(values)
+            onSubmit(values.question, values.answer)
             onCloseHandler()
         },
     })
