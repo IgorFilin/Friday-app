@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Slider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { setMinMaxValueAC } from '../../redux/packsReducer'
+import { getPacksCardTC, setIsInitializedSlider, setMinMaxValueAC } from '../../redux/packsReducer'
 import { useDebounce } from 'usehooks-ts'
 import { RequestStatus } from '../../redux/appReducer'
 
@@ -13,12 +13,21 @@ export const NumberOfCards = () => {
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isInitializedSlider = useAppSelector(
+        (state) => state.packsCard.slider.isInitializedSlider
+    )
 
     const dispatch = useAppDispatch()
 
     const [value, setValue] = useState<Array<number>>([min, max])
 
     const debouncedValue = useDebounce<Array<number>>(value, 500)
+
+    useEffect(() => {
+        if (isInitializedSlider) {
+            dispatch(getPacksCardTC())
+        }
+    }, [min, max])
 
     useEffect(() => {
         setValue([min, max])
@@ -35,6 +44,7 @@ export const NumberOfCards = () => {
     const handleChange = (event: Event, value: number | number[]) => {
         let newValue = value as [number, number]
         setValue(newValue as number[])
+        dispatch(setIsInitializedSlider(true))
     }
 
     return (

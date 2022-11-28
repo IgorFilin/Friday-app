@@ -26,12 +26,12 @@ export const PacksList = () => {
 
     const dispatch = useAppDispatch()
 
-    let deps = [sort, pageCount, page, whosePackCard]
+    let deps = [sort, pageCount, page, whosePackCard, packName]
     if (isInitializedSlider) deps = [...deps, min, max]
 
     useEffect(() => {
         dispatch(getPacksCardTC())
-    }, [sort, pageCount, page, whosePackCard, min, max, packName])
+    }, [sort, pageCount, page, whosePackCard, packName])
 
     const onClickFilterDefaultHandler = () => {
         dispatch(getPacksCardTC(true))

@@ -50,14 +50,7 @@ export const packsReducer = (
 ): initialStateType => {
     switch (action.type) {
         case 'PACKS/SET-PACKS-CARD': {
-            let copyState = { ...state }
-            if (state.slider.max === 0) {
-                copyState.slider.max = action.packsCard.maxCardsCount
-            }
-            return {
-                ...copyState,
-                ...action.packsCard,
-            }
+            return { ...state, ...action.packsCard }
         }
         case 'PACKS/SET-PAGE-COUNT': {
             return { ...state, pageCount: action.pageCount }
@@ -152,7 +145,6 @@ export const getPacksCardTC =
             dispatch(setErrorAC(e as string))
             dispatch(setLoadingAC(RequestStatus.error))
         } finally {
-            dispatch(setIsInitializedSlider(true))
             dispatch(setLoadingAC(RequestStatus.succeeded))
         }
     }
