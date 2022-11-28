@@ -14,14 +14,20 @@ import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
 import ModeEditIcon from '@mui/icons-material/ModeEdit'
 import SchoolOutlinedIcon from '@mui/icons-material/SchoolOutlined'
 import { useAppDispatch, useAppSelector } from 'redux/store'
-import { changePackTC, deletePackTC, sortPacksAC } from 'redux/packsReducer'
+import { sortPacksAC } from 'redux/packsReducer'
 import { RequestStatus } from 'redux/appReducer'
 import { useNavigate } from 'react-router-dom'
 import { Path } from 'app/AppRoutes'
-import { AddPackModal } from './modal/AddPackModal'
+import { DeletePackModal } from './modal/DeletePackModal'
+import { AddEditPackModal } from './modal/AddEditPackModal'
+
+export type iconFlowType = 'read' | 'delete' | 'changed'
 
 export const TablePacks = React.memo(() => {
-    type iconFlowType = 'read' | 'delete' | 'changed'
+    const [deletePackModalOpen, setDeletePackModalOpen] = useState(false)
+    const [addEditPackModalOpen, setAddEditPackModalOpen] = useState(false)
+    const [deletePackModalOpenId, setDeletePackModalOpenId] = useState('')
+    const [changePackModalOpenId, setChangePackModalOpenId] = useState('')
 
     const dispatch = useAppDispatch()
 
@@ -38,20 +44,31 @@ export const TablePacks = React.memo(() => {
 
     const onClickIconHandler = (type: iconFlowType, id: string) => {
         if (type === 'delete') {
-            dispatch(deletePackTC(id))
+            setDeletePackModalOpenId(id)
+            setDeletePackModalOpen(true)
         }
         if (type === 'read') alert('readPack')
-        if (type === 'changed') dispatch(changePackTC({ _id: id, name: 'UpdatedNamePack' }))
+        if (type === 'changed') {
+            setChangePackModalOpenId(id)
+            setAddEditPackModalOpen(true)
+        }
+    }
+
+    const onCloseDeletePackModal = () => {
+        setDeletePackModalOpen(false)
+    }
+    const onCloseChangePackModal = () => {
+        setAddEditPackModalOpen(false)
     }
 
     const rows = cardPacks.map((pack) => {
         return {
             userId: pack.user_id,
             key: pack._id,
-            Name: pack.name,
-            Cards: pack.cardsCount,
-            LastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
-            CreatedBy: pack.user_name,
+            name: pack.name,
+            cards: pack.cardsCount,
+            lastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
+            createdBy: pack.user_name,
             Actions: [
                 {
                     icon: (
@@ -135,11 +152,11 @@ export const TablePacks = React.memo(() => {
                                         style={{ cursor: 'pointer' }}
                                         onClick={() => onNameClickHandler(row.key, row.userId)}
                                     >
-                                        {row.Name}
+                                        {row.name}
                                     </TableCell>
-                                    <TableCell align="center">{row.Cards}</TableCell>
-                                    <TableCell align="center">{row.LastCreated}</TableCell>
-                                    <TableCell align="right">{row.CreatedBy}</TableCell>
+                                    <TableCell align="center">{row.cards}</TableCell>
+                                    <TableCell align="center">{row.lastCreated}</TableCell>
+                                    <TableCell align="right">{row.createdBy}</TableCell>
                                     <TableCell align="center">
                                         {row.Actions.map((icon, i) => {
                                             if (authUserId === row.userId) {
@@ -157,6 +174,21 @@ export const TablePacks = React.memo(() => {
                                             }
                                         })}
                                     </TableCell>
+                                    <DeletePackModal
+                                        deletePackModalOpenId={deletePackModalOpenId}
+                                        name={row.name}
+                                        packId={row.key}
+                                        open={deletePackModalOpen}
+                                        closeModal={onCloseDeletePackModal}
+                                    />
+                                    <AddEditPackModal
+                                        changePackModalOpenId={changePackModalOpenId}
+                                        name={row.name}
+                                        packId={row.key}
+                                        open={addEditPackModalOpen}
+                                        closeModal={onCloseChangePackModal}
+                                        title="Edit pack"
+                                    />
                                 </TableRow>
                             ))}
                         </TableBody>

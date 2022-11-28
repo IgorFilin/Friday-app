@@ -1,9 +1,10 @@
-import React, { SyntheticEvent, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Slider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { getPacksCardTC, setMinMaxValueAC } from '../../redux/packsReducer'
+import { getPacksCardTC, setIsInitializedSlider, setMinMaxValueAC } from '../../redux/packsReducer'
+import { useDebounce } from 'usehooks-ts'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const NumberOfCards = () => {
@@ -12,10 +13,21 @@ export const NumberOfCards = () => {
     const max = useAppSelector((state) => state.packsCard.slider.max)
     const min = useAppSelector((state) => state.packsCard.slider.min)
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isInitializedSlider = useAppSelector(
+        (state) => state.packsCard.slider.isInitializedSlider
+    )
 
     const dispatch = useAppDispatch()
 
     const [value, setValue] = useState<Array<number>>([min, max])
+
+    const debouncedValue = useDebounce<Array<number>>(value, 500)
+
+    useEffect(() => {
+        if (isInitializedSlider) {
+            dispatch(getPacksCardTC())
+        }
+    }, [min, max])
 
     useEffect(() => {
         setValue([min, max])
@@ -25,15 +37,14 @@ export const NumberOfCards = () => {
         dispatch(setMinMaxValueAC(minCountCards, maxCountCards))
     }, [maxCountCards, minCountCards])
 
-    const handleChangeCommitted = (
-        event: Event | SyntheticEvent<Element, Event>,
-        value: number | number[]
-    ) => {
+    useEffect(() => {
+        dispatch(setMinMaxValueAC(value[0], value[1]))
+    }, [debouncedValue])
+
+    const handleChange = (event: Event, value: number | number[]) => {
         let newValue = value as [number, number]
         setValue(newValue as number[])
-        console.log(newValue)
-        dispatch(setMinMaxValueAC(newValue[0], newValue[1]))
-        dispatch(getPacksCardTC())
+        dispatch(setIsInitializedSlider(true))
     }
 
     return (
@@ -76,10 +87,7 @@ export const NumberOfCards = () => {
                         }}
                         getAriaLabel={() => 'range'}
                         value={[value[0], value[1]]}
-                        onChange={(_, newValue) => {
-                            setValue(newValue as number[])
-                        }}
-                        onChangeCommitted={handleChangeCommitted}
+                        onChange={handleChange}
                         valueLabelDisplay="off"
                         min={minCountCards}
                         max={maxCountCards}
