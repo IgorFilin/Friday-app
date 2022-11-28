@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react'
+import React, { SyntheticEvent, useEffect, useState } from 'react'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import { Slider } from '@mui/material'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
-import { setMinMaxValueAC } from '../../redux/packsReducer'
-import { useDebounce } from 'usehooks-ts'
+import { getPacksCardTC, setMinMaxValueAC } from '../../redux/packsReducer'
 import { RequestStatus } from '../../redux/appReducer'
 
 export const NumberOfCards = () => {
@@ -18,8 +17,6 @@ export const NumberOfCards = () => {
 
     const [value, setValue] = useState<Array<number>>([min, max])
 
-    const debouncedValue = useDebounce<Array<number>>(value, 500)
-
     useEffect(() => {
         setValue([min, max])
     }, [max, min])
@@ -28,13 +25,15 @@ export const NumberOfCards = () => {
         dispatch(setMinMaxValueAC(minCountCards, maxCountCards))
     }, [maxCountCards, minCountCards])
 
-    useEffect(() => {
-        dispatch(setMinMaxValueAC(value[0], value[1]))
-    }, [debouncedValue])
-
-    const handleChange = (event: Event, value: number | number[]) => {
+    const handleChangeCommitted = (
+        event: Event | SyntheticEvent<Element, Event>,
+        value: number | number[]
+    ) => {
         let newValue = value as [number, number]
         setValue(newValue as number[])
+        console.log(newValue)
+        dispatch(setMinMaxValueAC(newValue[0], newValue[1]))
+        dispatch(getPacksCardTC())
     }
 
     return (
@@ -77,7 +76,10 @@ export const NumberOfCards = () => {
                         }}
                         getAriaLabel={() => 'range'}
                         value={[value[0], value[1]]}
-                        onChange={handleChange}
+                        onChange={(_, newValue) => {
+                            setValue(newValue as number[])
+                        }}
+                        onChangeCommitted={handleChangeCommitted}
                         valueLabelDisplay="off"
                         min={minCountCards}
                         max={maxCountCards}
