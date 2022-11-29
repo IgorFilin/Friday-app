@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { setSortCardsAC } from 'redux/cardsReducer'
 import TableContainer from '@mui/material/TableContainer'
@@ -10,6 +10,8 @@ import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import { CardRow, PackType } from './CardRow'
 import { SortingColumnHead } from './SortingColumnHead'
+import { EditCardDialog } from './cardDialogs/EditCardDialog'
+import { DeleteCardDialog } from './cardDialogs/DeleteCardDialog'
 
 type TablePropsType<T> = {
     packId: string
@@ -19,6 +21,8 @@ type TablePropsType<T> = {
 export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId }) => {
     const dispatch = useAppDispatch()
     const sortCards = useAppSelector((state) => state.cards.sortCards)
+    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
+    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
 
     const onChangeSortHandler = (sortingName: string) => {
         const sortCode = sortCards?.slice(0, 1)
@@ -34,35 +38,51 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
     }
 
     return (
-        <TableContainer component={Paper}>
-            <Table size="small" aria-label="pack table">
-                <TableHead>
-                    <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
-                        <TableCell>Question</TableCell>
-                        <TableCell align="center">Answer</TableCell>
-                        <SortingColumnHead
-                            caption={'Last Updated'}
-                            sortName={'updated'}
-                            align="center"
-                            sort={sortCards}
-                            onChangeSort={onChangeSortHandler}
-                        />
-                        <SortingColumnHead
-                            caption={'Grade'}
-                            sortName={'grade'}
-                            align="right"
-                            sort={sortCards}
-                            onChangeSort={onChangeSortHandler}
-                        />
-                        <TableCell align="right"></TableCell>
-                    </TableRow>
-                </TableHead>
-                <TableBody>
-                    {rows.map((row) => (
-                        <CardRow key={row.id} packId={packId} row={row} />
-                    ))}
-                </TableBody>
-            </Table>
-        </TableContainer>
+        <>
+            <EditCardDialog
+                open={isEditDialogOpen}
+                onClose={() => setIsEditDialogOpen(false)}
+                onSubmit={onSubmit}
+                question={question}
+                answer={answer}
+            />
+            <DeleteCardDialog
+                open={isDeleteDialogOpen}
+                onClose={() => setIsDeleteDialogOpen(false)}
+                onSubmit={onSubmit}
+                cardName={cardName}
+            />
+
+            <TableContainer component={Paper}>
+                <Table size="small" aria-label="pack table">
+                    <TableHead>
+                        <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
+                            <TableCell>Question</TableCell>
+                            <TableCell align="center">Answer</TableCell>
+                            <SortingColumnHead
+                                caption={'Last Updated'}
+                                sortName={'updated'}
+                                align="center"
+                                sort={sortCards}
+                                onChangeSort={onChangeSortHandler}
+                            />
+                            <SortingColumnHead
+                                caption={'Grade'}
+                                sortName={'grade'}
+                                align="right"
+                                sort={sortCards}
+                                onChangeSort={onChangeSortHandler}
+                            />
+                            <TableCell align="right"></TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
+                        {rows.map((row) => (
+                            <CardRow key={row.id} packId={packId} row={row} />
+                        ))}
+                    </TableBody>
+                </Table>
+            </TableContainer>
+        </>
     )
 }
