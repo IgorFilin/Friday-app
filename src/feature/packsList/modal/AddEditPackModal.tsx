@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import { BasicModalPacksList } from './BasicModalPacksList'
 import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/material'
 import Box from '@mui/material/Box'
@@ -22,9 +22,13 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
     name,
     changePackModalOpenId,
 }) => {
-    const [inputValue, setInputValue] = useState(() => name)
+    const [inputValue, setInputValue] = useState(name)
     const [inputChecked, setInputChecked] = useState(false)
-
+    useEffect(() => {
+        return () => {
+            setInputValue(name)
+        }
+    }, [closeModal])
     const dispatch = useAppDispatch()
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
