@@ -10,6 +10,8 @@ import TableCell from '@mui/material/TableCell'
 import TableBody from '@mui/material/TableBody'
 import { CardRow, PackType } from './CardRow'
 import { SortingColumnHead } from './SortingColumnHead'
+import {Link, Navigate} from "react-router-dom";
+import {Path} from "../app/AppRoutes";
 
 type TablePropsType<T> = {
     packId: string
@@ -38,7 +40,9 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
             <Table size="small" aria-label="pack table">
                 <TableHead>
                     <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
-                        <TableCell>Question</TableCell>
+                        <TableCell>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={Path.learnPack}>Question</Link>
+                        </TableCell>
                         <TableCell align="center">Answer</TableCell>
                         <SortingColumnHead
                             caption={'Last Updated'}
