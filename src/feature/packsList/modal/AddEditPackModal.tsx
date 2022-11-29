@@ -24,11 +24,7 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
 }) => {
     const [inputValue, setInputValue] = useState(name)
     const [inputChecked, setInputChecked] = useState(false)
-    useEffect(() => {
-        return () => {
-            setInputValue(name)
-        }
-    }, [closeModal])
+
     const dispatch = useAppDispatch()
 
     const onChangeInputHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -55,6 +51,12 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
             closeModal()
         }
     }
+
+    useEffect(() => {
+        return () => {
+            setInputValue(name)
+        }
+    }, [closeModal])
 
     if (!open) return null
 

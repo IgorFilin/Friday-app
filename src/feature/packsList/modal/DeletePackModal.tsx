@@ -7,14 +7,22 @@ import Typography from '@mui/material/Typography'
 import { useAppDispatch } from '../../../redux/store'
 import { deletePackTC } from '../../../redux/packsReducer'
 
-export const DeletePackModal: React.FC<
-    PackModalPropsType & { name: string; packId: string; deletePackModalOpenId: string }
-> = ({ closeModal, open, packId, name, deletePackModalOpenId }) => {
+type DeletePackModalType = { name: string; packId: string; deletePackModalOpenId: string }
+
+export const DeletePackModal: React.FC<PackModalPropsType & DeletePackModalType> = ({
+    closeModal,
+    open,
+    packId,
+    name,
+    deletePackModalOpenId,
+}) => {
     const dispatch = useAppDispatch()
 
     const deletePack = () => {
         dispatch(deletePackTC(packId))
     }
+
+    if (!open) return null
 
     return (
         <BasicModalPacksList

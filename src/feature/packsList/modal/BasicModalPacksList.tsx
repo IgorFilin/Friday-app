@@ -29,6 +29,8 @@ export const BasicModalPacksList: React.FC<BasicModalType> = ({
     open,
     closeModal,
 }) => {
+    if (!open) return null
+
     return (
         <>
             <Modal open={open} onClose={closeModal}>
