@@ -1,12 +1,13 @@
-import React, { ChangeEvent } from 'react'
-import { useAppDispatch, useAppSelector } from '../redux/store'
+import React, { ChangeEvent, useEffect, useState } from 'react'
 import Box from '@mui/material/Box'
 import Typography from '@mui/material/Typography'
 import TextField from '@mui/material/TextField'
 import { InputAdornment } from '@mui/material'
 import SearchSharpIcon from '@mui/icons-material/SearchSharp'
+import { useAppDispatch, useAppSelector } from 'redux/store'
 import { RequestStatus } from 'redux/appReducer'
 import { setCardQuestionAC } from 'redux/cardsReducer'
+import { useDebounce } from 'usehooks-ts'
 
 type PropsType = {
     width: string | number
@@ -14,11 +15,19 @@ type PropsType = {
 
 export const CardsSearchInput: React.FC<PropsType> = ({ width }) => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
-    const cardQuestion = useAppSelector((state) => state.cards.cardQuestion)
     const dispatch = useAppDispatch()
 
+    const [cardQuestion, setCardQuestion] = useState(
+        useAppSelector((state) => state.cards.cardQuestion)
+    )
+    const debouncedCardQuestion = useDebounce(cardQuestion, 500)
+
+    useEffect(() => {
+        dispatch(setCardQuestionAC(debouncedCardQuestion))
+    }, [debouncedCardQuestion, dispatch])
+
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-        dispatch(setCardQuestionAC(e.currentTarget.value))
+        setCardQuestion(e.currentTarget.value)
     }
 
     return (

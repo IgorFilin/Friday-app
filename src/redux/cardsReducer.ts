@@ -2,7 +2,7 @@ import { Dispatch } from 'redux'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 import { AppDispatch, AppRootReducerType } from './store'
 import { cardsApi } from 'api/cardsApi'
-import { CardsStateType, CardType, GetCardsParamsType, NewCardType } from '../api/types'
+import { CardsStateType, CardType, GetCardsParamsType, NewCardType } from 'api/types'
 
 //===TYPES======================================================================
 
@@ -134,11 +134,11 @@ export const deleteCardTC =
     }
 
 export const editCardTC =
-    (_id: string, answer: string, question: string, cardsPackId: string) =>
+    (_id: string, question: string, answer: string, cardsPackId: string) =>
     async (dispatch: AppDispatch) => {
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
-            await cardsApi.updateCard({ _id, answer, question })
+            await cardsApi.updateCard({ _id, question, answer })
             dispatch(fetchCardsTC(cardsPackId))
         } catch (error) {
             dispatch(setErrorAC(error as string))
