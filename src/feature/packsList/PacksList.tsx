@@ -15,14 +15,9 @@ export const PacksList = () => {
     const sort = useAppSelector((state) => state.packsCard.sortPacks)
     const page = useAppSelector((state) => state.packsCard.page)
     const pageCount = useAppSelector((state) => state.packsCard.pageCount)
-    const max = useAppSelector((state) => state.packsCard.slider.max)
-    const min = useAppSelector((state) => state.packsCard.slider.min)
     const whosePackCard = useAppSelector((state) => state.packsCard.whosePackCard)
     const requestStatus = useAppSelector((state) => state.app.request.status)
     const packName = useAppSelector((state) => state.packsCard.packName)
-    const isInitializedSlider = useAppSelector(
-        (state) => state.packsCard.slider.isInitializedSlider
-    )
 
     const dispatch = useAppDispatch()
 

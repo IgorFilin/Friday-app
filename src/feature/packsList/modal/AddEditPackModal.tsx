@@ -12,11 +12,17 @@ export type PackModalPropsType = {
     name?: string
     changePackModalOpenId?: string
 }
+type AddEditPackType = { title: 'Edit pack' | 'Add new pack' }
 
-export const AddEditPackModal: React.FC<
-    PackModalPropsType & { title: 'Edit pack' | 'Add new pack' }
-> = ({ open, closeModal, title, packId, name, changePackModalOpenId }) => {
-    const [inputValue, setInputValue] = useState(name)
+export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = ({
+    open,
+    closeModal,
+    title,
+    packId,
+    name,
+    changePackModalOpenId,
+}) => {
+    const [inputValue, setInputValue] = useState(() => name)
     const [inputChecked, setInputChecked] = useState(false)
 
     const dispatch = useAppDispatch()
@@ -92,6 +98,7 @@ export const AddEditPackModal: React.FC<
                     onClick={onClickAddChangeButtonHandler}
                     sx={{ borderRadius: '30px', width: '127px' }}
                     variant="contained"
+                    disabled={inputValue?.length === 0}
                 >
                     Save
                 </Button>

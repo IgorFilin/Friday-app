@@ -16,12 +16,15 @@ export const AddNewPack = () => {
     const addNewPackHandler = () => {
         setAddPackModalOpen(true)
     }
+
     const closeModalAddPack = () => {
         setAddPackModalOpen(false)
     }
+
     return (
         <>
             <AddEditPackModal
+                name=""
                 title="Add new pack"
                 open={addPackModalOpen}
                 closeModal={closeModalAddPack}
