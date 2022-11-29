@@ -9,7 +9,9 @@ import TextField from '@mui/material/TextField'
 import { DialogWithTitle } from '../DialogWithTitle'
 import { PrimaryButton } from '../PrimaryButton'
 import { RequestStatus } from 'redux/appReducer'
-import { useAppSelector } from 'redux/store'
+import { useAppDispatch, useAppSelector } from 'redux/store'
+import { createCardTC } from 'redux/cardsReducer'
+import { useParams } from 'react-router-dom'
 
 export enum QuestionFormat {
     text,
@@ -32,15 +34,16 @@ export type ValuesType = {
 type PropsType = {
     open: boolean
     onClose: () => void
-    onSubmit: (question: string, answer: string) => void
 }
 
-export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open, onSubmit }) => {
+export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const dispatch = useAppDispatch()
+    const { packId } = useParams<'packId'>()
 
     const onCloseHandler = () => {
         formik.resetForm()
-        onClose && onClose()
+        onClose()
     }
 
     const formik = useFormik({
@@ -60,7 +63,14 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open, onSubmit 
             return errors
         },
         onSubmit: (values) => {
-            onSubmit(values.question, values.answer)
+            if (packId)
+                dispatch(
+                    createCardTC({
+                        cardsPack_id: packId,
+                        question: values.question,
+                        answer: values.answer,
+                    })
+                )
             onCloseHandler()
         },
     })

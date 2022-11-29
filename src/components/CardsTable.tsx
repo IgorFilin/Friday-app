@@ -21,8 +21,8 @@ type TablePropsType<T> = {
 export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId }) => {
     const dispatch = useAppDispatch()
     const sortCards = useAppSelector((state) => state.cards.sortCards)
-    const [isEditDialogOpen, setIsEditDialogOpen] = useState(false)
-    const [isDeleteDialogOpen, setIsDeleteDialogOpen] = useState(false)
+    const [EditingCardId, setEditingCardId] = useState<string | null>(null)
+    const [DeletingCardId, setDeletingCardId] = useState<string | null>(null)
 
     const onChangeSortHandler = (sortingName: string) => {
         const sortCode = sortCards?.slice(0, 1)
@@ -39,20 +39,8 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
 
     return (
         <>
-            <EditCardDialog
-                open={isEditDialogOpen}
-                onClose={() => setIsEditDialogOpen(false)}
-                onSubmit={onSubmit}
-                question={question}
-                answer={answer}
-            />
-            <DeleteCardDialog
-                open={isDeleteDialogOpen}
-                onClose={() => setIsDeleteDialogOpen(false)}
-                onSubmit={onSubmit}
-                cardName={cardName}
-            />
-
+            <EditCardDialog cardId={EditingCardId} onClose={() => setEditingCardId(null)} />
+            <DeleteCardDialog cardId={DeletingCardId} onClose={() => setDeletingCardId(null)} />
             <TableContainer component={Paper}>
                 <Table size="small" aria-label="pack table">
                     <TableHead>
@@ -78,7 +66,13 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
                     </TableHead>
                     <TableBody>
                         {rows.map((row) => (
-                            <CardRow key={row.id} packId={packId} row={row} />
+                            <CardRow
+                                key={row.id}
+                                packId={packId}
+                                row={row}
+                                onEdit={setEditingCardId}
+                                onDelete={setDeletingCardId}
+                            />
                         ))}
                     </TableBody>
                 </Table>

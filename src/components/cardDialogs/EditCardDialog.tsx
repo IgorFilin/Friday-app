@@ -1,6 +1,6 @@
 import React from 'react'
 import { useFormik } from 'formik'
-import { useAppSelector } from 'redux/store'
+import { useAppDispatch, useAppSelector } from 'redux/store'
 import { RequestStatus } from 'redux/appReducer'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
@@ -10,6 +10,7 @@ import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
 import { DialogWithTitle } from '../DialogWithTitle'
 import { PrimaryButton } from '../PrimaryButton'
+import { editCardTC } from 'redux/cardsReducer'
 
 enum QuestionFormat {
     text,
@@ -30,25 +31,20 @@ type ValuesType = {
 }
 
 type PropsType = {
-    question: string
-    answer: string
-    open: boolean
+    cardId: string | null
     onClose: () => void
-    onSubmit: (question: string, answer: string) => void
 }
 
-export const EditCardDialog: React.FC<PropsType> = ({
-    open,
-    question,
-    answer,
-    onClose,
-    onSubmit,
-}) => {
+export const EditCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const dispatch = useAppDispatch()
+    const card = useAppSelector((state) => state.cards.cards.find((c) => c._id === cardId))
 
-    const onCloseHandler = () => {
-        formik.resetForm()
-        onClose && onClose()
+    const { question, answer, cardsPack_id, _id } = card ?? {
+        question: '',
+        answer: '',
+        cardsPack_id: '',
+        _id: '',
     }
 
     const formik = useFormik({
@@ -68,17 +64,23 @@ export const EditCardDialog: React.FC<PropsType> = ({
             return errors
         },
         onSubmit: (values) => {
-            onSubmit(values.question, values.answer)
+            dispatch(editCardTC(_id, values.question, values.answer, cardsPack_id))
             onCloseHandler()
         },
+        enableReinitialize: true,
     })
+
+    const onCloseHandler = () => {
+        formik.resetForm()
+        onClose()
+    }
 
     return (
         <DialogWithTitle
             title={'Edit card'}
             fullWidth
             maxWidth={'xs'}
-            open={open}
+            open={!!cardId}
             onClose={onCloseHandler}
         >
             <Stack sx={{ mt: 2 }}>
