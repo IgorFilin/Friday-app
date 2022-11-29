@@ -26,6 +26,7 @@ const initialState = {
     packUserId: '',
     cardQuestion: '',
     sortCards: '',
+    packName: ''
 }
 
 export const cardsReducer = (
@@ -94,6 +95,7 @@ export const fetchCardsTC =
                 page: cards.page,
                 cardQuestion: cards.cardQuestion,
                 sortCards: cards.sortCards,
+                packName: cards.packName
             } as GetCardsParamsType
             dispatch(setLoadingAC(RequestStatus.loading))
             const res = await cardsApi.getCards(params)

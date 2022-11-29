@@ -34,7 +34,7 @@ export const AppRoutes: React.FC = () => (
     <Routes>
         <Route path={Path.root} element={<Navigate to={Path.login}/>}/>
         <Route path={Path.login} element={<Login/>}/>
-        <Route path={Path.learnPack}
+        <Route path={Path.learnPack + ':id'}
                element={
                    <LoginRedirect>
                        <LearnPack/>

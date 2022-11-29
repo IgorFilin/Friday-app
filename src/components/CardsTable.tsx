@@ -41,7 +41,7 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
                 <TableHead>
                     <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
                         <TableCell>
-                            <Link style={{textDecoration: 'none', color: 'black'}} to={Path.learnPack}>Question</Link>
+                            <Link style={{textDecoration: 'none', color: 'black'}} to={Path.learnPack + packId}>Question</Link>
                         </TableCell>
                         <TableCell align="center">Answer</TableCell>
                         <SortingColumnHead
