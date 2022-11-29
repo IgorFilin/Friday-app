@@ -84,7 +84,7 @@ export const MyPack: React.FC = () => {
                 <br />
                 {packId && packId !== '' && (
                     <>
-                        <CardsTable packId={packId} rows={rows} />
+                        <CardsTable rows={rows} />
                         <CardsPagination />
                     </>
                 )}

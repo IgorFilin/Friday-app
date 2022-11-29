@@ -14,11 +14,10 @@ import { EditCardDialog } from './cardDialogs/EditCardDialog'
 import { DeleteCardDialog } from './cardDialogs/DeleteCardDialog'
 
 type TablePropsType<T> = {
-    packId: string
     rows: T[]
 }
 
-export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId }) => {
+export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows }) => {
     const dispatch = useAppDispatch()
     const sortCards = useAppSelector((state) => state.cards.sortCards)
     const [EditingCardId, setEditingCardId] = useState<string | null>(null)
@@ -68,7 +67,6 @@ export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows, packId })
                         {rows.map((row) => (
                             <CardRow
                                 key={row.id}
-                                packId={packId}
                                 row={row}
                                 onEdit={setEditingCardId}
                                 onDelete={setDeletingCardId}
