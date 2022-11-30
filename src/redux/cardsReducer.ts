@@ -166,11 +166,10 @@ export const editCardTC =
             }
         }
 
-export const setLearnCardsTC = (grade: ResponseType) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
-    debugger
+export const setLearnCardsTC = (grade: number, card_id: string) => async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
     try {
         dispatch(setLoadingAC(RequestStatus.loading))
-        const res = await cardsApi.putLearnCards(grade)
+        const res = await cardsApi.putLearnCards(grade, card_id)
         dispatch(putGradeAC(res))
     } catch (error) {
         dispatch(setErrorAC(error as string))

@@ -3,10 +3,9 @@ import {instance} from './instance'
 import {getDataFromAxiosResponse, parseAxiosError} from './responseParsers'
 
 export const cardsApi = {
-    putLearnCards(params: ResponseType) {
-        // debugger
+    putLearnCards(grade: number, card_id: string) {
         return instance
-            .put<UpdatedGradeType>('/cards/grade', {params})
+            .put<UpdatedGradeType>('/cards/grade', {grade: grade, card_id: card_id})
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
