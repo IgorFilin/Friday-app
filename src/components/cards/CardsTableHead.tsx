@@ -9,6 +9,7 @@ import { SortingColumnHead } from '../SortingColumnHead'
 export const CardsTableHead: React.FC = () => {
     const dispatch = useAppDispatch()
     const sortCards = useAppSelector((state) => state.cards.sortCards)
+
     const onChangeSortHandler = (sortingName: string) => {
         const sortCode = sortCards?.slice(0, 1)
         const sortName = sortCards?.slice(1)
@@ -25,22 +26,42 @@ export const CardsTableHead: React.FC = () => {
     return (
         <TableHead>
             <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
-                <TableCell>Question</TableCell>
-                <TableCell align="center">Answer</TableCell>
                 <SortingColumnHead
-                    caption={'Last Updated'}
+                    sortName={'question'}
+                    align="left"
+                    sort={sortCards}
+                    onChangeSort={onChangeSortHandler}
+                >
+                    Question
+                </SortingColumnHead>
+
+                <SortingColumnHead
+                    sortName={'answer'}
+                    align="center"
+                    sort={sortCards}
+                    onChangeSort={onChangeSortHandler}
+                >
+                    Answer
+                </SortingColumnHead>
+
+                <SortingColumnHead
                     sortName={'updated'}
                     align="center"
                     sort={sortCards}
                     onChangeSort={onChangeSortHandler}
-                />
+                >
+                    Last Updated
+                </SortingColumnHead>
+
                 <SortingColumnHead
-                    caption={'Grade'}
                     sortName={'grade'}
                     align="right"
                     sort={sortCards}
                     onChangeSort={onChangeSortHandler}
-                />
+                >
+                    Grade
+                </SortingColumnHead>
+
                 <TableCell align="right"></TableCell>
             </TableRow>
         </TableHead>

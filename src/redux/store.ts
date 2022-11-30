@@ -2,17 +2,17 @@ import { applyMiddleware, combineReducers, legacy_createStore as createStore } f
 import { TypedUseSelectorHook, useDispatch, useSelector } from 'react-redux'
 import thunk, { ThunkDispatch } from 'redux-thunk'
 import { packsReducer } from './packsReducer'
-import { appReducer } from './appReducer'
+import { appReducer, RequestStatus } from './appReducer'
 import { authReducer } from './authReducer'
 import { cardsReducer } from './cardsReducer'
-import {decksReducer} from "./decksReducer";
+import { decksReducer } from './decksReducer'
 
 const rootReducer = combineReducers({
     app: appReducer,
     auth: authReducer,
     packsCard: packsReducer,
     cards: cardsReducer,
-    decks: decksReducer
+    decks: decksReducer,
 })
 
 export const store = createStore(rootReducer, applyMiddleware(thunk))
@@ -23,6 +23,8 @@ export type AppDispatch = ThunkDispatch<AppRootReducerType, unknown, any>
 
 export const useAppDispatch: () => AppDispatch = useDispatch
 export const useAppSelector: TypedUseSelectorHook<AppRootReducerType> = useSelector
+export const useIsLoading = () =>
+    useAppSelector((state) => state.app.request.status) === RequestStatus.loading
 
 // @ts-ignore
 window.store = store //for console view
