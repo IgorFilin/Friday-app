@@ -1,12 +1,12 @@
 import {CardsStateType, CardType, EditCardType, GetCardsParamsType, NewCardType} from './types'
 import {instance} from './instance'
 import {getDataFromAxiosResponse, parseAxiosError} from './responseParsers'
-import {RequestCardsType} from "../redux/learnCardsReducer";
 
 export const cardsApi = {
     putLearnCards(params: ResponseType) {
+        // debugger
         return instance
-            .post<RequestCardsType>('/cards/grade', {params})
+            .put<UpdatedGradeType>('/cards/grade', {params})
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
@@ -34,6 +34,15 @@ export const cardsApi = {
             .then(getDataFromAxiosResponse)
             .catch(parseAxiosError)
     },
+}
+
+export type UpdatedGradeType = {
+    _id: string
+    cardsPack_id: string
+    card_id: string
+    user_id: string
+    grade: number
+    shots: number
 }
 
 export type ResponseType = {
