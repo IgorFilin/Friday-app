@@ -14,38 +14,25 @@ import { CardsPagination } from 'components/cards/CardsPagination'
 import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
 import { CardsSearchInput } from 'components/cards/CardsSearchInput'
 import { PrimaryButton } from 'components/PrimaryButton'
-import { AddNewCardDialog } from 'components/cardDialogs/AddNewCardDialog'
+import { AddNewCardDialog } from 'components/cards/dialogs/AddNewCardDialog'
 
 export const MyPack: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.profileData.id)
-    const cardsState = useAppSelector((state) => state.cards)
+    const { cardQuestion, packUserId, page, pageCount, sortCards } = useAppSelector(
+        ({ cards }) => cards
+    )
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
     const [isAddNewCardOpen, setIsAddNewCardOpen] = useState(false)
 
     useEffect(() => {
         if (packId) dispatch(fetchCardsTC(packId))
-    }, [
-        cardsState.sortCards,
-        cardsState.page,
-        cardsState.pageCount,
-        cardsState.cardQuestion,
-        packId,
-        dispatch,
-    ])
+    }, [sortCards, page, pageCount, cardQuestion, packId, dispatch])
 
-    if (cardsState.packUserId !== '' && cardsState.packUserId !== userId) {
+    if (packUserId !== '' && packUserId !== userId) {
         dispatch(setErrorAC("It's not yours Cards Pack"))
         return <Navigate to={Path.packsList} />
     }
-
-    const rows = cardsState.cards.map((c) => ({
-        id: c._id,
-        question: c.question,
-        answer: c.answer,
-        lastUpdated: c.updated,
-        grade: c.grade,
-    }))
 
     return (
         <Container
@@ -84,7 +71,7 @@ export const MyPack: React.FC = () => {
                 <br />
                 {packId && packId !== '' && (
                     <>
-                        <CardsTable rows={rows} />
+                        <CardsTable />
                         <CardsPagination />
                     </>
                 )}

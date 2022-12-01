@@ -3,18 +3,24 @@ import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
-import { CardRow, PackType } from './CardRow'
-import { EditCardDialog } from '../cardDialogs/EditCardDialog'
-import { DeleteCardDialog } from '../cardDialogs/DeleteCardDialog'
+import { CardRow } from './CardRow'
+import { EditCardDialog } from './dialogs/EditCardDialog'
+import { DeleteCardDialog } from './dialogs/DeleteCardDialog'
 import { CardsTableHead } from './CardsTableHead'
+import { useAppSelector } from 'redux/store'
 
-type TablePropsType<T> = {
-    rows: T[]
-}
-
-export const CardsTable: React.FC<TablePropsType<PackType>> = ({ rows }) => {
+export const CardsTable: React.FC = () => {
     const [EditingCardId, setEditingCardId] = useState<string | null>(null)
     const [DeletingCardId, setDeletingCardId] = useState<string | null>(null)
+    const cards = useAppSelector((state) => state.cards.cards)
+
+    const rows = cards.map((c) => ({
+        id: c._id,
+        question: c.question,
+        answer: c.answer,
+        lastUpdated: c.updated,
+        grade: c.grade,
+    }))
 
     return (
         <>

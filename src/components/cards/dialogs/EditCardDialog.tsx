@@ -1,19 +1,18 @@
 import React from 'react'
 import { useFormik } from 'formik'
+import { useAppDispatch, useAppSelector } from 'redux/store'
+import { RequestStatus } from 'redux/appReducer'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import { DialogWithTitle } from '../DialogWithTitle'
-import { PrimaryButton } from '../PrimaryButton'
-import { RequestStatus } from 'redux/appReducer'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import { createCardTC } from 'redux/cardsReducer'
-import { useParams } from 'react-router-dom'
+import { DialogWithTitle } from '../../DialogWithTitle'
+import { PrimaryButton } from '../../PrimaryButton'
+import { editCardTC } from 'redux/cardsReducer'
 
-export enum QuestionFormat {
+enum QuestionFormat {
     text,
     image,
     video,
@@ -25,31 +24,33 @@ type ErrorsType = {
     format?: QuestionFormat
 }
 
-export type ValuesType = {
+type ValuesType = {
     question: string
     answer: string
     format: QuestionFormat
 }
 
 type PropsType = {
-    open: boolean
+    cardId: string | null
     onClose: () => void
 }
 
-export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
+export const EditCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
     const dispatch = useAppDispatch()
-    const { packId } = useParams<'packId'>()
+    const card = useAppSelector((state) => state.cards.cards.find((c) => c._id === cardId))
 
-    const onCloseHandler = () => {
-        formik.resetForm()
-        onClose()
+    const { question, answer, cardsPack_id, _id } = card ?? {
+        question: '',
+        answer: '',
+        cardsPack_id: '',
+        _id: '',
     }
 
     const formik = useFormik({
         initialValues: {
-            question: '',
-            answer: '',
+            question,
+            answer,
             format: QuestionFormat.text,
         } as ValuesType,
         validate: (values) => {
@@ -63,24 +64,23 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
             return errors
         },
         onSubmit: (values) => {
-            if (packId)
-                dispatch(
-                    createCardTC({
-                        cardsPack_id: packId,
-                        question: values.question,
-                        answer: values.answer,
-                    })
-                )
+            dispatch(editCardTC(_id, values.question, values.answer, cardsPack_id))
             onCloseHandler()
         },
+        enableReinitialize: true,
     })
+
+    const onCloseHandler = () => {
+        formik.resetForm()
+        onClose()
+    }
 
     return (
         <DialogWithTitle
-            title={'Add new card'}
+            title={'Edit card'}
             fullWidth
             maxWidth={'xs'}
-            open={open}
+            open={!!cardId}
             onClose={onCloseHandler}
         >
             <Stack sx={{ mt: 2 }}>
@@ -124,7 +124,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         type="submit"
                         sx={{ mb: 2, mt: 3 }}
                     >
-                        Add
+                        Apply
                     </PrimaryButton>
                 </FormControl>
             </Stack>
