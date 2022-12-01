@@ -1,13 +1,20 @@
 import React, { useState } from 'react'
 import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
-import Table from '@mui/material/Table'
+import Table, { tableClasses } from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
 import { CardRow } from './CardRow'
 import { EditCardDialog } from './dialogs/EditCardDialog'
 import { DeleteCardDialog } from './dialogs/DeleteCardDialog'
 import { CardsTableHead } from './CardsTableHead'
 import { useAppSelector } from 'redux/store'
+import { styled } from '@mui/material/styles'
+
+const StyledTable = styled(Table)(({ theme }) => ({
+    [`&.${tableClasses.root}`]: {
+        borderRadius: '20px',
+    },
+}))
 
 export const CardsTable: React.FC = () => {
     const [EditingCardId, setEditingCardId] = useState<string | null>(null)
@@ -27,7 +34,7 @@ export const CardsTable: React.FC = () => {
             <EditCardDialog cardId={EditingCardId} onClose={() => setEditingCardId(null)} />
             <DeleteCardDialog cardId={DeletingCardId} onClose={() => setDeletingCardId(null)} />
             <TableContainer component={Paper}>
-                <Table size="small" aria-label="pack table">
+                <StyledTable size="small" aria-label="pack table">
                     <CardsTableHead />
                     <TableBody>
                         {rows.map((row) => (
@@ -39,7 +46,7 @@ export const CardsTable: React.FC = () => {
                             />
                         ))}
                     </TableBody>
-                </Table>
+                </StyledTable>
             </TableContainer>
         </>
     )
