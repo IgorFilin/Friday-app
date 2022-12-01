@@ -1,10 +1,12 @@
 import React from 'react'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import { setSortCardsAC } from 'redux/cardsReducer'
+import {useAppDispatch, useAppSelector} from 'redux/store'
+import {setSortCardsAC} from 'redux/cardsReducer'
 import TableHead from '@mui/material/TableHead'
 import TableRow from '@mui/material/TableRow'
 import TableCell from '@mui/material/TableCell'
-import { SortingColumnHead } from '../SortingColumnHead'
+import {SortingColumnHead} from '../SortingColumnHead'
+import {Path} from "../../app/AppRoutes";
+import {Link, useParams} from "react-router-dom";
 
 export const CardsTableHead: React.FC = () => {
     const dispatch = useAppDispatch()
@@ -25,7 +27,7 @@ export const CardsTableHead: React.FC = () => {
 
     return (
         <TableHead>
-            <TableRow sx={{ backgroundColor: '#EFEFEF' }}>
+            <TableRow sx={{backgroundColor: '#EFEFEF'}}>
                 <SortingColumnHead
                     sortName={'question'}
                     align="left"
