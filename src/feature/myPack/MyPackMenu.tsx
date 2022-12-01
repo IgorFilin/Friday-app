@@ -9,6 +9,7 @@ import DeleteIcon from '@mui/icons-material/Delete'
 import SchoolIcon from '@mui/icons-material/School'
 
 export const MyPackMenu: React.FC<{ onMenuClick: (item: string) => void }> = ({ onMenuClick }) => {
+
     return (
         <Paper sx={{ pl: 1, pr: 1 }}>
             <MenuList>

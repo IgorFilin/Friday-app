@@ -24,6 +24,7 @@ import { AddEditPackModal } from './modal/AddEditPackModal'
 export type iconFlowType = 'read' | 'delete' | 'changed'
 
 export const TablePacks = React.memo(() => {
+
     const [deletePackModalOpen, setDeletePackModalOpen] = useState(false)
     const [addEditPackModalOpen, setAddEditPackModalOpen] = useState(false)
     const [deletePackModalOpenId, setDeletePackModalOpenId] = useState('')

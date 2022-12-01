@@ -20,7 +20,6 @@ export const PacksList = () => {
     const packName = useAppSelector((state) => state.packsCard.packName)
 
     const dispatch = useAppDispatch()
-
     useEffect(() => {
         dispatch(getPacksCardTC())
     }, [sort, pageCount, page, whosePackCard, packName])
