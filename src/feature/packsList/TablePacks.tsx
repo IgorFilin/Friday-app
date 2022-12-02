@@ -24,7 +24,6 @@ import { AddEditPackModal } from './modal/AddEditPackModal'
 export type iconFlowType = 'read' | 'delete' | 'changed'
 
 export const TablePacks = React.memo(() => {
-
     const [deletePackModalOpen, setDeletePackModalOpen] = useState(false)
     const [addEditPackModalOpen, setAddEditPackModalOpen] = useState(false)
     const [deletePackModalOpenId, setDeletePackModalOpenId] = useState('')
@@ -42,13 +41,17 @@ export const TablePacks = React.memo(() => {
         cursor: 'pointer',
         '&:hover': { color: '#1976d2', transition: '0.5s' },
     }
+    const navigate = useNavigate()
 
-    const onClickIconHandler = (type: iconFlowType, id: string) => {
+    const onClickIconHandler = (type: iconFlowType, id: string, userId: string) => {
         if (type === 'delete') {
             setDeletePackModalOpenId(id)
             setDeletePackModalOpen(true)
         }
-        if (type === 'read') alert('readPack')
+        if (type === 'read') {
+            if (id !== userId) navigate(Path.learnPack + '/' + id)
+            else navigate(Path.learnPack + '/' + id)
+        }
         if (type === 'changed') {
             setChangePackModalOpenId(id)
             setAddEditPackModalOpen(true)
@@ -74,7 +77,7 @@ export const TablePacks = React.memo(() => {
                 {
                     icon: (
                         <SchoolOutlinedIcon
-                            onClick={() => onClickIconHandler('read', pack._id)}
+                            onClick={() => onClickIconHandler('read', pack._id, pack.user_id)}
                             sx={hoverStyleIcon}
                         />
                     ),
@@ -83,7 +86,7 @@ export const TablePacks = React.memo(() => {
                 {
                     icon: (
                         <ModeEditIcon
-                            onClick={() => onClickIconHandler('changed', pack._id)}
+                            onClick={() => onClickIconHandler('changed', pack._id, pack.user_id)}
                             sx={hoverStyleIcon}
                         />
                     ),
@@ -92,7 +95,7 @@ export const TablePacks = React.memo(() => {
                 {
                     icon: (
                         <DeleteOutlineIcon
-                            onClick={() => onClickIconHandler('delete', pack._id)}
+                            onClick={() => onClickIconHandler('delete', pack._id, pack.user_id)}
                             sx={hoverStyleIcon}
                         />
                     ),
@@ -106,8 +109,6 @@ export const TablePacks = React.memo(() => {
         const valueSort = sort === '0updated' ? '1updated' : '0updated'
         dispatch(sortPacksAC(valueSort))
     }
-
-    const navigate = useNavigate()
 
     const onNameClickHandler = (id: string, packUserId: string) => {
         if (packUserId !== authUserId) navigate(Path.friendsPack + '/' + id)
