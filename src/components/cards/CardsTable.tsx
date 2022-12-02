@@ -9,12 +9,6 @@ import { DeleteCardDialog } from './dialogs/DeleteCardDialog'
 import { CardsTableHead } from './CardsTableHead'
 import { useAppSelector } from 'redux/store'
 
-// const StyledTable = styled(Table)(({ theme }) => ({
-//     [`&.${tableClasses.root}`]: {
-//         borderRadius: '20px',
-//     },
-// }))
-
 export const CardsTable: React.FC = () => {
     const [EditingCardId, setEditingCardId] = useState<string | null>(null)
     const [DeletingCardId, setDeletingCardId] = useState<string | null>(null)
