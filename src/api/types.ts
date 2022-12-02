@@ -1,7 +1,7 @@
 export type ChangePackCardType = {
     _id: string
     name?: string
-    private: boolean
+    private?: boolean
 }
 
 export type RecoveryEmailType = {
