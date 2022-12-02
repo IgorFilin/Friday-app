@@ -18,11 +18,12 @@ import { AddNewCardDialog } from 'components/cards/dialogs/AddNewCardDialog'
 
 export const MyPack: React.FC = () => {
     const userId = useAppSelector((state) => state.auth.profileData.id)
-    const { cardQuestion, packUserId, page, pageCount, sortCards } = useAppSelector(
+    const { cardQuestion, packUserId, page, pageCount, sortCards, packName } = useAppSelector(
         ({ cards }) => cards
     )
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
+
     const [isAddNewCardOpen, setIsAddNewCardOpen] = useState(false)
 
     useEffect(() => {
@@ -55,7 +56,7 @@ export const MyPack: React.FC = () => {
                 >
                     <Box display={'flex'} alignItems={'center'}>
                         <Typography component="span" variant={'h5'}>
-                            My Pack
+                            {packName}
                         </Typography>
                         <MyPackButtonWithMenu />
                     </Box>

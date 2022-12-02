@@ -3,6 +3,7 @@ import { AppDispatch, AppRootReducerType } from './store'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 import { packsCardApi } from 'api/packsCardApi'
 import { CardPackType, ChangePackCardType, CreatePackCardType, PacksCardType } from '../api/types'
+import { fetchCardsTC } from './cardsReducer'
 
 export type PacksActionsType =
     | ReturnType<typeof setPacksCardAC>
@@ -177,16 +178,19 @@ export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
     }
 }
 
-export const changePackTC = (payload: ChangePackCardType) => async (dispatch: AppDispatch) => {
-    try {
-        dispatch(setLoadingAC(RequestStatus.loading))
-        await packsCardApi.changePackCard(payload)
-        await dispatch(getPacksCardTC())
-        dispatch(setLoadingAC(RequestStatus.succeeded))
-    } catch (e) {
-        dispatch(setErrorAC(e as string))
-        dispatch(setLoadingAC(RequestStatus.error))
-    } finally {
-        dispatch(setLoadingAC(RequestStatus.succeeded))
+export const changePackTC =
+    (payload: ChangePackCardType, isFetchCards: boolean = false) =>
+    async (dispatch: AppDispatch) => {
+        try {
+            dispatch(setLoadingAC(RequestStatus.loading))
+            await packsCardApi.changePackCard(payload)
+            if (isFetchCards) await dispatch(fetchCardsTC(payload._id))
+            else await dispatch(getPacksCardTC())
+            dispatch(setLoadingAC(RequestStatus.succeeded))
+        } catch (e) {
+            dispatch(setErrorAC(e as string))
+            dispatch(setLoadingAC(RequestStatus.error))
+        } finally {
+            dispatch(setLoadingAC(RequestStatus.succeeded))
+        }
     }
-}
