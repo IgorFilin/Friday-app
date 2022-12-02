@@ -7,11 +7,8 @@ import EditIcon from '@mui/icons-material/Edit'
 import ListItemText from '@mui/material/ListItemText'
 import DeleteIcon from '@mui/icons-material/Delete'
 import SchoolIcon from '@mui/icons-material/School'
-import {Link, useParams} from "react-router-dom";
-import {Path} from "../../app/AppRoutes";
 
 export const MyPackMenu: React.FC<{ onMenuClick: (item: string) => void }> = ({ onMenuClick }) => {
-
     return (
         <Paper sx={{ pl: 1, pr: 1 }}>
             <MenuList>
@@ -31,9 +28,7 @@ export const MyPackMenu: React.FC<{ onMenuClick: (item: string) => void }> = ({ 
                     <ListItemIcon>
                         <SchoolIcon fontSize="small" />
                     </ListItemIcon>
-                    <ListItemText>
-                        Learn
-                    </ListItemText>
+                    <ListItemText>Learn</ListItemText>
                 </MenuItem>
             </MenuList>
         </Paper>

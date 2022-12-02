@@ -1,16 +1,14 @@
 import React from 'react'
 import IconButton from '@mui/material/IconButton'
-import {MyPackMenu} from './MyPackMenu'
-import {Popover} from '@mui/material'
-import {OptionsIcon} from './OptionsIcon'
-import {useNavigate, useParams} from "react-router-dom";
-import {Path} from "../../app/AppRoutes";
-
+import { MyPackMenu } from './MyPackMenu'
+import { Popover } from '@mui/material'
+import { OptionsIcon } from './OptionsIcon'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Path } from 'app/AppRoutes'
 
 export const MyPackButtonWithMenu: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-    const {packId} = useParams<'packId'>()
-
+    const { packId } = useParams<'packId'>()
     const navigate = useNavigate()
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -25,6 +23,9 @@ export const MyPackButtonWithMenu: React.FC = () => {
         if (menuItem === 'Learn') {
             navigate(Path.learnPack + `/${packId}`)
         }
+        if (menuItem === 'Learn') {
+            navigate(Path.learnPack + `/${packId}`)
+        }
         onCloseHandler()
     }
 
@@ -34,7 +35,7 @@ export const MyPackButtonWithMenu: React.FC = () => {
     return (
         <>
             <IconButton aria-describedby={id} onClick={onClickHandler}>
-                <OptionsIcon/>
+                <OptionsIcon />
             </IconButton>
 
             <Popover
@@ -47,7 +48,7 @@ export const MyPackButtonWithMenu: React.FC = () => {
                     horizontal: 'center',
                 }}
             >
-                <MyPackMenu onMenuClick={onMenuHandler}/>
+                <MyPackMenu onMenuClick={onMenuHandler} />
             </Popover>
         </>
     )
