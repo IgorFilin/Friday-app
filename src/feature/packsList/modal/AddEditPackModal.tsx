@@ -48,7 +48,6 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
                     deckCover: selectedImage,
                 })
             )
-            setInputValue('')
         } else if (title === 'Edit pack' && packId) {
             dispatch(
                 changePackTC({
@@ -58,6 +57,8 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
                 })
             )
         }
+        setInputValue('')
+        setSelectedImage('')
         closeModal()
     }
 
