@@ -16,6 +16,7 @@ export type CardPackType = {
     created: string
     updated: string
     user_name: string
+    deckCover: string | null
 }
 
 export type PacksCardType = {

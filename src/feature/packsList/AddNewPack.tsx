@@ -5,6 +5,7 @@ import { PrimaryButton } from '../../components/PrimaryButton'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { RequestStatus } from '../../redux/appReducer'
 import { AddEditPackModal } from './modal/AddEditPackModal'
+import imageNotFound from './../../assets/notImage.jpg'
 
 export const AddNewPack = () => {
     const [addPackModalOpen, setAddPackModalOpen] = useState(false)
@@ -24,6 +25,7 @@ export const AddNewPack = () => {
     return (
         <>
             <AddEditPackModal
+                image={imageNotFound}
                 name=""
                 title="Add new pack"
                 open={addPackModalOpen}

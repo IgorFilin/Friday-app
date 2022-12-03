@@ -4,6 +4,8 @@ import { Button, Checkbox, FormControlLabel, FormGroup, TextField } from '@mui/m
 import Box from '@mui/material/Box'
 import { useAppDispatch } from '../../../redux/store'
 import { changePackTC, createPackTC } from '../../../redux/packsReducer'
+import Typography from '@mui/material/Typography'
+import { getBase64 } from '../../../utils'
 
 export type PackModalPropsType = {
     open: boolean
@@ -12,7 +14,7 @@ export type PackModalPropsType = {
     name?: string
     changePackModalOpenId?: string
 }
-type AddEditPackType = { title: 'Edit pack' | 'Add new pack' }
+type AddEditPackType = { title: 'Edit pack' | 'Add new pack'; image: string }
 
 export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = ({
     open,
@@ -21,9 +23,11 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
     packId,
     name,
     changePackModalOpenId,
+    image,
 }) => {
     const [inputValue, setInputValue] = useState(name)
     const [inputChecked, setInputChecked] = useState(false)
+    const [selectedImage, setSelectedImage] = useState('')
 
     const dispatch = useAppDispatch()
 
@@ -37,9 +41,14 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
 
     const onClickAddChangeButtonHandler = () => {
         if (title === 'Add new pack') {
-            dispatch(createPackTC({ name: inputValue, private: inputChecked ? inputChecked : '' }))
+            dispatch(
+                createPackTC({
+                    name: inputValue,
+                    private: inputChecked ? inputChecked : '',
+                    deckCover: selectedImage,
+                })
+            )
             setInputValue('')
-            closeModal()
         } else if (title === 'Edit pack' && packId) {
             dispatch(
                 changePackTC({
@@ -48,7 +57,15 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
                     private: inputChecked ? inputChecked : false,
                 })
             )
-            closeModal()
+        }
+        closeModal()
+    }
+
+    const uploadHandler = async (e: ChangeEvent<HTMLInputElement>) => {
+        if (e.target.files && e.target.files.length) {
+            const file = e.target.files[0]
+            const resultFile = await getBase64(file)
+            setSelectedImage(resultFile)
         }
     }
 
@@ -66,6 +83,40 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
             open={packId === changePackModalOpenId}
             closeModal={closeModal}
         >
+            {title === 'Add new pack' && (
+                <>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'space-between',
+                        }}
+                    >
+                        <Typography variant="h6">Cover</Typography>
+                        <label>
+                            <input
+                                type="file"
+                                onChange={uploadHandler}
+                                style={{ display: 'none' }}
+                            />
+                            <Button variant="contained" component="span">
+                                Change cover
+                            </Button>
+                        </label>
+                    </Box>
+                    <Box
+                        sx={{
+                            display: 'flex',
+                            justifyContent: 'center',
+                        }}
+                    >
+                        <img
+                            style={{ width: '300px' }}
+                            src={selectedImage ? selectedImage : image}
+                            alt="photo"
+                        />
+                    </Box>
+                </>
+            )}
             <TextField
                 autoFocus
                 onChange={onChangeInputHandler}

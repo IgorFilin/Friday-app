@@ -20,6 +20,7 @@ import { useNavigate } from 'react-router-dom'
 import { Path } from 'app/AppRoutes'
 import { DeletePackModal } from './modal/DeletePackModal'
 import { AddEditPackModal } from './modal/AddEditPackModal'
+import imageNotFound from './../../assets/notImage.jpg'
 
 export type iconFlowType = 'read' | 'delete' | 'changed'
 
@@ -73,6 +74,7 @@ export const TablePacks = React.memo(() => {
             cards: pack.cardsCount,
             lastCreated: pack.created.slice(0, 10).split('-').reverse().join('.'),
             createdBy: pack.user_name,
+            deckCover: pack.deckCover,
             Actions: [
                 {
                     icon: (
@@ -127,6 +129,7 @@ export const TablePacks = React.memo(() => {
                     <Table size="small" aria-label="a dense table">
                         <TableHead>
                             <TableRow hover style={{ backgroundColor: '#EFEFEF' }}>
+                                <TableCell align="left">Cover</TableCell>
                                 <TableCell align="left">Name</TableCell>
                                 <TableCell align="center">Cards</TableCell>
                                 <TableCell align="center">
@@ -149,6 +152,13 @@ export const TablePacks = React.memo(() => {
                                     key={row.key}
                                     sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
                                 >
+                                    <TableCell>
+                                        <img
+                                            src={row.deckCover ? row.deckCover : imageNotFound}
+                                            style={{ width: '100px' }}
+                                            alt="photo"
+                                        />
+                                    </TableCell>
                                     <TableCell
                                         align="left"
                                         style={{ cursor: 'pointer' }}
@@ -184,6 +194,7 @@ export const TablePacks = React.memo(() => {
                                         closeModal={onCloseDeletePackModal}
                                     />
                                     <AddEditPackModal
+                                        image={row.deckCover ? row.deckCover : imageNotFound}
                                         changePackModalOpenId={changePackModalOpenId}
                                         name={row.name}
                                         packId={row.key}

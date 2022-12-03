@@ -36,7 +36,7 @@ const initialState = {
     maxCardsCount: 0,
     minCardsCount: 0,
     page: 1,
-    pageCount: 10,
+    pageCount: 5,
     sortPacks: '0updated',
     slider: {
         isInitializedSlider: false,
