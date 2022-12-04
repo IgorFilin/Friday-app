@@ -2,6 +2,7 @@ export type ChangePackCardType = {
     _id: string
     name?: string
     private?: boolean
+    deckCover?: string
 }
 
 export type RecoveryEmailType = {

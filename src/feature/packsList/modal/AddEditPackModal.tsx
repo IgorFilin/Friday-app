@@ -27,7 +27,7 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
 }) => {
     const [inputValue, setInputValue] = useState(name)
     const [inputChecked, setInputChecked] = useState(false)
-    const [selectedImage, setSelectedImage] = useState('')
+    const [selectedImage, setSelectedImage] = useState(image)
 
     const dispatch = useAppDispatch()
 
@@ -54,6 +54,7 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
                     _id: packId,
                     name: inputValue,
                     private: inputChecked ? inputChecked : false,
+                    deckCover: selectedImage,
                 })
             )
         }
@@ -73,6 +74,7 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
     useEffect(() => {
         return () => {
             setInputValue(name)
+            setSelectedImage(image)
         }
     }, [closeModal])
 
@@ -84,40 +86,28 @@ export const AddEditPackModal: React.FC<PackModalPropsType & AddEditPackType> = 
             open={packId === changePackModalOpenId}
             closeModal={closeModal}
         >
-            {title === 'Add new pack' && (
-                <>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'space-between',
-                        }}
-                    >
-                        <Typography variant="h6">Cover</Typography>
-                        <label>
-                            <input
-                                type="file"
-                                onChange={uploadHandler}
-                                style={{ display: 'none' }}
-                            />
-                            <Button variant="contained" component="span">
-                                Change cover
-                            </Button>
-                        </label>
-                    </Box>
-                    <Box
-                        sx={{
-                            display: 'flex',
-                            justifyContent: 'center',
-                        }}
-                    >
-                        <img
-                            style={{ width: '300px' }}
-                            src={selectedImage ? selectedImage : image}
-                            alt="photo"
-                        />
-                    </Box>
-                </>
-            )}
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                }}
+            >
+                <Typography variant="h6">Cover</Typography>
+                <label>
+                    <input type="file" onChange={uploadHandler} style={{ display: 'none' }} />
+                    <Button variant="contained" component="span">
+                        Change cover
+                    </Button>
+                </label>
+            </Box>
+            <Box
+                sx={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                }}
+            >
+                <img style={{ width: '300px' }} src={selectedImage} alt="photo" />
+            </Box>
             <TextField
                 autoFocus
                 onChange={onChangeInputHandler}
