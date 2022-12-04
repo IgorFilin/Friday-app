@@ -3,6 +3,7 @@ import TablePagination from '@mui/material/TablePagination'
 import Pagination from '@mui/material/Pagination'
 import { useAppDispatch, useAppSelector } from '../../redux/store'
 import { setPageAC, setPageCountAC } from '../../redux/packsReducer'
+import { RequestStatus } from '../../redux/appReducer'
 
 export const PaginationPacksList = () => {
     const dispatch = useAppDispatch()
@@ -10,6 +11,7 @@ export const PaginationPacksList = () => {
     const pageCount = useAppSelector((state) => state.packsCard.pageCount)
     const page = useAppSelector((state) => state.packsCard.page)
     const cardPacksTotalCount = useAppSelector((state) => state.packsCard.cardPacksTotalCount)
+    const requestStatus = useAppSelector((state) => state.app.request.status)
 
     const TotalCountPages = Math.round(cardPacksTotalCount / pageCount)
 
@@ -33,6 +35,7 @@ export const PaginationPacksList = () => {
     return (
         <div style={{ display: 'flex', width: '100%', margin: '10px auto' }}>
             <Pagination
+                disabled={requestStatus === RequestStatus.loading}
                 color={'primary'}
                 count={TotalCountPages}
                 variant="outlined"
