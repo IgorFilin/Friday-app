@@ -4,6 +4,8 @@ import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 import { packsCardApi } from 'api/packsCardApi'
 import { CardPackType, ChangePackCardType, CreatePackCardType, PacksCardType } from '../api/types'
 import { fetchCardsTC } from './cardsReducer'
+import { ErrorResponseType } from '../api/responseParsers'
+import { setIsLoginAC } from './authReducer'
 
 export type PacksActionsType =
     | ReturnType<typeof setPacksCardAC>
@@ -118,6 +120,7 @@ export const getPacksCardTC =
     (activeDefaultValue?: boolean) =>
     async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         let params: PacksCardParamsType = {}
+
         if (!activeDefaultValue) {
             const packs = getState().packsCard
             params = {
@@ -140,10 +143,13 @@ export const getPacksCardTC =
                 dispatch(sortPacksAC('0updated'))
                 dispatch(setShowPacksCards('All'))
             } else {
-                dispatch(setPacksCardAC(result))
+                dispatch(setPacksCardAC(result as PacksCardType))
             }
-        } catch (e) {
-            dispatch(setErrorAC(e as string))
+        } catch (error) {
+            const { status, message } = error as ErrorResponseType
+            dispatch(setErrorAC(message))
+            console.log(error)
+            if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setLoadingAC(RequestStatus.error))
         } finally {
             dispatch(setLoadingAC(RequestStatus.succeeded))
@@ -156,8 +162,10 @@ export const createPackTC = (payload: CreatePackCardType) => async (dispatch: Ap
         await packsCardApi.createPackCard(payload)
         await dispatch(getPacksCardTC())
         dispatch(setLoadingAC(RequestStatus.succeeded))
-    } catch (e) {
-        dispatch(setErrorAC(e as string))
+    } catch (error) {
+        const { status, message } = error as ErrorResponseType
+        dispatch(setErrorAC(message))
+        if (status === 401) dispatch(setIsLoginAC(false))
         dispatch(setLoadingAC(RequestStatus.error))
     } finally {
         dispatch(setLoadingAC(RequestStatus.succeeded))
@@ -170,8 +178,10 @@ export const deletePackTC = (id: string) => async (dispatch: AppDispatch) => {
         await packsCardApi.deletePackCard(id)
         await dispatch(getPacksCardTC())
         dispatch(setLoadingAC(RequestStatus.succeeded))
-    } catch (e) {
-        dispatch(setErrorAC(e as string))
+    } catch (error) {
+        const { status, message } = error as ErrorResponseType
+        dispatch(setErrorAC(message))
+        if (status === 401) dispatch(setIsLoginAC(false))
         dispatch(setLoadingAC(RequestStatus.error))
     } finally {
         dispatch(setLoadingAC(RequestStatus.succeeded))
@@ -187,8 +197,11 @@ export const changePackTC =
             if (isFetchCards) await dispatch(fetchCardsTC(payload._id))
             else await dispatch(getPacksCardTC())
             dispatch(setLoadingAC(RequestStatus.succeeded))
-        } catch (e) {
-            dispatch(setErrorAC(e as string))
+        } catch (error) {
+            const { status, message } = error as ErrorResponseType
+            console.log(error)
+            dispatch(setErrorAC(message))
+            if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setLoadingAC(RequestStatus.error))
         } finally {
             dispatch(setLoadingAC(RequestStatus.succeeded))
