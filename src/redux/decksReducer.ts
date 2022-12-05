@@ -4,6 +4,7 @@ import { setIsLoginAC } from './authReducer'
 import { AppRootReducerType } from './store'
 import { CardType, GetCardsParamsType } from 'api/types'
 import { decksApi } from 'api/decksApi'
+import { ErrorResponseType } from '../api/responseParsers'
 
 export type InitialStateType = typeof initialState
 export type setCards = ReturnType<typeof setCardsAC>
@@ -121,10 +122,12 @@ export const setCardsTC =
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
             const res = await decksApi.getDecks(params)
-            dispatch(setCardsAC(res))
+            dispatch(setCardsAC(res as DecksStateType))
             dispatch(setLoadingAC(RequestStatus.succeeded))
         } catch (error) {
-            dispatch(setErrorAC(error as string))
+            const { status, message } = error as ErrorResponseType
+            dispatch(setErrorAC(message))
+            if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setIsLoginAC(false))
         } finally {
             dispatch(setIsInitializedAC(true))
