@@ -1,14 +1,18 @@
 import { AxiosError, AxiosResponse } from 'axios'
 import { LoginResponseType, LogoutResponseType, ProfileDataType, SingUpResponseType } from './types'
 
-type ErrorResponseType = {
-    error: string
+export type ErrorResponseType = {
+    message: string
+    status?: any
 }
 
 export const getDataFromAxiosResponse = <T>(res: AxiosResponse<T>): T => res.data
 
-export const parseAxiosError = (res: AxiosError<ErrorResponseType>) =>
-    Promise.reject(res.response?.data?.error ?? res.message)
+export const parseAxiosError = (res: AxiosError<{ error: string }>) =>
+    Promise.reject({
+        message: res.response?.data?.error ?? res.message,
+        status: res.response?.status,
+    } as ErrorResponseType)
 
 export const parseLoginResponse = ({
     email,

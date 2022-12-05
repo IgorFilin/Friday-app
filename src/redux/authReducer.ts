@@ -9,6 +9,7 @@ import {
 import { RequestStatus, setErrorAC, setInfoAC, setLoadingAC } from './appReducer'
 import { authApi } from 'api/authApi'
 import { getBase64 } from '../utils'
+import { ErrorResponseType } from '../api/responseParsers'
 
 //===TYPES======================================================================
 
@@ -112,8 +113,10 @@ export const singUpTC = (value: DataFormType) => async (dispatch: Dispatch) => {
         await authApi.singUp(value)
         dispatch(setSingUpAC(true))
         dispatch(setInfoAC('Are you registered'))
-    } catch (e) {
-        dispatch(setErrorAC(e as string))
+    } catch (error) {
+        const { status, message } = error as ErrorResponseType
+        dispatch(setErrorAC(message))
+        if (status === 401) dispatch(setIsLoginAC(false))
         dispatch(setLoadingAC(RequestStatus.error))
     } finally {
         dispatch(setLoadingAC(RequestStatus.succeeded))
@@ -128,7 +131,9 @@ export const loginTC = (data: LoginDataType) => async (dispatch: Dispatch) => {
         dispatch(setInfoAC('logIn success'))
         dispatch(setIsLoginAC(true))
     } catch (error) {
-        dispatch(setErrorAC(error as string))
+        const { status, message } = error as ErrorResponseType
+        dispatch(setErrorAC(message))
+        if (status === 401) dispatch(setIsLoginAC(false))
         dispatch(setLoadingAC(RequestStatus.error))
     } finally {
         dispatch(setLoadingAC(RequestStatus.idle))
@@ -140,10 +145,12 @@ export const forgotTC = (email: RecoveryEmailType) => async (dispatch: Dispatch)
         dispatch(setLoadingAC(RequestStatus.loading))
         const res = await authApi.forgotPass(email)
         dispatch(getEmailForgotPassAC(email.email))
-        dispatch(getVerificationEmailAC(res.success))
+        dispatch(getVerificationEmailAC((res as any).success))
         dispatch(setLoadingAC(RequestStatus.succeeded))
     } catch (error) {
-        dispatch(setErrorAC(error as string))
+        const { status, message } = error as ErrorResponseType
+        dispatch(setErrorAC(message))
+        if (status === 401) dispatch(setIsLoginAC(false))
         dispatch(setLoadingAC(RequestStatus.error))
     }
 }
@@ -163,7 +170,9 @@ export const setNewPassTC =
             dispatch(setInfoAC(passChanged))
             dispatch(setLoadingAC(RequestStatus.succeeded))
         } catch (error) {
-            dispatch(setErrorAC(error as string))
+            const { status, message } = error as ErrorResponseType
+            dispatch(setErrorAC(message))
+            if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setLoadingAC(RequestStatus.error))
         }
     }
@@ -185,7 +194,9 @@ export const changeProfileDataTC =
             dispatch(setProfileDataAC(res))
             dispatch(setIsLoginAC(true))
         } catch (error) {
-            dispatch(setErrorAC(error as string))
+            const { status, message } = error as ErrorResponseType
+            dispatch(setErrorAC(message))
+            if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setLoadingAC(RequestStatus.error))
         } finally {
             dispatch(setLoadingAC(RequestStatus.idle))
@@ -199,7 +210,9 @@ export const logoutTC = () => async (dispatch: Dispatch) => {
         dispatch(setInfoAC(res.info))
         dispatch(setIsLoginAC(false))
     } catch (error) {
-        dispatch(setErrorAC(error as string))
+        const { status, message } = error as ErrorResponseType
+        dispatch(setErrorAC(message))
+        if (status === 401) dispatch(setIsLoginAC(false))
         dispatch(setLoadingAC(RequestStatus.error))
     } finally {
         dispatch(setLoadingAC(RequestStatus.idle))
