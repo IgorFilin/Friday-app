@@ -22,17 +22,17 @@ export const FriendsPack = () => {
     const pageCount = useAppSelector((state) => state.decks.cardsState.pageCount)
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const packName = useAppSelector((state) => state.decks.cardsState.packName)
-
+    const cardAnswer = useAppSelector(state => state.decks.cardAnswer)
 
     const {packId} = useParams<'packId'>()
     const navigate = useNavigate()
 
     useEffect(() => {
         packId && dispatch(setCardsTC(packId, ''))
-    }, [sort, pageCount, page, packId, dispatch])
+    }, [sort, pageCount, page, cardAnswer])
 
     const handleRequest = (param: string) => {
-        packId && dispatch(setCardsTC(packId, param))
+        packId && dispatch(setCardsTC(packId, param, true))
     }
 
     const learnFriendPackHandler = () => {

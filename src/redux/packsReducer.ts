@@ -116,8 +116,7 @@ export const setIsInitializedSlider = (statusSlider: boolean) => {
     return { type: 'PACKS/SET-IS-INITIALIZED-SLIDER', statusSlider } as const
 }
 
-export const getPacksCardTC =
-    (activeDefaultValue?: boolean) =>
+export const getPacksCardTC = (activeDefaultValue?: boolean) =>
     async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         let params: PacksCardParamsType = {}
 

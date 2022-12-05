@@ -1,10 +1,10 @@
-import { Dispatch } from 'redux'
-import { RequestStatus, setErrorAC, setIsInitializedAC, setLoadingAC } from './appReducer'
-import { setIsLoginAC } from './authReducer'
-import { AppRootReducerType } from './store'
-import { CardType, GetCardsParamsType } from 'api/types'
-import { decksApi } from 'api/decksApi'
-import { ErrorResponseType } from '../api/responseParsers'
+import {Dispatch} from 'redux'
+import {RequestStatus, setErrorAC, setIsInitializedAC, setLoadingAC} from './appReducer'
+import {setIsLoginAC} from './authReducer'
+import {AppRootReducerType} from './store'
+import {CardType, GetCardsParamsType} from 'api/types'
+import {decksApi} from 'api/decksApi'
+import {ErrorResponseType} from '../api/responseParsers'
 
 export type InitialStateType = typeof initialState
 export type setCards = ReturnType<typeof setCardsAC>
@@ -64,12 +64,12 @@ export const decksReducer = (
         case 'PACKS/SET-PAGE':
             return {
                 ...state,
-                cardsState: { ...state.cardsState, page: action.page },
+                cardsState: {...state.cardsState, page: action.page},
             }
         case 'PACKS/SET-PAGE-COUNT':
             return {
                 ...state,
-                cardsState: { ...state.cardsState, pageCount: action.pageCount },
+                cardsState: {...state.cardsState, pageCount: action.pageCount},
             }
         default:
             return state
@@ -110,17 +110,19 @@ export const setCardsAC = (cards: DecksStateType) => {
     } as const
 }
 
-export const setCardsTC =
-    (id: string, param: string) =>
+export const setCardsTC = (id: string, param: string, isActive?: boolean) =>
     async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
-        const decksSort = getState().decks
-        let params: GetCardsParamsType = {
-            cardsPack_id: id,
-            sortCards: decksSort.sortCards,
-            page: decksSort.cardsState.page,
-            pageCount: decksSort.cardsState.pageCount,
-            cardAnswer: param,
-            packName: decksSort.cardsState.packName
+        let params: GetCardsParamsType = {cardsPack_id: id}
+        if(!isActive){
+            const decksSort = getState().decks
+            params = {
+                cardsPack_id: id,
+                sortCards: decksSort.sortCards,
+                page: decksSort.cardsState.page,
+                pageCount: decksSort.cardsState.pageCount,
+                cardAnswer: param,
+                packName: decksSort.cardsState.packName
+            }
         }
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
@@ -128,7 +130,7 @@ export const setCardsTC =
             dispatch(setCardsAC(res as DecksStateType))
             dispatch(setLoadingAC(RequestStatus.succeeded))
         } catch (error) {
-            const { status, message } = error as ErrorResponseType
+            const {status, message} = error as ErrorResponseType
             dispatch(setErrorAC(message))
             if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setIsLoginAC(false))
