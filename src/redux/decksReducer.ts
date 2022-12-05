@@ -110,7 +110,7 @@ export const setCardsAC = (cards: DecksStateType) => {
     } as const
 }
 
-export const setCardsTC = (id: string, param: string, isActive?: boolean) =>
+export const setCardsTC = (id: string, param?: string, isActive?: boolean) =>
     async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         let params: GetCardsParamsType = {cardsPack_id: id}
         if(!isActive){
