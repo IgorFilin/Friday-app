@@ -5,7 +5,6 @@ import TableCell, {tableCellClasses} from '@mui/material/TableCell'
 import TableRow from '@mui/material/TableRow'
 import {useAppDispatch, useAppSelector} from '../../redux/store'
 import {sortCardsAC} from '../../redux/decksReducer'
-import {RequestStatus} from '../../redux/appReducer'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableHead from '@mui/material/TableHead'
@@ -13,7 +12,6 @@ import TableSortLabel from '@mui/material/TableSortLabel/TableSortLabel'
 import TableBody from '@mui/material/TableBody'
 import {RatingComponent} from './RatingComponent'
 import TableContainer from '@mui/material/TableContainer'
-import {LinearProgress} from "@mui/material";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
     [`&.${tableCellClasses.head}`]: {

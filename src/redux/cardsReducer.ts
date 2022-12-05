@@ -30,6 +30,7 @@ const initialState = {
     cardQuestion: '',
     sortCards: '',
     packName: '',
+    packDeckCover: ''
 }
 
 export const cardsReducer = (

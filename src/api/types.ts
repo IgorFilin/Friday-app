@@ -99,6 +99,7 @@ export type GetCardsParamsType = {
     sortCards?: string
     page?: number
     pageCount?: number
+    packName?: string
 }
 
 export type CardType = {
@@ -111,6 +112,7 @@ export type CardType = {
     created: string
     updated: string
     _id: string
+    packDeckCover: string
 }
 
 export type NewCardType = {

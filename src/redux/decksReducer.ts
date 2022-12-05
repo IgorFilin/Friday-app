@@ -22,7 +22,8 @@ export type DecksStateType = {
     minGrade: number
     page: number
     pageCount: number
-    packUserId: string
+    packUserId: string,
+    packName: string
 }
 
 const initialState = {
@@ -36,6 +37,7 @@ const initialState = {
         maxGrade: 0,
         minGrade: 0,
         packUserId: '',
+        packName: '',
     } as DecksStateType,
 }
 
@@ -118,6 +120,7 @@ export const setCardsTC =
             page: decksSort.cardsState.page,
             pageCount: decksSort.cardsState.pageCount,
             cardAnswer: param,
+            packName: decksSort.cardsState.packName
         }
         try {
             dispatch(setLoadingAC(RequestStatus.loading))
