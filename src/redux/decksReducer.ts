@@ -46,7 +46,7 @@ export const decksReducer = (
         case 'DECKS/SET-DECKS':
             return {
                 ...state,
-                cardsState: action.cards,
+                cardsState: action.cards
             }
         case 'DECKS/SORT-DECKS':
             return {

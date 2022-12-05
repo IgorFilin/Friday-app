@@ -14,6 +14,7 @@ import { setCardsTC } from 'redux/decksReducer'
 import { AddToPack } from './AddPoPack'
 import { RequestStatus } from 'redux/appReducer'
 import { LinearProgress } from '@mui/material'
+import {useSelector} from "react-redux";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()

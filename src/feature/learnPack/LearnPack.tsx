@@ -31,8 +31,11 @@ export const LearnPack: React.FC<LearnPagePropsType> = memo(() => {
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const name = useAppSelector(state => state.cards.packName)
     const cards = useAppSelector(state => state.cards.cards)
-    const {id} = useParams<'id'>()
 
+    console.log(cards)
+
+    const {id} = useParams<'id'>()
+    console.log(cards)
     const [first, setFirst] = useState<boolean>(true)
     const [show, setShow] = useState(false)
     const [gradeValue, setGradeValue] = useState(0)
@@ -56,7 +59,6 @@ export const LearnPack: React.FC<LearnPagePropsType> = memo(() => {
         updated: '',
         // __v: 0,
     })
-
 
     useEffect(() => {
         // console.log('rerender')
