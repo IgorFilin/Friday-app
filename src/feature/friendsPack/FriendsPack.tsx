@@ -14,6 +14,7 @@ import {setCardsTC} from 'redux/decksReducer'
 import {RequestStatus} from 'redux/appReducer'
 import {LinearProgress} from '@mui/material'
 import {Path} from "../../app/AppRoutes";
+import {AddToPack} from "./AddToPack";
 
 export const FriendsPack = () => {
     const dispatch = useAppDispatch()
@@ -23,9 +24,11 @@ export const FriendsPack = () => {
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const packName = useAppSelector((state) => state.decks.cardsState.packName)
     const cardAnswer = useAppSelector(state => state.decks.cardAnswer)
+    const cards = useAppSelector((state) => state.decks.cardsState.cards)
 
     const {packId} = useParams<'packId'>()
     const navigate = useNavigate()
+
 
     useEffect(() => {
         packId && dispatch(setCardsTC(packId, ''))
@@ -45,42 +48,44 @@ export const FriendsPack = () => {
                 <LinearProgress/>
             ) : (
                 <>
-                    <Container style={{maxWidth: '1000px'}}>
-                        <Box style={{width: '100%', margin: '24px auto'}}>
-                            <Link
-                                to={'/packslist'}
-                                style={{textDecoration: 'none', color: 'black'}}
-                            >
-                                <KeyboardReturnRoundedIcon sx={{mt: 2}}/> Back to Packs List
-                            </Link>
-                        </Box>
-                        <Box
-                            style={{
-                                width: '100%',
-                            }}
-                        >
-                            <Typography
-                                variant={'h6'}
+                    {!cards.length ? <AddToPack/> :
+                        <Container style={{maxWidth: '1000px'}}>
+                            <Box style={{width: '100%', margin: '24px auto'}}>
+                                <Link
+                                    to={'/packslist'}
+                                    style={{textDecoration: 'none', color: 'black'}}
+                                >
+                                    <KeyboardReturnRoundedIcon sx={{mt: 2}}/> Back to Packs List
+                                </Link>
+                            </Box>
+                            <Box
                                 style={{
-                                    fontWeight: 'bold',
-                                    display: 'flex',
-                                    justifyContent: 'space-between',
-                                    marginTop: '27px',
+                                    width: '100%',
                                 }}
                             >
-                                {packName || 'Friend’s Pack'}
-                                <PrimaryButton
-                                    onClick={learnFriendPackHandler}
+                                <Typography
+                                    variant={'h6'}
+                                    style={{
+                                        fontWeight: 'bold',
+                                        display: 'flex',
+                                        justifyContent: 'space-between',
+                                        marginTop: '27px',
+                                    }}
                                 >
-                                    Learn this pack
-                                </PrimaryButton>
-                            </Typography>
-                        </Box>
-                        <InputSearch handleRequest={handleRequest}/>
-                        <TableComponent/>
-                        <Stack sx={{width: '100%', margin: '0 auto'}} spacing={2}></Stack>
-                        <TablePaginationComponent/>
-                    </Container>
+                                    {packName || 'Friend’s Pack'}
+                                    <PrimaryButton
+                                        onClick={learnFriendPackHandler}
+                                    >
+                                        Learn this pack
+                                    </PrimaryButton>
+                                </Typography>
+                            </Box>
+                            <InputSearch handleRequest={handleRequest}/>
+                            <TableComponent/>
+                            <Stack sx={{width: '100%', margin: '0 auto'}} spacing={2}></Stack>
+                            <TablePaginationComponent/>
+                        </Container>
+                    }
                 </>
             )}
         </>
