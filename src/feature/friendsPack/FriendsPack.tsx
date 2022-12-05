@@ -31,7 +31,6 @@ export const FriendsPack = () => {
 
 
     useEffect(() => {
-        debugger
         packId && dispatch(setCardsTC(packId, ''))
     }, [sort, pageCount, page, cardAnswer])
 
