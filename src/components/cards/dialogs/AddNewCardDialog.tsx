@@ -12,6 +12,7 @@ import { RequestStatus } from 'redux/appReducer'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { createCardTC } from 'redux/cardsReducer'
 import { useParams } from 'react-router-dom'
+import { UniField } from './UniField'
 
 export enum QuestionFormat {
     text,
@@ -95,17 +96,11 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value={QuestionFormat.text}>Text</MenuItem>
-                        {/*<MenuItem value={QuestionFormat.image}>Image</MenuItem>*/}
-                        {/*<MenuItem value={QuestionFormat.video}>Video</MenuItem>*/}
+                        <MenuItem value={QuestionFormat.image}>Image</MenuItem>
                     </Select>
-
-                    <TextField
-                        sx={{ mb: 1, mt: 1 }}
-                        id="question"
-                        name="question"
-                        label="Question"
-                        variant="standard"
+                    <UniField
                         value={formik.values.question}
+                        format={formik.values.format}
                         onChange={formik.handleChange}
                     />
                     <TextField
