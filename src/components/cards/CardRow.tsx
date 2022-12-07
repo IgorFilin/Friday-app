@@ -30,9 +30,11 @@ export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell component="th" scope="row">
-                {row.question}
+                <UniCell text={row.question} />
             </TableCell>
-            <TableCell align="center">{row.answer}</TableCell>
+            <TableCell align="center">
+                <UniCell text={row.answer} />
+            </TableCell>
             <TableCell align="center">{formatDate(row.lastUpdated)}</TableCell>
             <TableCell align="right">
                 <Rating
@@ -54,3 +56,7 @@ export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
         </TableRow>
     )
 }
+
+export const UniCell: React.FC<{ text: string }> = ({ text }) => (
+    <>{text.startsWith('data:image/') ? <img src={text} alt="question" /> : text}</>
+)
