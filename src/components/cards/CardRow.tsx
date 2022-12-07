@@ -7,6 +7,7 @@ import { formatDate } from 'utils'
 import IconButton from '@mui/material/IconButton'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
+import { UniCell } from 'components/UniCell'
 
 export type PackType = {
     id: string
@@ -56,7 +57,3 @@ export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
         </TableRow>
     )
 }
-
-export const UniCell: React.FC<{ text: string }> = ({ text }) => (
-    <>{text.startsWith('data:image/') ? <img src={text} alt="question" /> : text}</>
-)
