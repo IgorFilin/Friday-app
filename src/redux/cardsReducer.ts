@@ -119,7 +119,7 @@ export const fetchCardsTC =
             const cards = getState().cards
             const params = {
                 cardsPack_id,
-                pageCount: pageCount,
+                pageCount: pageCount ?? cards.pageCount,
                 page: cards.page,
                 cardQuestion: cards.cardQuestion,
                 sortCards: cards.sortCards,
