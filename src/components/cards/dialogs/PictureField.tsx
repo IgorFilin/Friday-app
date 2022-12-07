@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from 'react'
 import Box from '@mui/material/Box'
 import defaultImage from 'assets/notImage.jpg'
-import { FlexBox } from '../../FlexBox'
-import { PrimaryButton } from '../../PrimaryButton'
+import { FlexBox } from 'components/FlexBox'
+import { PrimaryButton } from 'components/PrimaryButton'
 
 type PropsType = {
     id: string
@@ -12,6 +12,13 @@ type PropsType = {
 }
 export const PictureField: React.FC<PropsType> = ({ id, onChange, name, label }) => {
     const [previewSrc, setPreviewSrc] = useState(defaultImage)
+
+    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+        if (!e.currentTarget?.files || e.currentTarget?.files.length < 1) return
+        setPreviewSrc(URL.createObjectURL(e.currentTarget.files[0]))
+        onChange(e.currentTarget.files[0])
+    }
+
     return (
         <>
             <label>
@@ -21,11 +28,7 @@ export const PictureField: React.FC<PropsType> = ({ id, onChange, name, label })
                     accept="image/*"
                     id={id}
                     name={name}
-                    onChange={(e) => {
-                        if (!e.currentTarget?.files || e.currentTarget?.files.length < 1) return
-                        setPreviewSrc(URL.createObjectURL(e.currentTarget.files[0]))
-                        onChange(e.currentTarget.files[0])
-                    }}
+                    onChange={onChangeHandler}
                 />
                 <br />
                 <FlexBox justifyContent="space-between" alignItems="center">
