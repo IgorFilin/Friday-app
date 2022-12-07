@@ -11,7 +11,14 @@ type ShowPaperProps = {
 }
 
 export const ShowPaper = ({card, onClickShowToggle}: ShowPaperProps) => {
-
+    const questionImgStyle = {
+        width: '100px',
+        height: '80px',
+        borderRadius: '5px',
+        border: '2px solid black',
+        marginTop: '-20px',
+        marginLeft: '20px'
+    }
     const questionStartWith = card.question.startsWith('data:image/')
     const cardShots = card.shots
     const cardQuestion = card.question
@@ -30,14 +37,7 @@ export const ShowPaper = ({card, onClickShowToggle}: ShowPaperProps) => {
                 marginLeft: '30px',
                 color: 'green'
             }}>
-                Question: {questionStartWith ? <img style={{
-                width: '100px',
-                height: '80px',
-                borderRadius: '5px',
-                border: '2px solid black',
-                marginTop: '-20px',
-                marginLeft: '20px'
-            }} src={cardQuestion}/> : cardQuestion}
+                Вопрос: {questionStartWith ? <img style={questionImgStyle} src={cardQuestion}/> : cardQuestion}
             </Typography>
             {questionStartWith ? <Typography variant={'h6'} sx={{
                 marginTop: '110px',

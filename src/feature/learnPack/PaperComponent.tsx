@@ -12,7 +12,22 @@ type PaperComponentProps = {
 }
 
 export const PaperComponent = ({card, onChangeRadio, nextPackHandler}: PaperComponentProps) => {
-
+    const QuestionImgStyle = {
+        width: '100px',
+        height: '80px',
+        borderRadius: '5px',
+        border: '2px solid black',
+        marginTop: '-20px',
+        marginLeft: '20px'
+    }
+    const answerImgStyle = {
+        width: '100px',
+        height: '90px',
+        borderRadius: '5px',
+        border: '2px solid black',
+        marginLeft: '45px',
+        marginTop: '10px'
+    }
     const questionStartWith = card.question.startsWith('data:image/')
     const answerStartWith = card.answer.startsWith('data:image/')
     const cardShots = card.shots
@@ -32,14 +47,7 @@ export const PaperComponent = ({card, onChangeRadio, nextPackHandler}: PaperComp
                 marginLeft: '30px',
                 color: 'green'
             }}>
-                Question: {questionStartWith ? <img style={{
-                width: '100px',
-                height: '80px',
-                borderRadius: '5px',
-                border: '2px solid black',
-                marginTop: '-20px',
-                marginLeft: '20px'
-            }} src={cardQuestion}/> : cardQuestion}
+                Вопрос: {questionStartWith ? <img style={QuestionImgStyle} src={cardQuestion}/> : cardQuestion}
             </Typography>
             {questionStartWith ? <Typography style={{
                 marginTop: '95px',
@@ -66,14 +74,7 @@ export const PaperComponent = ({card, onChangeRadio, nextPackHandler}: PaperComp
                 overflow: 'hidden',
                 color: 'red'
             }}>
-                Ответ: {answerStartWith ? <img style={{
-                width: '100px',
-                height: '90px',
-                borderRadius: '5px',
-                border: '2px solid black',
-                marginLeft: '45px',
-                marginTop: '10px'
-            }} src={cardAnswer}/> : cardAnswer}
+                Ответ: {answerStartWith ? <img style={answerImgStyle} src={cardAnswer}/> : cardAnswer}
             </Typography>
             <FormControl sx={{
                 marginTop: '220px',
