@@ -3,6 +3,7 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import Paper from "@mui/material/Paper";
 import {CardType} from "../../api/types";
+import {text} from "stream/consumers";
 
 type ShowPaperProps = {
     card: CardType,
@@ -10,6 +11,18 @@ type ShowPaperProps = {
 }
 
 export const ShowPaper = ({card, onClickShowToggle}: ShowPaperProps) => {
+    const questionImgStyle = {
+        width: '100px',
+        height: '80px',
+        borderRadius: '5px',
+        border: '2px solid black',
+        marginTop: '-20px',
+        marginLeft: '20px'
+    }
+    const questionStartWith = card.question.startsWith('data:image/')
+    const cardShots = card.shots
+    const cardQuestion = card.question
+
     return (
         <Paper elevation={3} sx={{
             width: '440px',
@@ -24,17 +37,25 @@ export const ShowPaper = ({card, onClickShowToggle}: ShowPaperProps) => {
                 marginLeft: '30px',
                 color: 'green'
             }}>
-                Question: {card.question}
+                Вопрос: {questionStartWith ? <img style={questionImgStyle} src={cardQuestion}/> : cardQuestion}
             </Typography>
-            <Typography variant={'h6'} sx={{
+            {questionStartWith ? <Typography variant={'h6'} sx={{
+                marginTop: '110px',
+                position: 'absolute',
+                marginLeft: '30px',
+                fontSize: '15px',
+                color: 'grey'
+            }}>
+                Количество попыток ответов на вопрос: {cardShots}
+            </Typography> : <Typography variant={'h6'} sx={{
                 marginTop: '70px',
                 position: 'absolute',
                 marginLeft: '30px',
                 fontSize: '15px',
                 color: 'grey'
             }}>
-                Количество попыток ответов на вопрос: {card.shots}
-            </Typography>
+                Количество попыток ответов на вопрос: {cardShots}
+            </Typography>}
             <Button sx={{
                 marginTop: '150px',
                 position: 'absolute',
