@@ -1,7 +1,7 @@
 import React from 'react'
 import Button, { ButtonProps } from '@mui/material/Button'
 
-export const PrimaryButton: React.FC<ButtonProps> = (props) => (
+export const PrimaryButton: React.FC<ButtonProps&{component?:string}> = (props) => (
     <Button
         {...props}
         variant={'contained'}

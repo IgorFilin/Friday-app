@@ -116,7 +116,8 @@ export const setIsInitializedSlider = (statusSlider: boolean) => {
     return { type: 'PACKS/SET-IS-INITIALIZED-SLIDER', statusSlider } as const
 }
 
-export const getPacksCardTC = (activeDefaultValue?: boolean) =>
+export const getPacksCardTC =
+    (activeDefaultValue?: boolean) =>
     async (dispatch: Dispatch, getState: () => AppRootReducerType) => {
         let params: PacksCardParamsType = {}
 
@@ -147,7 +148,6 @@ export const getPacksCardTC = (activeDefaultValue?: boolean) =>
         } catch (error) {
             const { status, message } = error as ErrorResponseType
             dispatch(setErrorAC(message))
-            console.log(error)
             if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setLoadingAC(RequestStatus.error))
         } finally {
@@ -198,7 +198,6 @@ export const changePackTC =
             dispatch(setLoadingAC(RequestStatus.succeeded))
         } catch (error) {
             const { status, message } = error as ErrorResponseType
-            console.log(error)
             dispatch(setErrorAC(message))
             if (status === 401) dispatch(setIsLoginAC(false))
             dispatch(setLoadingAC(RequestStatus.error))
