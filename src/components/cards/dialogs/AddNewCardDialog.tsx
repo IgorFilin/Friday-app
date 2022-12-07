@@ -10,7 +10,7 @@ import { DialogWithTitle } from '../../DialogWithTitle'
 import { PrimaryButton } from '../../PrimaryButton'
 import { RequestStatus } from 'redux/appReducer'
 import { useAppDispatch, useAppSelector } from 'redux/store'
-import { createCardTC } from 'redux/cardsReducer'
+import { createCardTC, createPicturesCardTC } from 'redux/cardsReducer'
 import { useParams } from 'react-router-dom'
 import { PictureField } from './PictureField'
 
@@ -26,9 +26,11 @@ type ErrorsType = {
     format?: QuestionFormat
 }
 
-export type ValuesType = {
+type ValuesType = {
     question: string
+    questionFile: File
     answer: string
+    answerFile: File
     format: QuestionFormat
 }
 
@@ -72,7 +74,13 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         })
                     )
                 } else {
-                    //TODO dispatch
+                    dispatch(
+                        createPicturesCardTC({
+                            cardsPack_id: packId,
+                            questionFile: values.questionFile,
+                            answerFile: values.answerFile,
+                        })
+                    )
                 }
             onCloseHandler()
         },
@@ -106,7 +114,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                                 id="question"
                                 name="question"
                                 label="Question"
-                                onChange={(file) => formik.setFieldValue('questionFile', file)}
+                                onChange={(file) => (formik.values.questionFile = file)}
                             />
                             <PictureField
                                 id="answer"

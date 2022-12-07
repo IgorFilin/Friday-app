@@ -121,6 +121,12 @@ export type NewCardType = {
     question: string
 }
 
+export type NewPicturesCardType = {
+    cardsPack_id: string
+    answerFile: File
+    questionFile: File
+}
+
 export type EditCardType = {
     _id: string
     answer: string

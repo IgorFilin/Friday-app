@@ -2,9 +2,16 @@ import { Dispatch } from 'redux'
 import { RequestStatus, setErrorAC, setLoadingAC } from './appReducer'
 import { AppDispatch, AppRootReducerType } from './store'
 import { cardsApi, UpdatedGradeType } from 'api/cardsApi'
-import { CardsStateType, CardType, GetCardsParamsType, NewCardType } from '../api/types'
+import {
+    CardsStateType,
+    CardType,
+    GetCardsParamsType,
+    NewCardType,
+    NewPicturesCardType,
+} from '../api/types'
 import { ErrorResponseType } from '../api/responseParsers'
 import { setIsLoginAC } from './authReducer'
+import { getBase64 } from '../utils'
 
 //===TYPES======================================================================
 
@@ -30,7 +37,7 @@ const initialState = {
     cardQuestion: '',
     sortCards: '',
     packName: '',
-    packDeckCover: ''
+    packDeckCover: '',
 }
 
 export const cardsReducer = (
@@ -145,6 +152,19 @@ export const createCardTC = (newCard: NewCardType) => async (dispatch: AppDispat
         dispatch(setLoadingAC(RequestStatus.idle))
     }
 }
+
+export const createPicturesCardTC =
+    (newPicturesCard: NewPicturesCardType) => async (dispatch: AppDispatch) => {
+        const answerB64 = await getBase64(newPicturesCard.answerFile)
+        const questionB64 = await getBase64(newPicturesCard.questionFile)
+        dispatch(
+            createCardTC({
+                cardsPack_id: newPicturesCard.cardsPack_id,
+                answer: answerB64,
+                question: questionB64,
+            })
+        )
+    }
 
 export const deleteCardTC =
     (cardId: string, cardsPackId: string) => async (dispatch: AppDispatch) => {
