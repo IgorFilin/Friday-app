@@ -9,7 +9,7 @@ import { useAppDispatch } from 'redux/store'
 import { deletePackTC } from 'redux/packsReducer'
 import { EditPackDialog } from 'components/cards/dialogs/EditPackDialog'
 
-export const MyPackButtonWithMenu: React.FC = () => {
+export const MyPackOptions: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
     const { packId } = useParams<'packId'>()
     const navigate = useNavigate()

@@ -11,7 +11,7 @@ import { fetchCardsTC } from 'redux/cardsReducer'
 import { BackToPacksListButton } from 'components/BackToPacksListButton'
 import { CardsTable } from 'components/cards/CardsTable'
 import { CardsPagination } from 'components/cards/CardsPagination'
-import { MyPackButtonWithMenu } from './MyPackButtonWithMenu'
+import { MyPackOptions } from './MyPackOptions'
 import { CardsSearchInput } from 'components/cards/CardsSearchInput'
 import { PrimaryButton } from 'components/PrimaryButton'
 import { AddNewCardDialog } from 'components/cards/dialogs/AddNewCardDialog'
@@ -58,7 +58,7 @@ export const MyPack: React.FC = () => {
                         <Typography component="span" variant={'h5'}>
                             {packName}
                         </Typography>
-                        <MyPackButtonWithMenu />
+                        <MyPackOptions />
                     </Box>
                     <PrimaryButton onClick={() => setIsAddNewCardOpen(true)}>
                         Add new card
