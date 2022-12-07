@@ -12,7 +12,7 @@ import { RequestStatus } from 'redux/appReducer'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { createCardTC } from 'redux/cardsReducer'
 import { useParams } from 'react-router-dom'
-import { UniField } from './UniField'
+import { PictureField } from './PictureField'
 
 export enum QuestionFormat {
     text,
@@ -55,23 +55,25 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
         } as ValuesType,
         validate: (values) => {
             const errors: ErrorsType = {}
-            if (!values.question) {
-                errors.question = 'Required'
-            }
-            if (!values.answer) {
-                errors.answer = 'Required'
+            if (formik.values.format === QuestionFormat.text) {
+                if (!values.question) errors.question = 'Required'
+                if (!values.answer) errors.answer = 'Required'
             }
             return errors
         },
-        onSubmit: (values) => {
+        onSubmit: async (values) => {
             if (packId)
-                dispatch(
-                    createCardTC({
-                        cardsPack_id: packId,
-                        question: values.question,
-                        answer: values.answer,
-                    })
-                )
+                if (formik.values.format === QuestionFormat.text) {
+                    dispatch(
+                        createCardTC({
+                            cardsPack_id: packId,
+                            question: values.question,
+                            answer: values.answer,
+                        })
+                    )
+                } else {
+                    //TODO dispatch
+                }
             onCloseHandler()
         },
     })
@@ -98,19 +100,41 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         <MenuItem value={QuestionFormat.text}>Text</MenuItem>
                         <MenuItem value={QuestionFormat.image}>Image</MenuItem>
                     </Select>
-                    <UniField
-                        value={formik.values.question}
-                        format={formik.values.format}
-                        onChange={formik.handleChange}
-                    />
-                    <TextField
-                        id="answer"
-                        name="answer"
-                        label="Answer"
-                        variant="standard"
-                        value={formik.values.answer}
-                        onChange={formik.handleChange}
-                    />
+                    {formik.values.format === QuestionFormat.image ? (
+                        <>
+                            <PictureField
+                                id="question"
+                                name="question"
+                                label="Question"
+                                onChange={(file) => formik.setFieldValue('questionFile', file)}
+                            />
+                            <PictureField
+                                id="answer"
+                                name="answer"
+                                label="Answer"
+                                onChange={(file) => formik.setFieldValue('answerFile', file)}
+                            />
+                        </>
+                    ) : (
+                        <>
+                            <TextField
+                                id="question"
+                                name="question"
+                                label="Question"
+                                variant="standard"
+                                value={formik.values.answer}
+                                onChange={formik.handleChange}
+                            />
+                            <TextField
+                                id="answer"
+                                name="answer"
+                                label="Answer"
+                                variant="standard"
+                                value={formik.values.answer}
+                                onChange={formik.handleChange}
+                            />
+                        </>
+                    )}
                     <PrimaryButton
                         disabled={
                             !(formik.isValid && formik.dirty) ||
