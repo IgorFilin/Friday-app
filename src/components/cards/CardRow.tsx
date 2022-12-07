@@ -31,10 +31,10 @@ export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
     return (
         <TableRow sx={{ '&:last-child td, &:last-child th': { border: 0 } }}>
             <TableCell component="th" scope="row">
-                <UniCell text={row.question} />
+                <UniCell data={row.question} alt={'question'} />
             </TableCell>
             <TableCell align="center">
-                <UniCell text={row.answer} />
+                <UniCell data={row.answer} alt={'answer'} />
             </TableCell>
             <TableCell align="center">{formatDate(row.lastUpdated)}</TableCell>
             <TableCell align="right">
