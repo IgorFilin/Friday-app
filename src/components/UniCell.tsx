@@ -8,7 +8,7 @@ export const UniCell: React.FC<{ data: string; alt?: string }> = ({ data, alt })
     return (
         <>
             {data.startsWith('data:image/') ? (
-                <img src={data} alt={alt} onError={onErrorHandler} />
+                <img height="64px" src={data} alt={alt} onError={onErrorHandler} />
             ) : (
                 <span>{data}</span>
             )}
