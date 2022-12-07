@@ -31,9 +31,6 @@ export const LearnPack: React.FC<LearnPagePropsType> = memo(() => {
     const statusLoading = useAppSelector((state) => state.app.request.status)
     const name = useAppSelector(state => state.cards.packName)
     const cards = useAppSelector(state => state.cards.cards)
-
-
-
     const {id} = useParams<'id'>()
 
     const [first, setFirst] = useState<boolean>(true)
@@ -47,22 +44,11 @@ export const LearnPack: React.FC<LearnPagePropsType> = memo(() => {
         question: '',
         grade: 0,
         shots: 0,
-        // questionImg: '',
         packDeckCover: '',
-        // answerVideo: '',
-        // questionVideo: '',
-        // comments: '',
-        // type: '',
-        // rating: 0,
-        // more_id: '',
         created: '',
         updated: '',
-        // __v: 0,
     })
 
-
-
-    console.log(cards)
 
     useEffect(() => {
         if (first && id) {

@@ -12,6 +12,13 @@ type PaperComponentProps = {
 }
 
 export const PaperComponent = ({card, onChangeRadio, nextPackHandler}: PaperComponentProps) => {
+
+    const questionStartWith = card.question.startsWith('data:image/')
+    const answerStartWith = card.answer.startsWith('data:image/')
+    const cardShots = card.shots
+    const cardAnswer = card.answer
+    const cardQuestion = card.question
+
     return (
         <Paper elevation={3} sx={{
             width: '440px',
@@ -25,26 +32,48 @@ export const PaperComponent = ({card, onChangeRadio, nextPackHandler}: PaperComp
                 marginLeft: '30px',
                 color: 'green'
             }}>
-                Question: {card.question}
+                Question: {questionStartWith ? <img style={{
+                width: '100px',
+                height: '80px',
+                borderRadius: '5px',
+                border: '2px solid black',
+                marginTop: '-20px',
+                marginLeft: '20px'
+            }} src={cardQuestion}/> : cardQuestion}
             </Typography>
-            <Typography style={{
+            {questionStartWith ? <Typography style={{
+                marginTop: '95px',
+                position: 'absolute',
+                marginLeft: '30px',
+                fontSize: '15px',
+                color: 'grey'
+            }}>
+                Количество попыток ответов на вопрос: {cardShots}
+            </Typography> : <Typography style={{
                 marginTop: '70px',
                 position: 'absolute',
                 marginLeft: '30px',
                 fontSize: '15px',
                 color: 'grey'
             }}>
-                Количество попыток ответов на вопрос: {card.shots}
-            </Typography>
+                Количество попыток ответов на вопрос: {cardShots}
+            </Typography>}
             <Typography variant={'h6'} sx={{
                 width: '400px',
-                marginTop: '120px',
+                marginTop: '115px',
                 position: 'absolute',
                 marginLeft: '30px',
                 overflow: 'hidden',
                 color: 'red'
             }}>
-                Ответ: {card.answer}
+                Ответ: {answerStartWith ? <img style={{
+                width: '100px',
+                height: '90px',
+                borderRadius: '5px',
+                border: '2px solid black',
+                marginLeft: '45px',
+                marginTop: '10px'
+            }} src={cardAnswer}/> : cardAnswer}
             </Typography>
             <FormControl sx={{
                 marginTop: '220px',
