@@ -95,8 +95,7 @@ export const EditCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
                         onChange={formik.handleChange}
                     >
                         <MenuItem value={QuestionFormat.text}>Text</MenuItem>
-                        {/*<MenuItem value={QuestionFormat.image}>Image</MenuItem>*/}
-                        {/*<MenuItem value={QuestionFormat.video}>Video</MenuItem>*/}
+                        <MenuItem value={QuestionFormat.image}>Image</MenuItem>
                     </Select>
 
                     <TextField

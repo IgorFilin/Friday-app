@@ -25,7 +25,6 @@ type PropsType = {
 
 export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
     const onDeleteCardHandler = () => onDelete(row.id)
-
     const onEditCardHandler = () => onEdit(row.id)
 
     return (
