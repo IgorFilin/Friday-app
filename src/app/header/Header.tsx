@@ -7,6 +7,7 @@ import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'redux/store'
 import { HeaderAvatar } from './HeaderAvatar'
 import { DEV_VERSION } from 'config'
+import lion from '../../assets/lion.png'
 
 export const Header: React.FC = () => {
     const isLogin = useAppSelector((state) => state.auth.isLogin)
@@ -29,10 +30,8 @@ export const Header: React.FC = () => {
         >
             <Toolbar>
                 <img
-                    style={{ cursor: 'pointer' }}
-                    src={
-                        'https://it-incubator.io/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flogo.8a063c2a.svg&w=256&q=75'
-                    }
+                    style={{ cursor: 'pointer', width: '70px', height: '70px' }}
+                    src={lion}
                     alt={'logo'}
                     onClick={() => navigate('/')}
                 />
