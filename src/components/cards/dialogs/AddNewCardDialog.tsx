@@ -1,8 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useFormik } from 'formik'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
-import Select from '@mui/material/Select'
+import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
@@ -14,24 +14,24 @@ import { createCardTC, createPicturesCardTC } from 'redux/cardsReducer'
 import { useParams } from 'react-router-dom'
 import { PictureField } from './PictureField'
 
-export enum QuestionFormat {
-    text,
-    image,
-    video,
-}
-
 type ErrorsType = {
     question?: string
     answer?: string
-    format?: QuestionFormat
+    questionFile?: string
+    answerFile?: string
 }
 
 type ValuesType = {
     question: string
-    questionFile: File
     answer: string
-    answerFile: File
-    format: QuestionFormat
+    answerFile: File | null
+    questionFile: File | null
+}
+
+export enum CardDataFormat {
+    text,
+    image,
+    video,
 }
 
 type PropsType = {
@@ -41,6 +41,7 @@ type PropsType = {
 
 export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
     const requestStatus = useAppSelector((state) => state.app.request.status)
+    const [format, setFormat] = useState<CardDataFormat>(CardDataFormat.text)
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
 
@@ -49,23 +50,33 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
         onClose()
     }
 
+    const onChangeFormat = (e: SelectChangeEvent) => {
+        setFormat(+e.target.value)
+        formik.resetForm()
+    }
+
     const formik = useFormik({
         initialValues: {
             question: '',
             answer: '',
-            format: QuestionFormat.text,
+            answerFile: null,
+            questionFile: null,
         } as ValuesType,
         validate: (values) => {
             const errors: ErrorsType = {}
-            if (formik.values.format === QuestionFormat.text) {
+            if (format === CardDataFormat.text) {
                 if (!values.question) errors.question = 'Required'
                 if (!values.answer) errors.answer = 'Required'
+            } else if (format === CardDataFormat.image) {
+                if (!values.questionFile) errors.questionFile = 'Required'
+                if (!values.answerFile) errors.answerFile = 'Required'
             }
+            console.log(values, errors)
             return errors
         },
         onSubmit: async (values) => {
             if (packId)
-                if (formik.values.format === QuestionFormat.text) {
+                if (format === CardDataFormat.text) {
                     dispatch(
                         createCardTC({
                             cardsPack_id: packId,
@@ -74,6 +85,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         })
                     )
                 } else {
+                    if (!values.questionFile || !values.answerFile) return
                     dispatch(
                         createPicturesCardTC({
                             cardsPack_id: packId,
@@ -98,43 +110,35 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                 <FormControl component="form" onSubmit={formik.handleSubmit} size="small" fullWidth>
                     <InputLabel id="question-format-label">Choose a question format</InputLabel>
                     <Select
-                        id="format"
-                        name="format"
                         labelId="question-format-label"
                         label="Choose a question format"
-                        value={formik.values.format}
-                        onChange={formik.handleChange}
+                        value={format.toString()}
+                        onChange={onChangeFormat}
                     >
-                        <MenuItem value={QuestionFormat.text}>Text</MenuItem>
-                        <MenuItem value={QuestionFormat.image}>Image</MenuItem>
+                        <MenuItem value={CardDataFormat.text}>Text</MenuItem>
+                        <MenuItem value={CardDataFormat.image}>Image</MenuItem>
                     </Select>
-                    {formik.values.format === QuestionFormat.image ? (
+                    {format === CardDataFormat.image ? (
                         <>
                             <PictureField
-                                id="question"
-                                name="question"
-                                label="Question"
-                                onChange={(file) => (formik.values.questionFile = file)}
+                                name="questionFile"
+                                onChange={(file) => formik.setFieldValue('questionFile', file)}
                             />
                             <PictureField
-                                id="answer"
-                                name="answer"
-                                label="Answer"
+                                name="answerFile"
                                 onChange={(file) => formik.setFieldValue('answerFile', file)}
                             />
                         </>
                     ) : (
                         <>
                             <TextField
-                                id="question"
                                 name="question"
                                 label="Question"
                                 variant="standard"
-                                value={formik.values.answer}
+                                value={formik.values.question}
                                 onChange={formik.handleChange}
                             />
                             <TextField
-                                id="answer"
                                 name="answer"
                                 label="Answer"
                                 variant="standard"
@@ -145,7 +149,8 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                     )}
                     <PrimaryButton
                         disabled={
-                            !(formik.isValid && formik.dirty) ||
+                            !formik.isValid ||
+                            !formik.dirty ||
                             requestStatus === RequestStatus.loading
                         }
                         type="submit"
