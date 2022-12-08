@@ -2,12 +2,12 @@ import React from 'react'
 import Stack from '@mui/material/Stack'
 import Box from '@mui/material/Box'
 import DialogContentText from '@mui/material/DialogContentText'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import { DialogWithTitle } from '../../DialogWithTitle'
-import { AlertButton } from '../../AlertButton'
-import { SecondaryButton } from '../../SecondaryButton'
-import { RequestStatus } from 'redux/appReducer'
-import { deleteCardTC } from 'redux/cardsReducer'
+import {useAppDispatch, useAppSelector, useIsLoading} from 'redux/store'
+import {DialogWithTitle} from '../../DialogWithTitle'
+import {AlertButton} from '../../AlertButton'
+import {SecondaryButton} from '../../SecondaryButton'
+import {deleteCardTC} from 'redux/cardsReducer'
+import {UniCell} from "../../UniCell";
 
 type PropsType = {
     cardId: string | null
@@ -41,9 +41,7 @@ export const DeleteCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
         >
             <Stack>
                 <DialogContentText variant={'body1'}>
-                    Do you really want to remove <b>{question}</b>?
-                    <br />
-                    All cards will be deleted.
+                    Do you really want to remove <b><UniCell data={question} alt={'question'}/></b>?
                 </DialogContentText>
                 <Box margin={2} display={'flex'} justifyContent={'space-between'}>
                     <SecondaryButton
