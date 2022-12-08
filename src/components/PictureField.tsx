@@ -3,19 +3,24 @@ import Box from '@mui/material/Box'
 import defaultImage from 'assets/notImage.jpg'
 import { FlexBox } from 'components/FlexBox'
 import { PrimaryButton } from 'components/PrimaryButton'
+import { getBase64 } from 'utils'
 
 type PropsType = {
     name: string
-    onChange: (file: File) => void
+    label: string
+    value?: string
+    onChange: (value: string) => void
 }
-export const PictureField: React.FC<PropsType> = ({ onChange, name }) => {
-    const [previewSrc, setPreviewSrc] = useState(defaultImage)
+export const PictureField: React.FC<PropsType> = ({ name, label, value, onChange }) => {
+    const v = !value || value === '' ? defaultImage : value
+    const [previewSrc, setPreviewSrc] = useState(v)
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.currentTarget?.files || e.currentTarget?.files.length < 1) return
         const file = e.currentTarget.files[0]
         setPreviewSrc(URL.createObjectURL(file))
-        onChange(file)
+        const base64 = await getBase64(file)
+        onChange(base64)
     }
 
     return (
@@ -24,7 +29,7 @@ export const PictureField: React.FC<PropsType> = ({ onChange, name }) => {
                 <input hidden type="file" accept="image/*" name={name} onChange={onChangeHandler} />
                 <br />
                 <FlexBox justifyContent="space-between" alignItems="center">
-                    {name}:<PrimaryButton component="span">Change cover</PrimaryButton>
+                    {label}:<PrimaryButton component="span">Change cover</PrimaryButton>
                 </FlexBox>
             </label>
             <Box marginTop={1} width={'100%'} height={'100%'}>

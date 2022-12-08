@@ -12,3 +12,5 @@ export const getBase64 = (file: File) =>
         }
         reader.onerror = (error) => reject(error)
     })
+
+export const isBase64 = (data: string) => data.startsWith('data:image/')
