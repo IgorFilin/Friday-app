@@ -71,7 +71,6 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                 if (!values.questionFile) errors.questionFile = 'Required'
                 if (!values.answerFile) errors.answerFile = 'Required'
             }
-            console.log(values, errors)
             return errors
         },
         onSubmit: async (values) => {
@@ -122,10 +121,12 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         <>
                             <PictureField
                                 name="questionFile"
+                                label="Question"
                                 onChange={(file) => formik.setFieldValue('questionFile', file)}
                             />
                             <PictureField
                                 name="answerFile"
+                                label="Answer"
                                 onChange={(file) => formik.setFieldValue('answerFile', file)}
                             />
                         </>

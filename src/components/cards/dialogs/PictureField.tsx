@@ -6,9 +6,10 @@ import { PrimaryButton } from 'components/PrimaryButton'
 
 type PropsType = {
     name: string
+    label: string
     onChange: (file: File) => void
 }
-export const PictureField: React.FC<PropsType> = ({ onChange, name }) => {
+export const PictureField: React.FC<PropsType> = ({ name, label,onChange }) => {
     const [previewSrc, setPreviewSrc] = useState(defaultImage)
 
     const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
@@ -24,7 +25,7 @@ export const PictureField: React.FC<PropsType> = ({ onChange, name }) => {
                 <input hidden type="file" accept="image/*" name={name} onChange={onChangeHandler} />
                 <br />
                 <FlexBox justifyContent="space-between" alignItems="center">
-                    {name}:<PrimaryButton component="span">Change cover</PrimaryButton>
+                    {label}:<PrimaryButton component="span">Change cover</PrimaryButton>
                 </FlexBox>
             </label>
             <Box marginTop={1} width={'100%'} height={'100%'}>
