@@ -40,10 +40,8 @@ export const TableComponent = () => {
 
     const decks = useAppSelector((state) => state.decks.cardsState)
     const sort = useAppSelector((state) => state.decks.sortCards)
-    const pageCount = useAppSelector((state) => state.decks.cardsState.pageCount)
     const dispatch = useAppDispatch()
 
-    useEffect(() => {}, [sort, pageCount])
 
     const createSortHandler = () => {
         const valueSort = sort === '0grade' ? '1grade' : '0grade'
@@ -86,9 +84,15 @@ export const TableComponent = () => {
                             {decks.cards.map((card) => (
                                 <StyledTableRow key={card._id}>
                                     <StyledTableCell component="th" scope="row">
-                                        {card.question}
+                                        {card.question.startsWith('data:image/') ? <img style={{
+                                            width: '50px',
+                                            height: '50px'
+                                        }} src={card.question}/> : card.question}
                                     </StyledTableCell>
-                                    <StyledTableCell align="right">{card.answer}</StyledTableCell>
+                                    <StyledTableCell align="right">{card.answer.startsWith('data:image/') ? <img style={{
+                                        width: '50px',
+                                        height: '50px'
+                                    }} src={card.answer}/> : card.answer}</StyledTableCell>
                                     <StyledTableCell align="right">
                                         {card.updated.slice(0, 10).split('-').reverse().join('.')}
                                     </StyledTableCell>
