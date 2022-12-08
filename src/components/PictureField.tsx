@@ -3,20 +3,24 @@ import Box from '@mui/material/Box'
 import defaultImage from 'assets/notImage.jpg'
 import { FlexBox } from 'components/FlexBox'
 import { PrimaryButton } from 'components/PrimaryButton'
+import { getBase64 } from 'utils'
 
 type PropsType = {
     name: string
     label: string
-    onChange: (file: File) => void
+    value?: string
+    onChange: (value: string) => void
 }
-export const PictureField: React.FC<PropsType> = ({ name, label,onChange }) => {
-    const [previewSrc, setPreviewSrc] = useState(defaultImage)
+export const PictureField: React.FC<PropsType> = ({ name, label, value, onChange }) => {
+    const v = !value || value === '' ? defaultImage : value
+    const [previewSrc, setPreviewSrc] = useState(v)
 
-    const onChangeHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    const onChangeHandler = async (e: ChangeEvent<HTMLInputElement>) => {
         if (!e.currentTarget?.files || e.currentTarget?.files.length < 1) return
         const file = e.currentTarget.files[0]
         setPreviewSrc(URL.createObjectURL(file))
-        onChange(file)
+        const base64 = await getBase64(file)
+        onChange(base64)
     }
 
     return (
