@@ -1,16 +1,15 @@
 import React from 'react'
-import { useFormik } from 'formik'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import { RequestStatus } from 'redux/appReducer'
+import {useFormik} from 'formik'
+import {useAppDispatch, useAppSelector, useIsLoading} from 'redux/store'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
 import Select from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import { DialogWithTitle } from '../../DialogWithTitle'
-import { PrimaryButton } from '../../PrimaryButton'
-import { editCardTC } from 'redux/cardsReducer'
+import {DialogWithTitle} from '../../DialogWithTitle'
+import {PrimaryButton} from '../../PrimaryButton'
+import {editCardTC} from 'redux/cardsReducer'
 
 enum QuestionFormat {
     text,
@@ -36,7 +35,7 @@ type PropsType = {
 }
 
 export const EditCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
-    const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isLoading = useIsLoading()
     const dispatch = useAppDispatch()
     const card = useAppSelector((state) => state.cards.cards.find((c) => c._id === cardId))
 
@@ -118,7 +117,7 @@ export const EditCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
                     <PrimaryButton
                         disabled={
                             !(formik.isValid && formik.dirty) ||
-                            requestStatus === RequestStatus.loading
+                            isLoading
                         }
                         type="submit"
                         sx={{ mb: 2, mt: 3 }}

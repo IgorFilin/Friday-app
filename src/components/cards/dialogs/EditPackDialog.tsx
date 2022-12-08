@@ -1,14 +1,13 @@
 import React from 'react'
-import { useFormik } from 'formik'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import { RequestStatus } from 'redux/appReducer'
+import {useFormik} from 'formik'
+import {useAppDispatch, useAppSelector, useIsLoading} from 'redux/store'
 import FormControl from '@mui/material/FormControl'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import { DialogWithTitle } from '../../DialogWithTitle'
-import { PrimaryButton } from '../../PrimaryButton'
-import { changePackTC } from 'redux/packsReducer'
-import { useParams } from 'react-router-dom'
+import {DialogWithTitle} from '../../DialogWithTitle'
+import {PrimaryButton} from '../../PrimaryButton'
+import {changePackTC} from 'redux/packsReducer'
+import {useParams} from 'react-router-dom'
 
 type ErrorsType = {
     name?: string
@@ -24,7 +23,7 @@ type PropsType = {
 }
 
 export const EditPackDialog: React.FC<PropsType> = ({ open, onClose }) => {
-    const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isLoading = useIsLoading()
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
     const packName = useAppSelector((state) => state.cards.packName)
@@ -74,7 +73,7 @@ export const EditPackDialog: React.FC<PropsType> = ({ open, onClose }) => {
                     <PrimaryButton
                         disabled={
                             !(formik.isValid && formik.dirty) ||
-                            requestStatus === RequestStatus.loading
+                            isLoading
                         }
                         type="submit"
                         sx={{ mb: 2, mt: 3 }}

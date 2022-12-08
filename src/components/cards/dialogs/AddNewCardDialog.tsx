@@ -1,18 +1,17 @@
-import React, { useState } from 'react'
-import { useFormik } from 'formik'
+import React, {useState} from 'react'
+import {useFormik} from 'formik'
 import FormControl from '@mui/material/FormControl'
 import InputLabel from '@mui/material/InputLabel'
-import Select, { SelectChangeEvent } from '@mui/material/Select'
+import Select, {SelectChangeEvent} from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Stack from '@mui/material/Stack'
 import TextField from '@mui/material/TextField'
-import { DialogWithTitle } from '../../DialogWithTitle'
-import { PrimaryButton } from '../../PrimaryButton'
-import { RequestStatus } from 'redux/appReducer'
-import { useAppDispatch, useAppSelector } from 'redux/store'
-import { createCardTC, createPicturesCardTC } from 'redux/cardsReducer'
-import { useParams } from 'react-router-dom'
-import { PictureField } from './PictureField'
+import {DialogWithTitle} from '../../DialogWithTitle'
+import {PrimaryButton} from '../../PrimaryButton'
+import {useAppDispatch, useIsLoading} from 'redux/store'
+import {createCardTC, createPicturesCardTC} from 'redux/cardsReducer'
+import {useParams} from 'react-router-dom'
+import {PictureField} from './PictureField'
 
 type ErrorsType = {
     question?: string
@@ -40,7 +39,7 @@ type PropsType = {
 }
 
 export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
-    const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isLoading = useIsLoading()
     const [format, setFormat] = useState<CardDataFormat>(CardDataFormat.text)
     const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
@@ -152,7 +151,7 @@ export const AddNewCardDialog: React.FC<PropsType> = ({ onClose, open }) => {
                         disabled={
                             !formik.isValid ||
                             !formik.dirty ||
-                            requestStatus === RequestStatus.loading
+                            isLoading
                         }
                         type="submit"
                         sx={{ mb: 2, mt: 3 }}

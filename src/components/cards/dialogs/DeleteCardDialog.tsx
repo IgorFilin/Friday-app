@@ -15,7 +15,7 @@ type PropsType = {
 }
 
 export const DeleteCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
-    const requestStatus = useAppSelector((state) => state.app.request.status)
+    const isLoading = useIsLoading()
     const dispatch = useAppDispatch()
     const card = useAppSelector((state) => state.cards.cards.find((c) => c._id === cardId))
 
@@ -45,13 +45,13 @@ export const DeleteCardDialog: React.FC<PropsType> = ({ cardId, onClose }) => {
                 </DialogContentText>
                 <Box margin={2} display={'flex'} justifyContent={'space-between'}>
                     <SecondaryButton
-                        disabled={requestStatus === RequestStatus.loading}
+                        disabled={isLoading}
                         onClick={onClose}
                     >
                         Cansel
                     </SecondaryButton>
                     <AlertButton
-                        disabled={requestStatus === RequestStatus.loading}
+                        disabled={isLoading}
                         onClick={onSubmitHandler}
                     >
                         Delete
