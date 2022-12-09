@@ -3,6 +3,7 @@ import Pagination from '@mui/material/Pagination'
 import Select, { SelectChangeEvent } from '@mui/material/Select'
 import MenuItem from '@mui/material/MenuItem'
 import Box from '@mui/material/Box'
+import { useIsLoading } from 'redux/store'
 
 type PropsType = {
     rowsPerPage: number
@@ -21,6 +22,8 @@ export const AppPagination: React.FC<PropsType> = ({
     setPageCount,
     itemsCaption,
 }) => {
+    const isLoading = useIsLoading()
+
     const onChangeRowsPerPageHandler = (e: SelectChangeEvent<number>) => {
         const newPageSize = +e.target.value
         const newPage = Math.ceil((page * rowsPerPage - rowsPerPage + 1) / newPageSize)
@@ -43,6 +46,7 @@ export const AppPagination: React.FC<PropsType> = ({
             }}
         >
             <Pagination
+                disabled={isLoading}
                 color={'primary'}
                 count={Math.floor(totalCount / rowsPerPage) + 1}
                 variant="outlined"
@@ -54,6 +58,7 @@ export const AppPagination: React.FC<PropsType> = ({
             <Box sx={{ ml: 2 }}>
                 <span>Show</span>
                 <Select
+                    disabled={isLoading}
                     sx={{ ml: 1, mr: 1 }}
                     value={rowsPerPage}
                     onChange={onChangeRowsPerPageHandler}

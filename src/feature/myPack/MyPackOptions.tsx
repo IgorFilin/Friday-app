@@ -5,16 +5,17 @@ import { Popover } from '@mui/material'
 import { OptionsIcon } from './OptionsIcon'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Path } from 'app/AppRoutes'
-import { useAppDispatch } from 'redux/store'
+import { useAppDispatch, useIsLoading } from 'redux/store'
 import { deletePackTC } from 'redux/packsReducer'
 import { EditPackDialog } from 'components/cards/dialogs/EditPackDialog'
 
 export const MyPackOptions: React.FC = () => {
     const [anchorEl, setAnchorEl] = React.useState<HTMLButtonElement | null>(null)
-    const { packId } = useParams<'packId'>()
+    const [isEditPackOpen, setIsEditPackOpen] = useState(false)
+    const isLoading = useIsLoading()
     const navigate = useNavigate()
     const dispatch = useAppDispatch()
-    const [isEditPackOpen, setIsEditPackOpen] = useState(false)
+    const { packId } = useParams<'packId'>()
 
     const onClickHandler = (e: React.MouseEvent<HTMLButtonElement>) => {
         setAnchorEl(e.currentTarget)
@@ -48,7 +49,7 @@ export const MyPackOptions: React.FC = () => {
     return (
         <>
             <EditPackDialog open={isEditPackOpen} onClose={() => setIsEditPackOpen(false)} />
-            <IconButton aria-describedby={id} onClick={onClickHandler}>
+            <IconButton disabled={isLoading} aria-describedby={id} onClick={onClickHandler}>
                 <OptionsIcon />
             </IconButton>
 

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useAppDispatch, useAppSelector } from 'redux/store'
+import { useAppDispatch, useAppSelector, useIsLoading } from 'redux/store'
 import { Navigate, useParams } from 'react-router-dom'
 import Container from '@mui/material/Container'
 import Stack from '@mui/material/Stack'
@@ -21,10 +21,10 @@ export const MyPack: React.FC = () => {
     const { cardQuestion, packUserId, page, pageCount, sortCards, packName } = useAppSelector(
         ({ cards }) => cards
     )
-    const dispatch = useAppDispatch()
     const { packId } = useParams<'packId'>()
-
     const [isAddNewCardOpen, setIsAddNewCardOpen] = useState(false)
+    const dispatch = useAppDispatch()
+    const isLoading = useIsLoading()
 
     useEffect(() => {
         if (packId) dispatch(fetchCardsTC(packId))
@@ -60,7 +60,7 @@ export const MyPack: React.FC = () => {
                         </Typography>
                         <MyPackOptions />
                     </Box>
-                    <PrimaryButton onClick={() => setIsAddNewCardOpen(true)}>
+                    <PrimaryButton disabled={isLoading} onClick={() => setIsAddNewCardOpen(true)}>
                         Add new card
                     </PrimaryButton>
                     <AddNewCardDialog

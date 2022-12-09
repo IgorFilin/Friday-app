@@ -8,6 +8,7 @@ import IconButton from '@mui/material/IconButton'
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline'
 import DeleteIcon from '@mui/icons-material/Delete'
 import { UniCell } from 'components/UniCell'
+import { useIsLoading } from 'redux/store'
 
 export type PackType = {
     id: string
@@ -24,6 +25,8 @@ type PropsType = {
 }
 
 export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
+    const isLoading = useIsLoading()
+
     const onDeleteCardHandler = () => onDelete(row.id)
     const onEditCardHandler = () => onEdit(row.id)
 
@@ -42,14 +45,14 @@ export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
                     value={row.grade}
                     precision={0.1}
                     readOnly
-                    emptyIcon={<StarIcon style={{ opacity: 0.55 }} fontSize="inherit" />}
+                    emptyIcon={<StarIcon />}
                 />
             </TableCell>
             <TableCell align="right">
-                <IconButton onClick={onEditCardHandler}>
+                <IconButton disabled={isLoading} onClick={onEditCardHandler}>
                     <DriveFileRenameOutlineIcon />
                 </IconButton>
-                <IconButton onClick={onDeleteCardHandler}>
+                <IconButton disabled={isLoading} onClick={onDeleteCardHandler}>
                     <DeleteIcon />
                 </IconButton>
             </TableCell>
