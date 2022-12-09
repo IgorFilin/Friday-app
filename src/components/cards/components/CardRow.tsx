@@ -24,7 +24,7 @@ type PropsType = {
     onDelete: (cardId: string) => void
 }
 
-export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
+export const CardRow: React.FC<PropsType> = React.memo(({ row, onEdit, onDelete }) => {
     const isLoading = useIsLoading()
 
     const onDeleteCardHandler = () => onDelete(row.id)
@@ -58,4 +58,4 @@ export const CardRow: React.FC<PropsType> = ({ row, onEdit, onDelete }) => {
             </TableCell>
         </TableRow>
     )
-}
+})

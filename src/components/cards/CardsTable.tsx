@@ -9,7 +9,7 @@ import { DeleteCardDialog } from './dialogs/DeleteCardDialog'
 import { CardsTableHead } from './components/CardsTableHead'
 import { useAppSelector } from 'redux/store'
 
-export const CardsTable: React.FC = () => {
+export const CardsTable: React.FC = React.memo(() => {
     const [EditingCardId, setEditingCardId] = useState<string | null>(null)
     const [DeletingCardId, setDeletingCardId] = useState<string | null>(null)
     const cards = useAppSelector((state) => state.cards.cards)
@@ -43,4 +43,4 @@ export const CardsTable: React.FC = () => {
             </TableContainer>
         </>
     )
-}
+})
