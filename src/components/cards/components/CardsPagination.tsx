@@ -1,5 +1,5 @@
 import React from 'react'
-import { AppPagination } from '../AppPagination'
+import { AppPagination } from '../../AppPagination'
 import { useAppDispatch, useAppSelector } from 'redux/store'
 import { setPageAC, setPageCountAC } from 'redux/cardsReducer'
 

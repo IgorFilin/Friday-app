@@ -3,10 +3,10 @@ import TableContainer from '@mui/material/TableContainer'
 import Paper from '@mui/material/Paper'
 import Table from '@mui/material/Table'
 import TableBody from '@mui/material/TableBody'
-import { CardRow } from './CardRow'
+import { CardRow } from './components/CardRow'
 import { EditCardDialog } from './dialogs/EditCardDialog'
 import { DeleteCardDialog } from './dialogs/DeleteCardDialog'
-import { CardsTableHead } from './CardsTableHead'
+import { CardsTableHead } from './components/CardsTableHead'
 import { useAppSelector } from 'redux/store'
 
 export const CardsTable: React.FC = () => {
